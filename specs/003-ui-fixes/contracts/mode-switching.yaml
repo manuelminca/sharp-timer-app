@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: Timer Mode Switching Confirmation
+  version: 1.0.0
+  description: >
+    Logical contract describing how the app prompts users when attempting to switch
+    timer modes while a timer is running. Although this is an on-device interaction,
+    we model it as an action contract to capture request/response semantics.
+servers:
+  - url: menu-bar://sharp-timer-app
+paths:
+  /timer/mode-switch:
+    post:
+      summary: Request to switch timer mode
+      description: >
+        Invoked whenever the user selects a different timer mode. When the current
+        timer is running, the system MUST present a confirmation dialog. When idle,
+        the switch occurs immediately.
+      operationId: requestModeSwitch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [currentModeId, requestedModeId, timerState]
+              properties:
+                currentModeId:
+                  type: string
+                  enum: [work, rest_eyes, long_rest]
+                requestedModeId:
+                  type: string
+                  enum: [work, rest_eyes, long_rest]
+                timerState:
+                  type: object
+                  properties:
+                    isRunning:
+                      type: boolean
+                    remainingSeconds:
+                      type: integer
+                      minimum: 0
+                    startedAt:
+                      type: string
+                      format: date-time
+      responses:
+        "200":
+          description: Mode switch handled
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [result]
+                properties:
+                  result:
+                    type: string
+                    enum: [switched, cancelled, noConfirmNeeded]
+                  updatedModeId:
+                    type: string
+                    description: Mode currently active after handling
+        "409":
+          description: Confirmation required but user dismissed dialog
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    enum: [confirmationDismissed]
+                  reason:
+                    type: string
+        "422":
+          description: Invalid mode request or timer state corrupt
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object

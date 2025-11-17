@@ -1,0 +1,86 @@
+openapi: 3.1.0
+info:
+  title: Application Quit Confirmation Flow
+  version: 1.0.0
+  description: >
+    Contract describing the confirmation dialog presented when the user attempts to
+    quit Sharp Timer while a timer is active. Captures the three possible outcomes
+    mandated by Principle 9.
+servers:
+  - url: menu-bar://sharp-timer-app
+paths:
+  /app/quit:
+    post:
+      summary: Handle app quit request
+      description: >
+        Triggered from `applicationShouldTerminate`. When a timer is running the
+        app must prompt the user for how to handle the active timer before quitting.
+      operationId: handleQuitRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [timerState]
+              properties:
+                timerState:
+                  type: object
+                  required: [modeId, isRunning, remainingSeconds]
+                  properties:
+                    modeId:
+                      type: string
+                      enum: [work, rest_eyes, long_rest]
+                    isRunning:
+                      type: boolean
+                    remainingSeconds:
+                      type: integer
+                      minimum: 0
+                    startedAt:
+                      type: string
+                      format: date-time
+      responses:
+        "200":
+          description: Quit option selected
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [action]
+                properties:
+                  action:
+                    type: string
+                    enum: [stopAndQuit, persistAndQuit, cancel]
+                  persistenceSnapshot:
+                    type: object
+                    description: Present only when action == persistAndQuit
+                    properties:
+                      modeId:
+                        type: string
+                      remainingSeconds:
+                        type: integer
+                      isRunning:
+                        type: boolean
+                      resumedAt:
+                        type: string
+                        format: date-time
+        "204":
+          description: Timer not running; app may quit immediately
+        "422":
+          description: Timer state invalid or snapshot persistence failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
