@@ -1,0 +1,568 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		E2558D302ECB28DA00D0095D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2558D182ECB28D900D0095D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E2558D1F2ECB28D900D0095D;
+			remoteInfo = "Sharp Timer App";
+		};
+		E2558D3A2ECB28DA00D0095D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2558D182ECB28D900D0095D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E2558D1F2ECB28D900D0095D;
+			remoteInfo = "Sharp Timer App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E2558D202ECB28D900D0095D /* Sharp Timer App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sharp Timer App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2558D2F2ECB28DA00D0095D /* Sharp Timer AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sharp Timer AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2558D392ECB28DA00D0095D /* Sharp Timer AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sharp Timer AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		E2558D222ECB28D900D0095D /* Sharp Timer App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Sharp Timer App";
+			sourceTree = "<group>";
+		};
+		E2558D322ECB28DA00D0095D /* Sharp Timer AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Sharp Timer AppTests";
+			sourceTree = "<group>";
+		};
+		E2558D3C2ECB28DA00D0095D /* Sharp Timer AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Sharp Timer AppUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E2558D1D2ECB28D900D0095D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2558D2C2ECB28DA00D0095D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2558D362ECB28DA00D0095D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E2558D172ECB28D900D0095D = {
+			isa = PBXGroup;
+			children = (
+				E2558D222ECB28D900D0095D /* Sharp Timer App */,
+				E2558D322ECB28DA00D0095D /* Sharp Timer AppTests */,
+				E2558D3C2ECB28DA00D0095D /* Sharp Timer AppUITests */,
+				E2558D212ECB28D900D0095D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E2558D212ECB28D900D0095D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2558D202ECB28D900D0095D /* Sharp Timer App.app */,
+				E2558D2F2ECB28DA00D0095D /* Sharp Timer AppTests.xctest */,
+				E2558D392ECB28DA00D0095D /* Sharp Timer AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E2558D1F2ECB28D900D0095D /* Sharp Timer App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2558D432ECB28DA00D0095D /* Build configuration list for PBXNativeTarget "Sharp Timer App" */;
+			buildPhases = (
+				E2558D1C2ECB28D900D0095D /* Sources */,
+				E2558D1D2ECB28D900D0095D /* Frameworks */,
+				E2558D1E2ECB28D900D0095D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				E2558D222ECB28D900D0095D /* Sharp Timer App */,
+			);
+			name = "Sharp Timer App";
+			packageProductDependencies = (
+			);
+			productName = "Sharp Timer App";
+			productReference = E2558D202ECB28D900D0095D /* Sharp Timer App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E2558D2E2ECB28DA00D0095D /* Sharp Timer AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2558D462ECB28DA00D0095D /* Build configuration list for PBXNativeTarget "Sharp Timer AppTests" */;
+			buildPhases = (
+				E2558D2B2ECB28DA00D0095D /* Sources */,
+				E2558D2C2ECB28DA00D0095D /* Frameworks */,
+				E2558D2D2ECB28DA00D0095D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E2558D312ECB28DA00D0095D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				E2558D322ECB28DA00D0095D /* Sharp Timer AppTests */,
+			);
+			name = "Sharp Timer AppTests";
+			packageProductDependencies = (
+			);
+			productName = "Sharp Timer AppTests";
+			productReference = E2558D2F2ECB28DA00D0095D /* Sharp Timer AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E2558D382ECB28DA00D0095D /* Sharp Timer AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2558D492ECB28DA00D0095D /* Build configuration list for PBXNativeTarget "Sharp Timer AppUITests" */;
+			buildPhases = (
+				E2558D352ECB28DA00D0095D /* Sources */,
+				E2558D362ECB28DA00D0095D /* Frameworks */,
+				E2558D372ECB28DA00D0095D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E2558D3B2ECB28DA00D0095D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				E2558D3C2ECB28DA00D0095D /* Sharp Timer AppUITests */,
+			);
+			name = "Sharp Timer AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "Sharp Timer AppUITests";
+			productReference = E2558D392ECB28DA00D0095D /* Sharp Timer AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E2558D182ECB28D900D0095D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2610;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					E2558D1F2ECB28D900D0095D = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					E2558D2E2ECB28DA00D0095D = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = E2558D1F2ECB28D900D0095D;
+					};
+					E2558D382ECB28DA00D0095D = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = E2558D1F2ECB28D900D0095D;
+					};
+				};
+			};
+			buildConfigurationList = E2558D1B2ECB28D900D0095D /* Build configuration list for PBXProject "Sharp Timer App" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E2558D172ECB28D900D0095D;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E2558D212ECB28D900D0095D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E2558D1F2ECB28D900D0095D /* Sharp Timer App */,
+				E2558D2E2ECB28DA00D0095D /* Sharp Timer AppTests */,
+				E2558D382ECB28DA00D0095D /* Sharp Timer AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E2558D1E2ECB28D900D0095D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2558D2D2ECB28DA00D0095D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2558D372ECB28DA00D0095D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E2558D1C2ECB28D900D0095D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2558D2B2ECB28DA00D0095D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2558D352ECB28DA00D0095D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E2558D312ECB28DA00D0095D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E2558D1F2ECB28D900D0095D /* Sharp Timer App */;
+			targetProxy = E2558D302ECB28DA00D0095D /* PBXContainerItemProxy */;
+		};
+		E2558D3B2ECB28DA00D0095D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E2558D1F2ECB28D900D0095D /* Sharp Timer App */;
+			targetProxy = E2558D3A2ECB28DA00D0095D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E2558D412ECB28DA00D0095D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E2558D422ECB28DA00D0095D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		E2558D442ECB28DA00D0095D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sharptimer.app.Sharp-Timer-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E2558D452ECB28DA00D0095D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sharptimer.app.Sharp-Timer-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		E2558D472ECB28DA00D0095D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sharptimer.app.Sharp-Timer-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sharp Timer App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Sharp Timer App";
+			};
+			name = Debug;
+		};
+		E2558D482ECB28DA00D0095D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sharptimer.app.Sharp-Timer-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sharp Timer App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Sharp Timer App";
+			};
+			name = Release;
+		};
+		E2558D4A2ECB28DA00D0095D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sharptimer.app.Sharp-Timer-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Sharp Timer App";
+			};
+			name = Debug;
+		};
+		E2558D4B2ECB28DA00D0095D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sharptimer.app.Sharp-Timer-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Sharp Timer App";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E2558D1B2ECB28D900D0095D /* Build configuration list for PBXProject "Sharp Timer App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2558D412ECB28DA00D0095D /* Debug */,
+				E2558D422ECB28DA00D0095D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2558D432ECB28DA00D0095D /* Build configuration list for PBXNativeTarget "Sharp Timer App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2558D442ECB28DA00D0095D /* Debug */,
+				E2558D452ECB28DA00D0095D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2558D462ECB28DA00D0095D /* Build configuration list for PBXNativeTarget "Sharp Timer AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2558D472ECB28DA00D0095D /* Debug */,
+				E2558D482ECB28DA00D0095D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2558D492ECB28DA00D0095D /* Build configuration list for PBXNativeTarget "Sharp Timer AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2558D4A2ECB28DA00D0095D /* Debug */,
+				E2558D4B2ECB28DA00D0095D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E2558D182ECB28D900D0095D /* Project object */;
+}
