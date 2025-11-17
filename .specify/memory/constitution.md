@@ -1,8 +1,8 @@
 <!--
 Sync Impact Report
-Version change: 0.0.0 (template) → 1.0.0
+Version change: 0.0.0 (template) → 1.0.1
 Modified principles:
-- N/A (initial adoption)
+- Principle 4: Updated Rest Your Eyes default from 5 minutes to 2 minutes to match specification.
 Added sections:
 - Core Principles for Sharp Timer App
 - Architecture, Performance, and Quality Constraints
@@ -131,4 +131,4 @@ Deferred items:
   - During implementation planning (`plan.md` Constitution Check),
   - Before release of new app versions.
 
-**Version**: 1.0.0 | **Ratified**: 2025-11-17 | **Last Amended**: 2025-11-17
+**Version**: 1.0.1 | **Ratified**: 2025-11-17 | **Last Amended**: 2025-11-17
