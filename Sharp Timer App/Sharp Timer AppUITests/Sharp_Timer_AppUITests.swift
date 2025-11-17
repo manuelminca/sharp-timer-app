@@ -2,7 +2,7 @@
 //  Sharp_Timer_AppUITests.swift
 //  Sharp Timer AppUITests
 //
-//  Created by Valutico on 17/11/25.
+//  Created by Manuel Minguez on 17/11/25.
 //
 
 import XCTest
