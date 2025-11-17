@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Sharp Timer Control Surface
+  version: "0.1.0"
+  description: >
+    Contract describing the command surface between the SwiftUI menu bar UI (client)
+    and the AppState/TimerEngine services (server). Although implemented as direct method
+    calls inside the app, the interface is modeled as REST-style endpoints to guarantee
+    clear inputs, outputs, and error semantics for each user action.
+servers:
+  - url: app-internal://timer
+paths:
+  /timer/start:
+    post:
+      summary: Start a timer for the given mode.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartTimerRequest'
+      responses:
+        '200':
+          description: Timer accepted and running.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimerSession'
+        '409':
+          description: Another timer already running and could not be cancelled.
+  /timer/pause:
+    post:
+      summary: Pause the currently running session.
+      responses:
+        '200':
+          description: Session paused.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimerSession'
+        '400':
+          description: No running session.
+  /timer/resume:
+    post:
+      summary: Resume a paused session.
+      responses:
+        '200':
+          description: Session resumed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimerSession'
+        '400':
+          description: Session not paused.
+  /timer/reset:
+    post:
+      summary: Abort the current session and return to idle.
+      responses:
+        '200':
+          description: Session reset to idle.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimerSession'
+  /timer/mode:
+    put:
+      summary: Switch the active mode and optionally auto-start.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SwitchModeRequest'
+      responses:
+        '200':
+          description: Mode switched; timer reflects new configuration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimerSession'
+  /profile/durations:
+    put:
+      summary: Persist duration overrides for each mode.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DurationProfile'
+      responses:
+        '200':
+          description: Profile saved and future sessions will use new durations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DurationProfile'
+        '422':
+          description: Validation failure (e.g., duration outside 1–240 minutes).
+components:
+  schemas:
+    TimerModeId:
+      type: string
+      enum: [work, restEyes, longRest]
+    StartTimerRequest:
+      type: object
+      required: [mode]
+      properties:
+        mode:
+          $ref: '#/components/schemas/TimerModeId'
+        autoResetCompleted:
+          type: boolean
+          default: false
+          description: When true, immediately restarts session if already completed.
+    SwitchModeRequest:
+      type: object
+      required: [mode]
+      properties:
+        mode:
+          $ref: '#/components/schemas/TimerModeId'
+        startImmediately:
+          type: boolean
+          default: false
+    DurationProfile:
+      type: object
+      required: [workMinutes, restEyesMinutes, longRestMinutes]
+      properties:
+        workMinutes:
+          type: integer
+          minimum: 1
+          maximum: 240
+        restEyesMinutes:
+          type: integer
+          minimum: 1
+          maximum: 240
+        longRestMinutes:
+          type: integer
+          minimum: 1
+          maximum: 240
+        lastSelectedMode:
+          $ref: '#/components/schemas/TimerModeId'
+    TimerSession:
+      type: object
+      required:
+        - mode
+        - configuredSeconds
+        - remainingSeconds
+        - state
+      properties:
+        mode:
+          $ref: '#/components/schemas/TimerModeId'
+        configuredSeconds:
+          type: integer
+          minimum: 60
+        remainingSeconds:
+          type: integer
+          minimum: 0
+        state:
+          type: string
+          enum: [idle, running, paused, completed]
+        startedAt:
+          type: string
+          format: date-time
+          nullable: true
+        pausedAt:
+          type: string
+          format: date-time
+          nullable: true
+        notificationId:
+          type: string
+          nullable: true
