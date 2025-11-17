@@ -42,7 +42,17 @@ In Xcode:
 1. Build & run (`⌘R`). The app launches directly into the menu bar (no Dock icon).
 2. Click the menu bar item to open the SwiftUI popover.
 3. Use the mode picker (Work / Rest Your Eyes / Long Rest) and Start/Pause/Reset controls.
-4. Open Settings (gear icon) to adjust per-mode durations; changes persist immediately.
+4. MVP Note: Settings (gear icon) is disabled until User Story 3 implementation.
+
+### Work Session Flow (MVP Validation)
+
+1. Launch app and click menu bar item
+2. Verify "Work" mode is selected by default
+3. Click "Start" and observe MM:SS countdown
+4. Click "Pause" to halt the timer
+5. Click "Resume" to continue
+6. Click "Reset" to return to initial state
+7. Switch modes using the segmented control
 
 ### Sleep/Wake & Notifications
 

@@ -13,12 +13,12 @@
 
 **Purpose**: Ensure the macOS project skeleton, build settings, and tooling align with the implementation plan.
 
-- [ ] T001 Align Xcode target for menu-bar-only deployment in `Sharp Timer App/Sharp Timer App.xcodeproj` (disable Dock icon, configure menu bar scene).
-- [ ] T002 Create Engine, Persistence, Features directories per plan inside `Sharp Timer App/Sharp Timer App/` (Engine/, Persistence/, Features/MenuBar/, Features/Settings/).
-- [ ] T003 [P] Configure Swift package + build settings for Swift 5.9/macOS 13 in `Sharp Timer App/Sharp Timer App.xcodeproj`.
-- [ ] T004 [P] Enable UserNotifications capability and requested permissions in `Sharp Timer App/Sharp Timer App.xcodeproj/project.pbxproj`.
-- [ ] T005 [P] Stub `AppState.swift` file under `Sharp Timer App/Sharp Timer App/App/` with ObservableObject scaffold.
-- [ ] T006 [P] Add shared test target plumbing (TimerEngineTests.swift, PersistenceTests.swift placeholders) in `Sharp Timer App/Sharp Timer AppTests/`.
+- [x] T001 Align Xcode target for menu-bar-only deployment in `Sharp Timer App/Sharp Timer App.xcodeproj` (disable Dock icon, configure menu bar scene).
+- [x] T002 Create Engine, Persistence, Features directories per plan inside `Sharp Timer App/Sharp Timer App/` (Engine/, Persistence/, Features/MenuBar/, Features/Settings/).
+- [x] T003 [P] Configure Swift package + build settings for Swift 5.9/macOS 13 in `Sharp Timer App/Sharp Timer App.xcodeproj`.
+- [x] T004 [P] Enable UserNotifications capability and requested permissions in `Sharp Timer App/Sharp Timer App.xcodeproj/project.pbxproj`.
+- [x] T005 [P] Stub `AppState.swift` file under `Sharp Timer App/Sharp Timer App/App/` with ObservableObject scaffold.
+- [x] T006 [P] Add shared test target plumbing (TimerEngineTests.swift, PersistenceTests.swift placeholders) in `Sharp Timer App/Sharp Timer AppTests/`.
 
 ---
 
@@ -26,14 +26,14 @@
 
 **Purpose**: Core infrastructure that every user story depends on.
 
-- [ ] T007 Define `TimerMode.swift` enum with metadata (icons, defaults) in `Sharp Timer App/Sharp Timer App/Engine/TimerMode.swift`.
-- [ ] T008 Implement `TimerEngine.swift` core (start/pause/resume/reset, single session guard) in `Sharp Timer App/Sharp Timer App/Engine/TimerEngine.swift`.
-- [ ] T009 Wire `TimerEngineTests.swift` to cover cadence, pause/resume, completion paths in `Sharp Timer App/Sharp Timer AppTests/TimerEngineTests.swift`.
-- [ ] T010 Build `TimerProfileStore.swift` using UserDefaults in `Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift`.
-- [ ] T011 Add `PersistenceTests.swift` validating duration bounds + last mode in `Sharp Timer App/Sharp Timer AppTests/PersistenceTests.swift`.
-- [ ] T012 Integrate `AppState.swift` with TimerEngine + TimerProfileStore, exposing published session/profile state in `Sharp Timer App/Sharp Timer App/App/AppState.swift`.
-- [ ] T013 [P] Implement notification helper (schedule/cancel, fallback flag) inside `Sharp Timer App/Sharp Timer App/App/AppState+Notifications.swift`.
-- [ ] T014 Update Quickstart sanity hooks (scripted steps) per new architecture in `specs/001-menu-bar-timer/quickstart.md` (checkpoint entry).
+- [x] T007 Define `TimerMode.swift` enum with metadata (icons, defaults) in `Sharp Timer App/Sharp Timer App/Engine/TimerMode.swift`.
+- [x] T008 Implement `TimerEngine.swift` core (start/pause/resume/reset, single session guard) in `Sharp Timer App/Sharp Timer App/Engine/TimerEngine.swift`.
+- [x] T009 Wire `TimerEngineTests.swift` to cover cadence, pause/resume, completion paths in `Sharp Timer App/Sharp Timer AppTests/TimerEngineTests.swift`.
+- [x] T010 Build `TimerProfileStore.swift` using UserDefaults in `Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift`.
+- [x] T011 Add `PersistenceTests.swift` validating duration bounds + last mode in `Sharp Timer App/Sharp Timer AppTests/PersistenceTests.swift`.
+- [x] T012 Integrate `AppState.swift` with TimerEngine + TimerProfileStore, exposing published session/profile state in `Sharp Timer App/Sharp Timer App/App/AppState.swift`.
+- [x] T013 [P] Implement notification helper (schedule/cancel, fallback flag) inside `Sharp Timer App/Sharp Timer App/App/AppState+Notifications.swift`.
+- [x] T014 Update Quickstart sanity hooks (scripted steps) per new architecture in `specs/001-menu-bar-timer/quickstart.md` (checkpoint entry).
 
 **Checkpoint**: Engine, persistence, and AppState ready; menu bar UI can consume these APIs.
 
@@ -47,13 +47,13 @@
 
 ### Implementation
 
-- [ ] T015 [US1] Create `MenuBarController.swift` leveraging `MenuBarExtra` to host popover in `Sharp Timer App/Sharp Timer App/Features/MenuBar/MenuBarController.swift`.
-- [ ] T016 [P] [US1] Design `TimerDisplayView.swift` showing mode icon + MM:SS synced to AppState in `Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift`.
-- [ ] T017 [US1] Implement Start/Pause/Reset controls binding to AppState actions per `contracts/timer-control.yaml` in `TimerDisplayView.swift`.
-- [ ] T018 [US1] Ensure notifications fire on completion with restart/dismiss actions in `AppState+Notifications.swift`.
-- [ ] T019 [P] [US1] Add menu bar title formatting (💼 22:15 style) in `MenuBarController.swift`.
-- [ ] T020 [US1] Create US1 UI test verifying Work session flow in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
-- [ ] T021 [US1] Document Work session path + verification steps in `specs/001-menu-bar-timer/quickstart.md`.
+- [x] T015 [US1] Create `MenuBarController.swift` leveraging `MenuBarExtra` to host popover in `Sharp Timer App/Sharp Timer App/Features/MenuBar/MenuBarController.swift`.
+- [x] T016 [P] [US1] Design `TimerDisplayView.swift` showing mode icon + MM:SS synced to AppState in `Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift`.
+- [x] T017 [US1] Implement Start/Pause/Reset controls binding to AppState actions per `contracts/timer-control.yaml` in `TimerDisplayView.swift`.
+- [x] T018 [US1] Ensure notifications fire on completion with restart/dismiss actions in `AppState+Notifications.swift`.
+- [x] T019 [P] [US1] Add menu bar title formatting (💼 22:15 style) in `MenuBarController.swift`.
+- [x] T020 [US1] Create US1 UI test verifying Work session flow in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
+- [x] T021 [US1] Document Work session path + verification steps in `specs/001-menu-bar-timer/quickstart.md`.
 
 **Checkpoint**: Work timer fully operational and testable—forms scope of MVP handoff.
 

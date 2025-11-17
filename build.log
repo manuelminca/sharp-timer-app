@@ -1,0 +1,3 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project "Sharp Timer App.xcodeproj" -scheme "Sharp Timer App" -configuration Debug build
+

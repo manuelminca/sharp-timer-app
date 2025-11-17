@@ -2,31 +2,21 @@
 //  Sharp_Timer_AppApp.swift
 //  Sharp Timer App
 //
-//  Created by Valutico on 17/11/25.
+//  Created by Manuel Minguez on 17/11/25.
 //
 
 import SwiftUI
-import SwiftData
+import UserNotifications
 
 @main
 struct Sharp_Timer_AppApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    @State private var appState = AppState()
 
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        MenuBarExtra("Sharp Timer", systemImage: "timer") {
+            TimerDisplayView()
+                .environment(appState)
         }
-        .modelContainer(sharedModelContainer)
+        .menuBarExtraStyle(.window)
     }
 }
