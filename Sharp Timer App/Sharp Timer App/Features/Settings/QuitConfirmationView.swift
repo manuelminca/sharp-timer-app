@@ -13,6 +13,7 @@ struct QuitConfirmationView: View {
     @Environment(\.dismiss) private var dismiss
     
     let intent: QuitIntent
+    let onCompletion: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 20) {
@@ -66,7 +67,10 @@ struct QuitConfirmationView: View {
                     Task {
                         await appState.processQuitIntent(.stopAndQuit)
                         dismiss()
-                        NSApplication.shared.terminate(nil)
+                        // Small delay to ensure UI updates complete before termination
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            onCompletion?()
+                        }
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -76,7 +80,10 @@ struct QuitConfirmationView: View {
                     Task {
                         await appState.processQuitIntent(.persistAndQuit)
                         dismiss()
-                        NSApplication.shared.terminate(nil)
+                        // Small delay to ensure UI updates complete before termination
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            onCompletion?()
+                        }
                     }
                 }
                 .keyboardShortcut("s", modifiers: .command)
@@ -86,6 +93,7 @@ struct QuitConfirmationView: View {
                         await appState.processQuitIntent(.cancel)
                     }
                     dismiss()
+                    // Don't call onCompletion for cancel - just close the dialog
                 }
                 .keyboardShortcut(.escape)
             }
@@ -127,7 +135,7 @@ class QuitConfirmationWindowController: NSWindowController {
         super.init(window: window)
         
         // Set up the SwiftUI view
-        let contentView = QuitConfirmationView(intent: intent)
+        let contentView = QuitConfirmationView(intent: intent, onCompletion: onCompletion)
             .environment(appState)
         
         window.contentView = NSHostingView(rootView: contentView)
@@ -182,7 +190,8 @@ extension QuitConfirmationWindowController: NSWindowDelegate {
             action: .cancel,
             handled: false,
             snapshot: nil
-        )
+        ),
+        onCompletion: nil
     )
     .environment(AppState())
     .frame(width: 360, height: 320)

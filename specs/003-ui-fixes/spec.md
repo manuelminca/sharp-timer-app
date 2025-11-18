@@ -95,18 +95,20 @@ As a user, I want the alarm to play sound when my timer completes so that I can 
 
 ### User Story 6 - Settings Stepper Focus Bug Fix (Priority: P0)
 
-As a user, I want to use the +/- stepper controls in settings without the window minimizing so that I can adjust timer durations smoothly.
+As a user, I want to use the +/- stepper controls in settings without the settings window or popover minimizing, closing, or losing focus so that I can adjust timer durations smoothly and efficiently.
 
-**Why this priority**: Critical usability bug that prevents users from configuring the app. The window minimizing behavior makes settings adjustment frustrating and potentially impossible.
+**Why this priority**: Critical usability bug that prevents users from configuring the app. The current behavior where clicking stepper buttons causes the settings window to minimize or close makes settings adjustment frustrating and potentially impossible, blocking users from basic app configuration.
 
-**Independent Test**: Can be fully tested by opening settings and repeatedly clicking the stepper controls to verify the window remains focused and stable.
+**Independent Test**: Can be fully tested by opening settings and repeatedly clicking the stepper controls to verify the window remains visible, open, and responsive without any minimization, closure, or focus loss.
 
 **Acceptance Scenarios**:
 
-1. **Given** the settings popover is open, **When** I click the "+" button for Work duration, **Then** the value increases and the window remains open and focused
-2. **Given** the settings popover is open, **When** I click the "-" button for Rest Your Eyes duration, **Then** the value decreases and the window remains open and focused
-3. **Given** the settings popover is open, **When** I rapidly click multiple stepper controls, **Then** the window stays open and responds to all clicks without minimizing
-4. **Given** the settings popover is open, **When** I use keyboard navigation to interact with steppers, **Then** the window maintains focus and responds correctly
+1. **Given** the settings popover is open, **When** I click the "+" button for Work duration, **Then** the value increases by 1 minute AND the settings window remains fully visible without minimizing or closing
+2. **Given** the settings popover is open, **When** I click the "-" button for Rest Your Eyes duration, **Then** the value decreases by 1 minute AND the settings window remains fully visible without minimizing or closing
+3. **Given** the settings popover is open, **When** I rapidly click multiple stepper controls (5+ clicks in quick succession), **Then** all clicks are registered, values update correctly, AND the window stays open and visible throughout without any minimization or closure
+4. **Given** the settings popover is open, **When** I alternate between "+" and "-" buttons on different duration fields, **Then** each click registers correctly AND the window never minimizes, closes, or loses focus
+5. **Given** the settings popover is open, **When** I use keyboard navigation (Tab + Space/Enter) to interact with steppers, **Then** the window maintains focus and visibility without minimizing
+6. **Given** the settings popover is open, **When** I click a stepper button and immediately click another stepper button, **Then** both clicks register and the window remains stable without any visual flickering or minimization
 
 ---
 
@@ -135,6 +137,9 @@ As a user, I want a visible quit button in the app interface so that I can prope
 - What happens when the system volume is muted when a timer completes?
 - How does the settings UI respond to extreme window sizes (very small or very large)?
 - What happens when the user switches modes rapidly multiple times?
+- What happens when the user clicks stepper buttons while the app is in the background or partially obscured by other windows?
+- How do stepper controls behave when clicked in rapid succession (stress testing focus retention)?
+- What happens if the user holds down a stepper button to rapidly increment/decrement values?
 
 ## Requirements *(mandatory)*
 
@@ -149,7 +154,7 @@ As a user, I want a visible quit button in the app interface so that I can prope
 - **FR-007**: System MUST prevent timer mode switching without confirmation when a timer is running
 - **FR-008**: System MUST handle missing or corrupted alarm sound files gracefully with fallback to system sounds
 - **FR-009**: System MUST play audio sound when any timer completes (Work, Rest Your Eyes, or Long Break)
-- **FR-010**: System MUST maintain settings window focus and prevent minimization when using stepper controls
+- **FR-010**: System MUST maintain settings window/popover in a fully visible, open, and focused state when users interact with stepper controls, explicitly preventing any window minimization, closure, hiding, or focus loss behavior regardless of click frequency or pattern
 - **FR-011**: System MUST provide a visible quit button positioned next to the Settings button in the main interface
 - **FR-012**: System MUST ensure the quit button is accessible via both mouse click and keyboard navigation
 
@@ -171,6 +176,6 @@ As a user, I want a visible quit button in the app interface so that I can prope
 - **SC-005**: User error rate for accidental timer loss decreases by 90% after implementation
 - **SC-006**: Settings accessibility improves with 100% of controls remaining visible at minimum window size
 - **SC-007**: Audio alarm playback works in 100% of timer completion events across all modes
-- **SC-008**: Settings stepper controls maintain window focus in 100% of interactions
+- **SC-008**: Settings stepper controls maintain full window visibility and prevent minimization/closure in 100% of click interactions, including rapid clicking, alternating between buttons, and sustained interaction patterns
 - **SC-009**: Quit button is visible and accessible in 100% of app sessions
 - **SC-010**: Quit confirmation dialog appears correctly in 100% of quit button activations

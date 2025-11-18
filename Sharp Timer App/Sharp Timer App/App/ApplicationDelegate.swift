@@ -10,6 +10,7 @@ import AppKit
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var appState: AppState?
+    private var quitInitiatedFromUI = false
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Request notification permissions
@@ -25,6 +26,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return .terminateNow
         }
         
+        // If quit was already initiated from the UI (quit button),
+        // the confirmation dialog was already shown and handled
+        if quitInitiatedFromUI {
+            quitInitiatedFromUI = false // Reset flag
+            return .terminateNow // Allow immediate termination
+        }
+        
         // Check if timer is running
         if appState.session.state == .running || appState.session.state == .paused {
             // Show quit confirmation dialog
@@ -36,6 +44,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             return .terminateNow // No timer running, allow immediate termination
         }
+    }
+    
+    func setQuitInitiatedFromUI() {
+        quitInitiatedFromUI = true
     }
     
     func setAppState(_ appState: AppState) {

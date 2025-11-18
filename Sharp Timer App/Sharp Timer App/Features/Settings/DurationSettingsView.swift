@@ -102,36 +102,30 @@ struct DurationStepperRow: View {
             
             // Custom stepper implementation to prevent focus loss
             HStack(spacing: 4) {
-                Button(action: {
-                    if value.wrappedValue > range.lowerBound {
-                        value.wrappedValue -= 1
+                StepperButton(
+                    systemImage: "minus",
+                    isEnabled: value.wrappedValue > range.lowerBound,
+                    action: {
+                        if value.wrappedValue > range.lowerBound {
+                            value.wrappedValue -= 1
+                        }
                     }
-                }) {
-                    Image(systemName: "minus")
-                        .font(.system(size: 12, weight: .medium))
-                        .frame(width: 20, height: 20)
-                }
-                .buttonStyle(.plain)
-                .background(Color(NSColor.controlBackgroundColor))
-                .cornerRadius(4)
+                )
                 .help("Decrease")
                 
                 Text("\(value.wrappedValue)")
                     .font(.body.monospacedDigit())
                     .frame(width: 30, alignment: .center)
                 
-                Button(action: {
-                    if value.wrappedValue < range.upperBound {
-                        value.wrappedValue += 1
+                StepperButton(
+                    systemImage: "plus",
+                    isEnabled: value.wrappedValue < range.upperBound,
+                    action: {
+                        if value.wrappedValue < range.upperBound {
+                            value.wrappedValue += 1
+                        }
                     }
-                }) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 12, weight: .medium))
-                        .frame(width: 20, height: 20)
-                }
-                .buttonStyle(.plain)
-                .background(Color(NSColor.controlBackgroundColor))
-                .cornerRadius(4)
+                )
                 .help("Increase")
             }
             .frame(width: 80)
@@ -140,6 +134,39 @@ struct DurationStepperRow: View {
                 .font(.body.monospacedDigit())
                 .frame(width: 30, alignment: .leading)
         }
+    }
+}
+
+// MARK: - Custom Stepper Button
+struct StepperButton: View {
+    let systemImage: String
+    let isEnabled: Bool
+    let action: () -> Void
+    
+    @State private var isPressed = false
+    
+    var body: some View {
+        Image(systemName: systemImage)
+            .font(.system(size: 12, weight: .medium))
+            .frame(width: 20, height: 20)
+            .background(isPressed ? Color(NSColor.selectedControlColor) : Color(NSColor.controlBackgroundColor))
+            .cornerRadius(4)
+            .opacity(isEnabled ? 1.0 : 0.5)
+            .contentShape(Rectangle())
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in
+                        if isEnabled && !isPressed {
+                            isPressed = true
+                        }
+                    }
+                    .onEnded { _ in
+                        if isEnabled && isPressed {
+                            isPressed = false
+                            action()
+                        }
+                    }
+            )
     }
 }
 

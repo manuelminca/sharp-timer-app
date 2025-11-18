@@ -11,6 +11,12 @@ struct TimerDisplayView: View {
     @Environment(AppState.self) private var appState
     @State private var selectedMode: TimerMode = .work
     @State private var showingSettings = false
+    @State private var settingsPopoverAttachment: NSWindow?
+    
+    // Access to AppDelegate for quit coordination
+    private var appDelegate: AppDelegate? {
+        NSApplication.shared.delegate as? AppDelegate
+    }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -30,11 +36,9 @@ struct TimerDisplayView: View {
         .onAppear {
             selectedMode = appState.session.mode
         }
-        .sheet(isPresented: $showingSettings) {
+        .popover(isPresented: $showingSettings, arrowEdge: .bottom) {
             DurationSettingsView()
                 .environment(appState)
-                .frame(minWidth: 300, minHeight: 250)
-                .presentationDetents([.medium])
         }
     }
 
@@ -144,35 +148,16 @@ struct TimerDisplayView: View {
     }
     
     private func quitApplication() {
-        // Check if timer is active and show confirmation if needed
-        if appState.session.state == .running {
-            // Show quit confirmation dialog
-            let alert = NSAlert()
-            alert.messageText = "Timer is active now"
-            alert.informativeText = "Are you sure you want to quit the app?"
-            alert.alertStyle = .warning
-            alert.addButton(withTitle: "Stop timer and Quit")
-            alert.addButton(withTitle: "Quit and leave timer running")
-            alert.addButton(withTitle: "Cancel")
-            
-            let response = alert.runModal()
-            
-            switch response {
-            case .alertFirstButtonReturn:
-                // Stop timer and quit
-                appState.resetTimer()
-                NSApplication.shared.terminate(nil)
-            case .alertSecondButtonReturn:
-                // Quit and leave timer running
-                NSApplication.shared.terminate(nil)
-            case .alertThirdButtonReturn:
-                // Cancel - do nothing
-                break
-            default:
-                break
-            }
-        } else {
-            // No active timer, quit normally
+        // Mark that quit is being initiated from the UI to prevent
+        // duplicate confirmation dialogs in the application delegate
+        appDelegate?.setQuitInitiatedFromUI()
+        
+        // Use the centralized quit confirmation system from AppState
+        // This prevents duplicate dialogs and handles all quit logic properly
+        appState.showQuitConfirmation {
+            // After the quit confirmation is handled and completed,
+            // terminate the application immediately without triggering
+            // the application delegate's confirmation again
             NSApplication.shared.terminate(nil)
         }
     }

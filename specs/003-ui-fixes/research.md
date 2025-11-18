@@ -39,7 +39,19 @@
   - `NSSound` — deprecated and unreliable for background playback.
   - Using only notification sounds — lacks control over the custom MP3 and provides no error visibility.
 
+## Decision 6 – Settings Stepper Focus Management & Window Minimization Prevention
+- **Decision**: Replace standard SwiftUI `Button` and `Stepper` controls with custom gesture-based stepper buttons that use `DragGesture(minimumDistance: 0)` wrapped in `.simultaneousGesture()` modifier to intercept taps without triggering macOS window focus management. Present settings via `.popover()` instead of `.sheet()` to maintain attachment to parent window. Implement custom `StepperButton` view that captures user interaction through gestures rather than button actions, preventing the window minimization behavior.
+- **Rationale**: Standard SwiftUI buttons in popovers/sheets on macOS can trigger window focus changes through the responder chain, causing the settings window to minimize or lose focus. Using gesture recognizers bypasses this by handling touch events directly without involving the button action system that interacts with window management. Popovers are more stable than sheets for menu bar apps as they maintain attachment to the status item window. The gesture-based approach provides immediate visual feedback while preventing any window manager intervention.
+- **Alternatives considered**:
+  - `.buttonStyle(.borderless)` or `.buttonStyle(.plain)` — these still use the standard button action system and can trigger focus changes depending on macOS window management state.
+  - AppKit `NSButton` via `NSViewRepresentable` — adds cross-framework complexity, breaks SwiftUI preview/testing, and still requires careful event handling to prevent focus loss.
+  - Disabling window focus management globally — would break other legitimate focus behaviors and violate macOS HIG for proper window handling.
+  - Using `.onTapGesture()` modifier instead of buttons — similar to our chosen approach but less accessible and harder to style consistently with existing UI patterns.
+  - Custom `UIViewRepresentable` wrapper (iOS-style) — not available on macOS and wouldn't address the fundamental window management issue.
+
 ## Test & Tooling Considerations
 - UI snapshot & XCUITests will resize the settings popover across min/median/max widths and dynamic type sizes to guarantee responsive compliance.
 - Persistence flow tests will simulate quit selections to assert JSON integrity and restart behavior.
 - Audio regression tests will stub `AVAudioPlayer` to verify fallback activation when the MP3 is missing or corrupt.
+- Stepper focus retention tests will perform rapid click sequences (10+ clicks in 2 seconds) and verify zero window minimization events across all three timer duration controls.
+- Automated UI tests will measure window visibility state before/during/after stepper clicks to detect any transient minimization or focus loss.

@@ -85,9 +85,27 @@ Guide contributors through setting up the environment, validating responsive lay
 | Symptom | Resolution |
 | --- | --- |
 | Settings UI still clips controls | Confirm you are on branch `003-ui-fixes`; clean build folder (`Shift+Cmd+K`) |
+| Settings window minimizes when clicking stepper buttons | Verify the fix is implemented: settings should use `.popover()` and custom `StepperButton` components with gesture-based interaction |
 | Quit dialog not appearing | Verify AppState intercepts `applicationShouldTerminate`; check logs for delegate wiring |
 | Timer not resuming after persist | Inspect JSON snapshot for invalid `schemaVersion` or negative `remainingSeconds` |
 | Alarm sound silent | Ensure system volume not muted and `alarm.mp3` present; check Console for AVAudioPlayer errors |
+
+## Settings Stepper Focus Bug Fix - Validation
+
+### Manual Testing Steps
+1. Open menu bar popover → click gear icon for settings
+2. Perform rapid clicking on +/- buttons (10+ clicks in 2 seconds) on all duration fields
+3. Verify settings window remains fully visible without minimizing or closing
+4. Test alternating between different stepper buttons
+5. Verify keyboard navigation (Tab + Space/Enter) works correctly
+6. Test across different window sizes if resizable
+
+### Expected Results
+- ✅ Settings window stays 100% visible during all stepper interactions
+- ✅ No window minimization, closure, or focus loss events
+- ✅ Rapid clicking sequences work smoothly
+- ✅ Keyboard navigation maintains window focus
+- ✅ Visual feedback (pressed states) works correctly
 
 ## Next Steps
 

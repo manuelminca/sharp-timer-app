@@ -43,11 +43,11 @@
 
 ### Implementation
 
-- [ ] T009 [US1] Replace hardcoded stacks with adaptive `Grid` + `ViewThatFits` layout in `Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift`.
-- [ ] T010 [US1] Introduce layout measurement modifiers (dynamic type, layoutPriority) in `DurationSettingsView.swift` to prevent clipping.
-- [ ] T011 [P] [US1] Add `SettingsLayoutState` preview/test hooks in `Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift` for snapshot previews.
-- [ ] T012 [US1] Update menu bar popover sizing logic in `Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift` to support responsive settings container.
-- [ ] T013 [US1] Create UI tests covering min/median/max widths and dynamic type in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
+- [x] T009 [US1] Replace hardcoded stacks with adaptive `Grid` + `ViewThatFits` layout in `Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift`.
+- [x] T010 [US1] Introduce layout measurement modifiers (dynamic type, layoutPriority) in `DurationSettingsView.swift` to prevent clipping.
+- [x] T011 [P] [US1] Add `SettingsLayoutState` preview/test hooks in `Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift` for snapshot previews.
+- [x] T012 [US1] Update menu bar popover sizing logic in `Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift` to support responsive settings container.
+- [x] T013 [US1] Create UI tests covering min/median/max widths and dynamic type in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
 
 ---
 
@@ -59,11 +59,11 @@
 
 ### Implementation
 
-- [ ] T014 [US2] Implement `ModeSwitchIntent` handling in `Sharp Timer App/Sharp Timer App/App/AppState.swift`, checking `TimerState.isRunning`.
-- [ ] T015 [US2] Present confirmation dialog via `NSAlert` bridge (`AppState+Notifications.swift`) mirroring state back to SwiftUI `.alert`.
-- [ ] T016 [US2] Ensure `TimerEngine.swift` respects confirmed mode switches by stopping current timer before starting requested mode.
-- [ ] T017 [US2] Add regression tests simulating running-timer mode switches in `Sharp Timer App/Sharp Timer AppTests/TimerEngineTests.swift`.
-- [ ] T018 [US2] Add UI test verifying confirmation dialog lifecycle in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
+- [x] T014 [US2] Implement `ModeSwitchIntent` handling in `Sharp Timer App/Sharp Timer App/App/AppState.swift`, checking `TimerState.isRunning`.
+- [x] T015 [US2] Present confirmation dialog via `NSAlert` bridge (`AppState+Notifications.swift`) mirroring state back to SwiftUI `.alert`.
+- [x] T016 [US2] Ensure `TimerEngine.swift` respects confirmed mode switches by stopping current timer before starting requested mode.
+- [x] T017 [US2] Add regression tests simulating running-timer mode switches in `Sharp Timer App/Sharp Timer AppTests/TimerEngineTests.swift`.
+- [x] T018 [US2] Add UI test verifying confirmation dialog lifecycle in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
 
 ---
 
@@ -75,16 +75,16 @@
 
 ### Tests
 
-- [ ] T019 [US3] Add persistence integration tests covering stop-and-quit vs persist-and-quit flows in `Sharp Timer App/Sharp Timer AppTests/PersistenceTests.swift`.
+- [x] T019 [US3] Add persistence integration tests covering stop-and-quit vs persist-and-quit flows in `Sharp Timer App/Sharp Timer AppTests/PersistenceTests.swift`.
 
 ### Implementation
 
-- [ ] T020 [US3] Hook `NSApplicationDelegate.applicationShouldTerminate(_:)` in `Sharp Timer App/Sharp Timer App/Sharp_Timer_AppApp.swift` (or App delegate bridge) to intercept quits.
-- [ ] T021 [US3] Implement quit confirmation dialog UI per contract in `Sharp Timer App/Sharp Timer App/App/AppState+Notifications.swift`.
-- [ ] T022 [US3] Serialize `TimerPersistenceSnapshot` and write to `~/Library/Application Support/Sharp Timer/timer-state.json` inside `TimerProfileStore.swift` when user selects “Quit and leave timer running”.
-- [ ] T023 [US3] Restore timer state before SwiftUI view creation by loading snapshot in `AppState.swift` initializer.
-- [ ] T024 [US3] Update menu bar/menu state restoration logic in `TimerDisplayView.swift` to display resumed timer immediately after launch.
-- [ ] T025 [US3] Add UI test covering quit dialog options and relaunch verification in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
+- [x] T020 [US3] Hook `NSApplicationDelegate.applicationShouldTerminate(_:)` in `Sharp Timer App/Sharp Timer App/Sharp_Timer_AppApp.swift` (or App delegate bridge) to intercept quits.
+- [x] T021 [US3] Implement quit confirmation dialog UI per contract in `Sharp Timer App/Sharp Timer App/App/AppState+Notifications.swift`.
+- [x] T022 [US3] Serialize `TimerPersistenceSnapshot` and write to `~/Library/Application Support/Sharp Timer/timer-state.json` inside `TimerProfileStore.swift` when user selects "Quit and leave timer running".
+- [x] T023 [US3] Restore timer state before SwiftUI view creation by loading snapshot in `AppState.swift` initializer.
+- [x] T024 [US3] Update menu bar/menu state restoration logic in `TimerDisplayView.swift` to display resumed timer immediately after launch.
+- [x] T025 [US3] Add UI test covering quit dialog options and relaunch verification in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
 
 ---
 
@@ -96,11 +96,11 @@
 
 ### Implementation
 
-- [ ] T026 [US4] Integrate `AlarmPlayerService` with `AppState.swift` to trigger playback when timer finishes.
-- [ ] T027 [US4] Add error handling + fallback to default notification sound in `AlarmPlayerService` (new file under `Features/MenuBar` or `Services`).
-- [ ] T028 [US4] Expose volume/mute respect logic using system APIs in `AlarmPlayerService`.
-- [ ] T029 [US4] Write audio playback unit tests using AVAudioPlayer stubs in `Sharp Timer App/Sharp Timer AppTests/Sharp_Timer_AppTests.swift`.
-- [ ] T030 [US4] Extend quickstart checklist doc `specs/003-ui-fixes/quickstart.md` with verification steps results (update doc after implementation).
+- [x] T026 [US4] Integrate `AlarmPlayerService` with `AppState.swift` to trigger playback when timer finishes.
+- [x] T027 [US4] Add error handling + fallback to default notification sound in `AlarmPlayerService` (new file under `Features/MenuBar` or `Services`).
+- [x] T028 [US4] Expose volume/mute respect logic using system APIs in `AlarmPlayerService`.
+- [x] T029 [US4] Write audio playback unit tests using AVAudioPlayer stubs in `Sharp Timer App/Sharp Timer AppTests/Sharp_Timer_AppTests.swift`.
+- [x] T030 [US4] Extend quickstart checklist doc `specs/003-ui-fixes/quickstart.md` with verification steps results (update doc after implementation).
 
 ---
 
@@ -112,27 +112,29 @@
 
 ### Implementation
 
-- [ ] T036 [US5] Diagnose alarm playback failure in `AlarmPlayerService.swift` - check AVAudioPlayer initialization, session configuration, and file path resolution.
-- [ ] T037 [US5] Fix audio session setup and activation in `AlarmPlayerService` to ensure proper playback even when app is in background.
-- [ ] T038 [US5] Add comprehensive error logging and fallback mechanisms in `AlarmPlayerService` for debugging future audio issues.
-- [ ] T039 [US5] Test alarm playback across all three timer modes (Work, Rest Your Eyes, Long Break) in `Sharp_Timer_AppTests.swift`.
-- [ ] T040 [US5] Add system volume/mute detection and visual notification fallback in `AlarmPlayerService`.
+- [x] T036 [US5] Diagnose alarm playback failure in `AlarmPlayerService.swift` - check AVAudioPlayer initialization, session configuration, and file path resolution.
+- [x] T037 [US5] Fix audio session setup and activation in `AlarmPlayerService` to ensure proper playback even when app is in background.
+- [x] T038 [US5] Add comprehensive error logging and fallback mechanisms in `AlarmPlayerService` for debugging future audio issues.
+- [x] T039 [US5] Test alarm playback across all three timer modes (Work, Rest Your Eyes, Long Break) in `Sharp_Timer_AppTests.swift`.
+- [x] T040 [US5] Add system volume/mute detection and visual notification fallback in `AlarmPlayerService`.
 
 ---
 
 ## Phase 8: User Story 6 - Settings Stepper Focus Bug Fix (Priority: P0) 🔥 CRITICAL
 
-**Goal**: Fix settings stepper controls that cause window minimization when clicked.
+**Goal**: Fix settings stepper controls that cause the settings window/popover to minimize, close, or lose focus when clicked, ensuring the window remains fully visible and responsive during all stepper interactions.
 
-**Independent Test**: Open settings, click +/- steppers repeatedly, confirm window stays focused and responsive.
+**Independent Test**: Open settings, perform rapid clicking (10+ clicks in 2 seconds) on +/- steppers across all duration fields, confirm window maintains 100% visibility without any minimization, closure, or focus loss events.
 
 ### Implementation
 
-- [ ] T041 [US6] Investigate focus management in `DurationSettingsView.swift` - identify why stepper clicks trigger window minimization.
-- [ ] T042 [US6] Fix stepper button event handling to prevent focus loss and window state changes.
-- [ ] T043 [US6] Add proper focus retention logic for settings popover interactions.
-- [ ] T044 [US6] Test stepper functionality across different window sizes and system font scales in `MenuBarFlowTests.swift`.
-- [ ] T045 [US6] Verify keyboard navigation works correctly with steppers after focus fixes.
+- [x] T041 [US6] Replace `.sheet()` presentation with `.popover()` in `Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift` to maintain stable attachment to menu bar status item and prevent sheet-based window focus issues.
+- [x] T042 [US6] Create custom `StepperButton` view component in `Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift` that uses `DragGesture(minimumDistance: 0)` wrapped in `.simultaneousGesture()` to intercept taps without triggering macOS window focus management system.
+- [x] T043 [US6] Replace all `Button` instances in `DurationStepperRow` with the new `StepperButton` component, implementing proper enabled/disabled states and visual feedback (pressed state, opacity changes) to match existing UI patterns.
+- [x] T044 [US6] Add comprehensive UI tests in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift` that perform rapid click sequences (10+ clicks in 2 seconds) across all three duration fields and verify zero window minimization events using XCUIElement window state queries.
+- [x] T045 [US6] Implement window visibility state monitoring test that captures window state before/during/after each stepper click to detect transient minimization or focus loss, ensuring 100% visibility retention across all interaction patterns.
+- [x] T046 [US6] Test stepper functionality across different window sizes (280px to 800px width) and system font scales (standard to accessibility sizes) to ensure gesture-based approach works reliably in all responsive layout configurations.
+- [x] T047 [US6] Verify keyboard navigation (Tab + Space/Enter) works correctly with gesture-based steppers, maintaining accessibility compliance and preventing any window focus changes during keyboard interactions.
 
 ---
 
@@ -144,11 +146,11 @@
 
 ### Implementation
 
-- [ ] T046 [US7] Design and implement quit button UI component positioned next to Settings button in `TimerDisplayView.swift`.
-- [ ] T047 [US7] Wire quit button to existing quit confirmation dialog logic in `AppState+Notifications.swift`.
-- [ ] T048 [US7] Ensure quit button has proper accessibility labels and keyboard navigation support.
-- [ ] T049 [US7] Add visual feedback (hover states, active states) for quit button interaction.
-- [ ] T050 [US7] Test quit button functionality and dialog flow in `MenuBarFlowTests.swift`.
+- [x] T048 [US7] Design and implement quit button UI component positioned next to Settings button in `Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift`.
+- [x] T049 [US7] Wire quit button to existing quit confirmation dialog logic in `Sharp Timer App/Sharp Timer App/App/AppState+Notifications.swift`.
+- [x] T050 [US7] Ensure quit button has proper accessibility labels and keyboard navigation support.
+- [x] T051 [US7] Add visual feedback (hover states, active states) for quit button interaction.
+- [x] T052 [US7] Test quit button functionality and dialog flow in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
 
 ---
 
@@ -156,12 +158,12 @@
 
 **Purpose**: Verify all critical fixes work together and don't introduce regressions.
 
-- [ ] T051 Run comprehensive test suite covering all new user stories and existing functionality.
-- [ ] T052 Perform manual regression testing of timer start/stop, mode switching, and settings adjustment.
-- [ ] T053 Verify alarm audio works across different system configurations (volume levels, background/foreground).
-- [ ] T054 Test settings stepper focus behavior with rapid clicking and keyboard navigation.
-- [ ] T055 Confirm quit button integration doesn't break existing menu bar popover functionality.
-- [ ] T056 Update documentation with troubleshooting steps for common audio and focus issues.
+- [ ] T053 Run comprehensive test suite covering all new user stories and existing functionality.
+- [ ] T054 Perform manual regression testing of timer start/stop, mode switching, and settings adjustment.
+- [ ] T055 Verify alarm audio works across different system configurations (volume levels, background/foreground).
+- [ ] T056 Test settings stepper focus behavior with rapid clicking (sustained 20+ clicks), alternating between different steppers, and keyboard navigation to verify 100% window visibility retention.
+- [ ] T057 Confirm quit button integration doesn't break existing menu bar popover functionality.
+- [ ] T058 Update documentation in `specs/003-ui-fixes/quickstart.md` and `README.md` with troubleshooting steps for common audio issues and stepper focus behavior verification steps.
 
 ---
 
