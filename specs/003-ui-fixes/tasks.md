@@ -17,9 +17,9 @@
 
 **Purpose**: Ensure the development environment, branch, and baseline project assets are ready.
 
-- [ ] T001 Confirm branch `003-ui-fixes` is checked out and Xcode workspace `Sharp Timer App/Sharp Timer App.xcodeproj` opens without package resolution errors.
-- [ ] T002 Clean build artifacts (`Shift+Cmd+K`) and ensure `Sharp Timer App/Sharp Timer App.xcodeproj` builds without warnings.
-- [ ] T003 Audit git status to verify only feature-specific files in `specs/003-ui-fixes/` are modified before implementation work begins.
+- [x] T001 Confirm branch `003-ui-fixes` is checked out and Xcode workspace `Sharp Timer App/Sharp Timer App.xcodeproj` opens without package resolution errors.
+- [x] T002 Clean build artifacts (`Shift+Cmd+K`) and ensure `Sharp Timer App/Sharp Timer App.xcodeproj` builds without warnings.
+- [x] T003 Audit git status to verify only feature-specific files in `specs/003-ui-fixes/` are modified before implementation work begins.
 
 ---
 
@@ -27,11 +27,11 @@
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented.
 
-- [ ] T004 Define shared layout state helpers in `Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift` (or companion file) to expose `SettingsLayoutState`.
-- [ ] T005 Extend persistence utilities in `Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift` to serialize/deserialize `TimerPersistenceSnapshot` with schemaVersion.
-- [ ] T006 Create `AlarmPlayerService` in `Sharp Timer App/Sharp Timer App/Features/MenuBar/` (or new Services folder) wrapping `AVAudioPlayer` for `sounds/alarm.mp3`.
-- [ ] T007 Wire `AlarmPlayerService` and persistence snapshot references into `Sharp Timer App/Sharp Timer App/App/AppState.swift` without altering business logic yet.
-- [ ] T008 Add test fixtures for persistence and audio under `Sharp Timer App/Sharp Timer AppTests/` (utility helpers shared by later story tests).
+- [x] T004 Define shared layout state helpers in `Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift` (or companion file) to expose `SettingsLayoutState`.
+- [x] T005 Extend persistence utilities in `Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift` to serialize/deserialize `TimerPersistenceSnapshot` with schemaVersion.
+- [x] T006 Create `AlarmPlayerService` in `Sharp Timer App/Sharp Timer App/Features/MenuBar/` (or new Services folder) wrapping `AVAudioPlayer` for `sounds/alarm.mp3`.
+- [x] T007 Wire `AlarmPlayerService` and persistence snapshot references into `Sharp Timer App/Sharp Timer App/App/AppState.swift` without altering business logic yet.
+- [x] T008 Add test fixtures for persistence and audio under `Sharp Timer App/Sharp Timer AppTests/` (utility helpers shared by later story tests).
 
 ---
 
