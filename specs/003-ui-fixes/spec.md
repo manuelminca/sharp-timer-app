@@ -75,6 +75,59 @@ As a user, I want a clearer and more pleasant alarm sound when my timer complete
 
 ---
 
+### User Story 5 - Alarm Playback Regression Fix (Priority: P0)
+
+As a user, I want the alarm to play sound when my timer completes so that I can be notified when my work session ends.
+
+**Why this priority**: Critical regression that breaks core functionality. Users rely on audio notifications to know when timers complete, and without sound the timer becomes ineffective for time management.
+
+**Independent Test**: Can be fully tested by starting timers in each mode and verifying that audio playback occurs when the timer completes.
+
+**Acceptance Scenarios**:
+
+1. **Given** a Work timer completes, **When** the alarm triggers, **Then** audio sound plays through the system speakers
+2. **Given** a Rest Your Eyes timer completes, **When** the alarm triggers, **Then** audio sound plays through the system speakers
+3. **Given** a Long Break timer completes, **When** the alarm triggers, **Then** audio sound plays through the system speakers
+4. **Given** the system volume is muted, **When** a timer completes, **Then** a visual notification is displayed as fallback
+5. **Given** the app is in the background, **When** a timer completes, **Then** the alarm sound plays and brings the app to user's attention
+
+---
+
+### User Story 6 - Settings Stepper Focus Bug Fix (Priority: P0)
+
+As a user, I want to use the +/- stepper controls in settings without the window minimizing so that I can adjust timer durations smoothly.
+
+**Why this priority**: Critical usability bug that prevents users from configuring the app. The window minimizing behavior makes settings adjustment frustrating and potentially impossible.
+
+**Independent Test**: Can be fully tested by opening settings and repeatedly clicking the stepper controls to verify the window remains focused and stable.
+
+**Acceptance Scenarios**:
+
+1. **Given** the settings popover is open, **When** I click the "+" button for Work duration, **Then** the value increases and the window remains open and focused
+2. **Given** the settings popover is open, **When** I click the "-" button for Rest Your Eyes duration, **Then** the value decreases and the window remains open and focused
+3. **Given** the settings popover is open, **When** I rapidly click multiple stepper controls, **Then** the window stays open and responds to all clicks without minimizing
+4. **Given** the settings popover is open, **When** I use keyboard navigation to interact with steppers, **Then** the window maintains focus and responds correctly
+
+---
+
+### User Story 7 - Application Quit Affordance (Priority: P1)
+
+As a user, I want a visible quit button in the app interface so that I can properly exit the application when needed.
+
+**Why this priority**: Essential for proper app lifecycle management. Users currently have no clear way to quit the app, leading to confusion and force-quit attempts.
+
+**Independent Test**: Can be fully tested by verifying the quit button is visible, clickable, and properly triggers the quit confirmation flow.
+
+**Acceptance Scenarios**:
+
+1. **Given** the menu bar popover is open, **When** I look at the interface, **Then** I see a quit button positioned next to the Settings button
+2. **Given** the quit button is visible, **When** I click it, **Then** the quit confirmation dialog appears with the three options
+3. **Given** the quit button is visible, **When** I hover over it, **Then** it provides visual feedback indicating it's clickable
+4. **Given** the quit button is visible, **When** I use keyboard navigation, **Then** I can access and activate the quit button
+5. **Given** the quit button is clicked, **When** I select "Cancel" from the confirmation dialog, **Then** the dialog closes and I return to the main interface
+
+---
+
 ### Edge Cases
 
 - What happens when the user force-quits the application (Cmd+Q, Activity Monitor) instead of using the normal quit flow?
@@ -95,6 +148,10 @@ As a user, I want a clearer and more pleasant alarm sound when my timer complete
 - **FR-006**: System MUST validate and restore timer state on application launch with proper error handling for corrupted data
 - **FR-007**: System MUST prevent timer mode switching without confirmation when a timer is running
 - **FR-008**: System MUST handle missing or corrupted alarm sound files gracefully with fallback to system sounds
+- **FR-009**: System MUST play audio sound when any timer completes (Work, Rest Your Eyes, or Long Break)
+- **FR-010**: System MUST maintain settings window focus and prevent minimization when using stepper controls
+- **FR-011**: System MUST provide a visible quit button positioned next to the Settings button in the main interface
+- **FR-012**: System MUST ensure the quit button is accessible via both mouse click and keyboard navigation
 
 ### Key Entities
 
@@ -113,3 +170,7 @@ As a user, I want a clearer and more pleasant alarm sound when my timer complete
 - **SC-004**: Enhanced alarm sound plays successfully in 98% of timer completion events
 - **SC-005**: User error rate for accidental timer loss decreases by 90% after implementation
 - **SC-006**: Settings accessibility improves with 100% of controls remaining visible at minimum window size
+- **SC-007**: Audio alarm playback works in 100% of timer completion events across all modes
+- **SC-008**: Settings stepper controls maintain window focus in 100% of interactions
+- **SC-009**: Quit button is visible and accessible in 100% of app sessions
+- **SC-010**: Quit confirmation dialog appears correctly in 100% of quit button activations

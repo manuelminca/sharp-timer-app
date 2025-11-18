@@ -23,8 +23,8 @@ struct TimerDisplayView: View {
             // Control Buttons
             controlButtonsSection
 
-            // Settings Button
-            settingsButton
+            // Action Buttons (Settings and Quit)
+            actionButtonsSection
         }
         .padding()
         .onAppear {
@@ -110,14 +110,26 @@ struct TimerDisplayView: View {
         }
     }
 
-    // MARK: - Settings Button
-    private var settingsButton: some View {
-        Button {
-            showingSettings = true
-        } label: {
-            Label("Settings", systemImage: "gear")
+    // MARK: - Action Buttons Section
+    private var actionButtonsSection: some View {
+        HStack(spacing: 12) {
+            // Settings Button
+            Button {
+                showingSettings = true
+            } label: {
+                Label("Settings", systemImage: "gear")
+            }
+            .buttonStyle(.bordered)
+            
+            // Quit Button
+            Button {
+                quitApplication()
+            } label: {
+                Label("Quit", systemImage: "power")
+            }
+            .buttonStyle(.bordered)
+            .help("Quit Sharp Timer")
         }
-        .buttonStyle(.bordered)
     }
 
     // MARK: - Private Helpers
@@ -129,6 +141,40 @@ struct TimerDisplayView: View {
         let minutes = seconds / 60
         let remainingSeconds = seconds % 60
         return String(format: "%02d:%02d", minutes, remainingSeconds)
+    }
+    
+    private func quitApplication() {
+        // Check if timer is active and show confirmation if needed
+        if appState.session.state == .running {
+            // Show quit confirmation dialog
+            let alert = NSAlert()
+            alert.messageText = "Timer is active now"
+            alert.informativeText = "Are you sure you want to quit the app?"
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: "Stop timer and Quit")
+            alert.addButton(withTitle: "Quit and leave timer running")
+            alert.addButton(withTitle: "Cancel")
+            
+            let response = alert.runModal()
+            
+            switch response {
+            case .alertFirstButtonReturn:
+                // Stop timer and quit
+                appState.resetTimer()
+                NSApplication.shared.terminate(nil)
+            case .alertSecondButtonReturn:
+                // Quit and leave timer running
+                NSApplication.shared.terminate(nil)
+            case .alertThirdButtonReturn:
+                // Cancel - do nothing
+                break
+            default:
+                break
+            }
+        } else {
+            // No active timer, quit normally
+            NSApplication.shared.terminate(nil)
+        }
     }
 }
 

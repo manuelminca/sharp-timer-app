@@ -134,6 +134,7 @@ class TimerEngine {
     private(set) var session: TimerSession
     private var timer: DispatchSourceTimer?
     private let tickInterval: TimeInterval = 1.0
+    var onTimerCompletion: (() -> Void)?
 
     init() {
         // Default idle session
@@ -193,7 +194,8 @@ class TimerEngine {
 
         if session.state == .completed {
             stopTimer()
-            // Completion notification will be handled by AppState
+            // Notify AppState of timer completion
+            onTimerCompletion?()
         }
     }
 }

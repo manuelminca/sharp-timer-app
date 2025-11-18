@@ -99,12 +99,46 @@ struct DurationStepperRow: View {
             Text(label)
                 .font(.body)
             Spacer()
-            Stepper("", value: value, in: range)
-                .labelsHidden()
-                .frame(width: 80)
-            Text("\(value.wrappedValue) min")
+            
+            // Custom stepper implementation to prevent focus loss
+            HStack(spacing: 4) {
+                Button(action: {
+                    if value.wrappedValue > range.lowerBound {
+                        value.wrappedValue -= 1
+                    }
+                }) {
+                    Image(systemName: "minus")
+                        .font(.system(size: 12, weight: .medium))
+                        .frame(width: 20, height: 20)
+                }
+                .buttonStyle(.plain)
+                .background(Color(NSColor.controlBackgroundColor))
+                .cornerRadius(4)
+                .help("Decrease")
+                
+                Text("\(value.wrappedValue)")
+                    .font(.body.monospacedDigit())
+                    .frame(width: 30, alignment: .center)
+                
+                Button(action: {
+                    if value.wrappedValue < range.upperBound {
+                        value.wrappedValue += 1
+                    }
+                }) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 12, weight: .medium))
+                        .frame(width: 20, height: 20)
+                }
+                .buttonStyle(.plain)
+                .background(Color(NSColor.controlBackgroundColor))
+                .cornerRadius(4)
+                .help("Increase")
+            }
+            .frame(width: 80)
+            
+            Text("min")
                 .font(.body.monospacedDigit())
-                .frame(width: 50, alignment: .trailing)
+                .frame(width: 30, alignment: .leading)
         }
     }
 }
@@ -117,6 +151,7 @@ struct NotificationToggleRow: View {
             Spacer()
             Toggle("", isOn: .constant(true))
                 .labelsHidden()
+                .help("Toggle notifications")
         }
     }
 }
@@ -133,6 +168,7 @@ struct DurationSettingsView: View {
     @State private var workMinutes: Int
     @State private var restEyesMinutes: Int
     @State private var longRestMinutes: Int
+    
     
     init() {
         _workMinutes = State(initialValue: 25)

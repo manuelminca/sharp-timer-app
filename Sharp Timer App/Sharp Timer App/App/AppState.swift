@@ -31,6 +31,11 @@ class AppState {
 
     // MARK: - Initialization
     init() {
+        // Set up timer completion callback
+        engine.onTimerCompletion = { [weak self] in
+            self?.handleTimerCompletion()
+        }
+        
         Task {
             await refreshNotificationStatus()
             await loadPersistedTimerState()
@@ -220,12 +225,11 @@ class AppState {
 
     // MARK: - Notification Handling
     func handleTimerCompletion() {
-        if session.state == .completed {
-            Task {
-                await alarmPlayer.playAlarm()
-            }
-            scheduleCompletionNotification(for: session)
+        // This method is now called automatically by TimerEngine when timer completes
+        Task {
+            await alarmPlayer.playAlarm()
         }
+        scheduleCompletionNotification(for: session)
     }
     
     // MARK: - Timer State Persistence

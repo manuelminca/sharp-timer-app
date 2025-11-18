@@ -9,6 +9,8 @@ import Foundation
 import AVFoundation
 import UserNotifications
 import AppKit
+import os.log
+import AudioToolbox
 
 // MARK: - Alarm Playback State
 struct AlarmPlaybackState {
@@ -17,7 +19,7 @@ struct AlarmPlaybackState {
     var lastError: Error?
     var fallbackUsed: Bool
     var volume: Double = 1.0
-    var isLooping: Bool = true
+    var isLooping: Bool = false
     var playbackDuration: TimeInterval = 0.0
     
     enum PlaybackStatus {
@@ -37,23 +39,21 @@ class AlarmPlayerService {
     
     var playbackState: AlarmPlaybackState
     
+    private let logger = Logger(subsystem: "com.sharptimer.app", category: "AlarmPlayer")
+    
     init() {
-        // Try to load the enhanced alarm sound first, then fallback to standard alarm
+        // Try to load the alarm sound file
         var alarmURL: URL
         var fallbackUsed = false
         
-        if let enhancedAlarmURL = Bundle.main.url(forResource: "alarm-327234", withExtension: "mp3") {
-            alarmURL = enhancedAlarmURL
-            print("Enhanced alarm sound loaded: alarm-327234.mp3")
-        } else if let standardAlarmURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") {
-            alarmURL = standardAlarmURL
-            fallbackUsed = true
-            print("Standard alarm sound loaded: alarm.mp3")
+        if let foundAlarmURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") {
+            alarmURL = foundAlarmURL
+            logger.info("Alarm sound loaded: alarm.mp3")
         } else {
             // Create a dummy URL if no sound files are found
             alarmURL = URL(fileURLWithPath: "/dev/null")
             fallbackUsed = true
-            print("No alarm sound files found, will use system sounds")
+            logger.warning("No alarm sound file found, will use system sounds")
         }
         
         self.playbackState = AlarmPlaybackState(
@@ -68,26 +68,28 @@ class AlarmPlayerService {
     
     // MARK: - Public Methods
     func playAlarm() async {
+        logger.info("Attempting to play alarm: \(self.playbackState.fileURL.lastPathComponent)")
+        
         if let player = player {
             // Reset to beginning and configure playback
             player.currentTime = 0
             player.volume = Float(playbackState.volume)
             player.numberOfLoops = playbackState.isLooping ? -1 : 0 // -1 = infinite loop
-            player.play()
             
+            player.play()
             playbackState.status = .playing
             playbackState.lastError = nil
             
             // Start tracking playback duration
             startPlaybackTimer()
             
-            print("Alarm started playing: \(playbackState.fileURL.lastPathComponent)")
+            logger.info("Alarm started playing successfully: \(self.playbackState.fileURL.lastPathComponent)")
         } else {
+            logger.warning("Failed to play alarm - player not initialized, using fallback")
             playbackState.status = .failed
             playbackState.lastError = AlarmPlayerError.playerNotInitialized
             playbackState.fallbackUsed = true
             
-            print("Failed to play alarm - player not initialized, using fallback")
             // Fallback to system notification sound
             await playFallbackNotification()
         }
@@ -148,44 +150,46 @@ class AlarmPlayerService {
             // Get duration for tracking
             if let duration = player?.duration {
                 playbackState.playbackDuration = duration
-                print("Alarm sound preloaded successfully. Duration: \(duration) seconds")
+                logger.info("Alarm sound preloaded successfully. Duration: \(duration) seconds")
             }
         } catch {
             playbackState.lastError = error
-            print("Failed to preload alarm sound: \(error)")
+            logger.error("Failed to preload alarm sound: \(error.localizedDescription)")
         }
     }
     
     private func startPlaybackTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            guard let self = self, let player = self.player else { return }
-            
-            if player.isPlaying {
-                self.playbackState.playbackDuration = player.currentTime
-            } else {
-                self.timer?.invalidate()
-                self.timer = nil
-                if self.playbackState.status == .playing {
-                    self.playbackState.status = .idle
+            Task { @MainActor [weak self] in
+                guard let self = self, let player = self.player else { return }
+                
+                if player.isPlaying {
+                    self.playbackState.playbackDuration = player.currentTime
+                } else {
+                    self.timer?.invalidate()
+                    self.timer = nil
+                    if self.playbackState.status == .playing {
+                        self.playbackState.status = .idle
+                    }
                 }
             }
         }
     }
     
     private func playFallbackNotification() async {
-        print("Playing fallback alarm sounds")
+        logger.info("Playing fallback alarm sounds")
         
         // Use AppKit's NSSound for macOS-compatible sound playback
         if let systemSound = NSSound(named: "Morse") {
             systemSound.play()
             playbackState.fallbackUsed = true
-            print("Playing Morse system sound")
+            logger.info("Playing Morse system sound")
         } else {
             // Final fallback to system beep
             NSSound.beep()
             playbackState.fallbackUsed = true
-            print("Playing system beep")
+            logger.info("Playing system beep")
         }
         
         // Play multiple beeps for better notification
@@ -209,9 +213,9 @@ class AlarmPlayerService {
         
         do {
             try await UNUserNotificationCenter.current().add(request)
-            print("Fallback notification sent")
+            logger.info("Fallback notification sent")
         } catch {
-            print("Failed to play fallback notification: \(error)")
+            logger.error("Failed to play fallback notification: \(error.localizedDescription)")
         }
     }
 }

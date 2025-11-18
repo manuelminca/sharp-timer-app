@@ -104,6 +104,67 @@
 
 ---
 
+## Phase 7: User Story 5 - Alarm Playback Regression Fix (Priority: P0) 🔥 CRITICAL
+
+**Goal**: Restore basic alarm audio functionality that has stopped working completely.
+
+**Independent Test**: Start any timer, let it complete, confirm audio plays through system speakers.
+
+### Implementation
+
+- [ ] T036 [US5] Diagnose alarm playback failure in `AlarmPlayerService.swift` - check AVAudioPlayer initialization, session configuration, and file path resolution.
+- [ ] T037 [US5] Fix audio session setup and activation in `AlarmPlayerService` to ensure proper playback even when app is in background.
+- [ ] T038 [US5] Add comprehensive error logging and fallback mechanisms in `AlarmPlayerService` for debugging future audio issues.
+- [ ] T039 [US5] Test alarm playback across all three timer modes (Work, Rest Your Eyes, Long Break) in `Sharp_Timer_AppTests.swift`.
+- [ ] T040 [US5] Add system volume/mute detection and visual notification fallback in `AlarmPlayerService`.
+
+---
+
+## Phase 8: User Story 6 - Settings Stepper Focus Bug Fix (Priority: P0) 🔥 CRITICAL
+
+**Goal**: Fix settings stepper controls that cause window minimization when clicked.
+
+**Independent Test**: Open settings, click +/- steppers repeatedly, confirm window stays focused and responsive.
+
+### Implementation
+
+- [ ] T041 [US6] Investigate focus management in `DurationSettingsView.swift` - identify why stepper clicks trigger window minimization.
+- [ ] T042 [US6] Fix stepper button event handling to prevent focus loss and window state changes.
+- [ ] T043 [US6] Add proper focus retention logic for settings popover interactions.
+- [ ] T044 [US6] Test stepper functionality across different window sizes and system font scales in `MenuBarFlowTests.swift`.
+- [ ] T045 [US6] Verify keyboard navigation works correctly with steppers after focus fixes.
+
+---
+
+## Phase 9: User Story 7 - Application Quit Affordance (Priority: P1)
+
+**Goal**: Add visible quit button next to Settings button for proper app lifecycle management.
+
+**Independent Test**: Open menu bar popover, verify quit button is visible and triggers confirmation dialog.
+
+### Implementation
+
+- [ ] T046 [US7] Design and implement quit button UI component positioned next to Settings button in `TimerDisplayView.swift`.
+- [ ] T047 [US7] Wire quit button to existing quit confirmation dialog logic in `AppState+Notifications.swift`.
+- [ ] T048 [US7] Ensure quit button has proper accessibility labels and keyboard navigation support.
+- [ ] T049 [US7] Add visual feedback (hover states, active states) for quit button interaction.
+- [ ] T050 [US7] Test quit button functionality and dialog flow in `MenuBarFlowTests.swift`.
+
+---
+
+## Phase 10: Integration & Testing (All Stories)
+
+**Purpose**: Verify all critical fixes work together and don't introduce regressions.
+
+- [ ] T051 Run comprehensive test suite covering all new user stories and existing functionality.
+- [ ] T052 Perform manual regression testing of timer start/stop, mode switching, and settings adjustment.
+- [ ] T053 Verify alarm audio works across different system configurations (volume levels, background/foreground).
+- [ ] T054 Test settings stepper focus behavior with rapid clicking and keyboard navigation.
+- [ ] T055 Confirm quit button integration doesn't break existing menu bar popover functionality.
+- [ ] T056 Update documentation with troubleshooting steps for common audio and focus issues.
+
+---
+
 ## Phase N: Polish & Cross-Cutting Concerns
 
 **Purpose**: Final refinements across multiple stories.
@@ -126,6 +187,10 @@
 - **User Story 2 (Phase 4)**: Depends on Foundational; can run parallel with US1 after shared groundwork.
 - **User Story 3 (Phase 5)**: Depends on Foundational; should start after US2 to reuse dialog patterns, but logic-wise only requires persistence groundwork.
 - **User Story 4 (Phase 6)**: Depends on Foundational; can run parallel with US2/US3 once AlarmPlayer scaffolding exists.
+- **User Story 5 (Phase 7)**: 🔥 CRITICAL - Depends on Foundational AlarmPlayer service; can run immediately after Phase 2.
+- **User Story 6 (Phase 8)**: 🔥 CRITICAL - Depends on Foundational layout state; can run immediately after Phase 2.
+- **User Story 7 (Phase 9)**: Depends on Foundational and US3 quit dialog logic; should run after US3 completion.
+- **Integration & Testing (Phase 10)**: Depends on completion of all user stories; final verification phase.
 - **Polish (Phase N)**: Depends on completion of targeted user stories and integration verification.
 
 ### User Story Dependencies
@@ -133,7 +198,10 @@
 - **US1**: No dependency on other stories; foundational only.
 - **US2**: Requires TimerState/intent structures from Foundational; otherwise independent.
 - **US3**: Uses persistence scaffolding plus may reuse dialog styles from US2 but not blocked by UI.
-- **US4**: Requires AlarmPlayer scaffolding from Foundational; independent of other stories’ outcomes.
+- **US4**: Requires AlarmPlayer scaffolding from Foundational; independent of other stories' outcomes.
+- **US5**: 🔥 CRITICAL - Depends on AlarmPlayer service from Foundational; blocks US4 enhanced audio work.
+- **US6**: 🔥 CRITICAL - Depends on layout state from Foundational; independent of other stories.
+- **US7**: Depends on US3 quit confirmation logic; should be implemented after US3.
 
 ---
 
@@ -153,17 +221,27 @@
 2. Implement Phase 3 (US1) to fix critical settings responsiveness bug.
 3. Validate via UI tests and quick manual checks before moving forward.
 
+### Critical Bug Fix First (US5 & US6)
+
+1. Complete Phases 1–2 (Setup + Foundational).
+2. **🔥 IMMEDIATE**: Implement Phase 7 (US5) - Alarm Playback Regression Fix to restore core functionality.
+3. **🔥 IMMEDIATE**: Implement Phase 8 (US6) - Settings Stepper Focus Bug Fix to restore usability.
+4. Validate critical fixes work before proceeding with other features.
+
 ### Incremental Delivery
 
-1. Deliver US1 to restore usability.
-2. Add US2 to prevent accidental timer loss.
-3. Layer in US3 to guarantee persistence on quit.
-4. Finish with US4 enhanced audio and final polish tasks.
+1. **🔥 CRITICAL**: Deliver US5 & US6 first to restore basic app functionality.
+2. Add US1 to restore responsive settings UI.
+3. Add US2 to prevent accidental timer loss.
+4. Add US7 quit affordance for proper app lifecycle.
+5. Layer in US3 to guarantee persistence on quit.
+6. Finish with US4 enhanced audio and final polish tasks.
 
 ### Parallel Team Strategy
 
-- Dev A: US1 responsive UI.
-- Dev B: US2 confirmation dialogs + TimerEngine guard rails.
-- Dev C: US3 persistence + quit flow.
-- Dev D: US4 audio improvements.
-- QA cycles in tandem per story using quickstart validation checklist.
+- **Dev A**: 🔥 US5 Alarm Playback Regression Fix (CRITICAL - immediate priority)
+- **Dev B**: 🔥 US6 Settings Stepper Focus Bug Fix (CRITICAL - immediate priority)
+- **Dev C**: US1 responsive UI + US7 quit affordance.
+- **Dev D**: US2 confirmation dialogs + US3 persistence flow.
+- **Dev E**: US4 audio improvements (after US5 complete).
+- QA cycles focus on US5/US6 validation first, then proceed with other stories.
