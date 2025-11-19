@@ -16,81 +16,104 @@ struct QuitConfirmationView: View {
     let onCompletion: ((Bool) -> Void)?
     
     var body: some View {
-        VStack(spacing: 20) {
-            // Header with warning icon
-            VStack(spacing: 12) {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .font(.system(size: 48))
-                    .foregroundColor(.orange)
-                
-                Text("Timer is active now")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                
-                Text("Are you sure you want to quit the app?")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            }
-            
-            // Current timer info
-            VStack(spacing: 8) {
-                HStack {
-                    Text("Current Timer:")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                    Text("\(appState.session.mode.displayName) - \(formatTime(appState.session.remainingSeconds))")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
-                
-                HStack {
-                    Text("Status:")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                    Text(appState.session.state == .running ? "Running" : "Paused")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundColor(appState.session.state == .running ? .green : .orange)
-                }
-            }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
-            .background(Color(NSColor.controlBackgroundColor))
-            .cornerRadius(8)
-            
-            // Action buttons
-            VStack(spacing: 8) {
-                Button("Stop timer and Quit") {
-                    Task {
-                        await appState.processQuitIntent(.stopAndQuit)
-                        onCompletion?(true)
+        VStack(spacing: 0) {
+            // Header
+            Text("Confirm Quit")
+                .font(.headline)
+                .padding(.horizontal)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color(NSColor.windowBackgroundColor))
+
+            Divider()
+
+            // Main content with scroll view
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Warning icon and message
+                    VStack(spacing: 12) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.system(size: 48))
+                            .foregroundColor(.orange)
+
+                        Text("Timer is active now")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+
+                        Text("Are you sure you want to quit the app?")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
                     }
+
+                    // Current timer info
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("Current Timer:")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("\(appState.session.mode.displayName) - \(formatTime(appState.session.remainingSeconds))")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                        }
+
+                        HStack {
+                            Text("Status:")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text(appState.session.state == .running ? "Running" : "Paused")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundColor(appState.session.state == .running ? .green : .orange)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 12)
+                    .background(Color(NSColor.controlBackgroundColor))
+                    .cornerRadius(8)
                 }
-                .buttonStyle(.borderedProminent)
-                .keyboardShortcut(.return)
-                
+                .padding(.vertical, 16)
+                .padding(.horizontal)
+            }
+
+            // Action buttons at bottom
+            Divider()
+            VStack(spacing: 8) {
                 Button("Quit and leave timer running") {
                     Task {
                         await appState.processQuitIntent(.persistAndQuit)
                         onCompletion?(true)
                     }
                 }
+                .buttonStyle(.bordered)
                 .keyboardShortcut("s", modifiers: .command)
-                
-                Button("Cancel") {
-                    Task {
-                        await appState.processQuitIntent(.cancel)
+
+                HStack {
+                    Button("Cancel", role: .cancel) {
+                        Task {
+                            await appState.processQuitIntent(.cancel)
+                        }
+                        onCompletion?(false)
                     }
-                    onCompletion?(false)
+                    .keyboardShortcut(.escape)
+
+                    Button("Stop timer and Quit") {
+                        Task {
+                            await appState.processQuitIntent(.stopAndQuit)
+                            onCompletion?(true)
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .keyboardShortcut(.return)
                 }
-                .keyboardShortcut(.escape)
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
         }
-        .padding(24)
-        .frame(width: 360, height: 320)
+        .frame(minWidth: 280, idealWidth: 320, maxWidth: 400)
+        .frame(minHeight: 200, idealHeight: 280, maxHeight: 500)
         .background(Color(NSColor.windowBackgroundColor))
     }
     
@@ -114,7 +137,7 @@ class QuitConfirmationWindowController: NSWindowController {
         self.onCompletion = onCompletion
         
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 360, height: 320),
+            contentRect: NSRect(x: 0, y: 0, width: 320, height: 280),
             styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
@@ -200,5 +223,5 @@ extension QuitConfirmationWindowController: NSWindowDelegate {
         onCompletion: nil
     )
     .environment(AppState())
-    .frame(width: 360, height: 320)
+    .frame(width: 320, height: 280)
 }

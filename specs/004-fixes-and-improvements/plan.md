@@ -56,9 +56,9 @@ Sharp Timer App/
 │   ├── Features/
 │   │   ├── MenuBar/
 │   │   │   ├── MenuBarController.swift # Update for icon timer display
-│   │   │   └── TimerDisplayView.swift  # Remove "Mode" text
+│   │   │   └── TimerDisplayView.swift  # Remove "Mode" text, add quit popover
 │   │   └── Settings/
-│   │       ├── QuitConfirmationView.swift # New view
+│   │       ├── QuitConfirmationView.swift # New view for popover
 │   │       └── DurationSettingsView.swift # Fix persistence binding
 │   └── Persistence/
 │       └── TimerProfileStore.swift # Ensure reliable loading

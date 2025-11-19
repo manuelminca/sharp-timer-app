@@ -44,7 +44,7 @@ struct TimerDisplayView: View {
 
     // MARK: - Mode Picker Section
     private var modePickerSection: some View {
-        Picker("Mode", selection: $selectedMode) {
+        Picker("", selection: $selectedMode) {
             ForEach(TimerMode.allCases) { mode in
                 Label(mode.displayName, systemImage: mode.icon)
                     .tag(mode)

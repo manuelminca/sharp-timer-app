@@ -13,20 +13,22 @@ struct TimerPersistenceSnapshot: Codable {
     let remainingSeconds: Int
     let isRunning: Bool
     let resumedAt: Date?
+    let targetDate: Date?
     let savedAt: Date
     let schemaVersion: Int
     
-    init(modeID: String, remainingSeconds: Int, isRunning: Bool, resumedAt: Date? = nil) {
+    init(modeID: String, remainingSeconds: Int, isRunning: Bool, resumedAt: Date? = nil, targetDate: Date? = nil) {
         self.modeID = modeID
         self.remainingSeconds = remainingSeconds
         self.isRunning = isRunning
         self.resumedAt = resumedAt
+        self.targetDate = targetDate
         self.savedAt = Date()
-        self.schemaVersion = 1
+        self.schemaVersion = 2
     }
     
     var isValid: Bool {
-        return (1...3600).contains(remainingSeconds) && schemaVersion == 1
+        return (1...3600).contains(remainingSeconds) && schemaVersion >= 1 && schemaVersion <= 2
     }
 }
 

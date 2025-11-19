@@ -9,7 +9,7 @@ No specific research was required for this feature as the requirements are well-
 
 ## Decisions
 
-- **Quit Confirmation**: Will use a custom SwiftUI view presented in a new `NSWindow` (or similar mechanism matching the Settings implementation) to ensure visual consistency.
+- **Quit Confirmation**: Will use a SwiftUI view presented as a popover (same as Settings) to ensure visual consistency and proper integration with the menu bar UI.
 - **Persistence**: Will leverage the existing `TimerProfileStore` and `AppState` logic, ensuring that the "expected end time" is calculated and saved when "Leave timer running" is selected.
 - **Menu Bar Icon**: Will update the `NSStatusItem.button.title` property in the `MenuBarController` to show the countdown.
 

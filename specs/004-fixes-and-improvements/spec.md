@@ -52,7 +52,7 @@ As a user, I want to see the remaining time directly in the menu bar icon so tha
 
 1.  **Given** a timer is running, **When** I look at the menu bar, **Then** the status item should display the remaining time (e.g., "19:58") alongside or instead of the static icon.
 2.  **Given** the timer is stopped, **When** I look at the menu bar, **Then** the status item should revert to its default state (icon only).
-3.  **Given** the timer is paused, **When** I look at the menu bar, **Then** the status item should display the remaining time with a pause indicator (if applicable).
+3.  **Given** the timer is paused, **When** I look at the menu bar, **Then** the status item should display the remaining time (e.g., "19:58").
 
 ---
 
@@ -78,7 +78,7 @@ As a user, I want a cleaner main interface without redundant text so that the ap
 
 ### Functional Requirements
 
--   **FR-001**: The Quit confirmation view MUST use the same window type and visual style as the existing Settings page.
+-   **FR-001**: The Quit confirmation view MUST use the same presentation method (popover) and visual style as the existing Settings page.
 -   **FR-002**: The Quit action MUST check the timer state before deciding whether to show the confirmation view or terminate immediately.
 -   **FR-003**: The "Leave timer running" quit option MUST calculate the expected end time and save it to persistence so that the system can restore the correct remaining time on launch.
 -   **FR-004**: The Settings view MUST initialize its state bindings from the persisted user preferences on load, ensuring it reflects the saved values.

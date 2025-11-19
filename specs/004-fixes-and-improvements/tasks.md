@@ -37,14 +37,14 @@ No setup tasks required - this feature modifies existing components.
 
 ## Phase 3: User Story 1 - Safe Quit Logic (Priority: P1)
 
-**Goal**: Implement quit confirmation dialog with three options, styled like Settings page.
+**Goal**: Implement quit confirmation popover with three options, styled like Settings page.
 
-**Independent Test**: Can be tested by attempting to quit with/without timer running, verifying dialog appearance and all three options work correctly.
+**Independent Test**: Can be tested by attempting to quit with/without timer running, verifying popover appearance and all three options work correctly.
 
-- [x] T002 Create QuitConfirmationView with three buttons in Sharp Timer App/Sharp Timer App/Features/Settings/QuitConfirmationView.swift
-- [x] T003 Update ApplicationDelegate to intercept quit requests and show confirmation when timer is running in Sharp Timer App/Sharp Timer App/App/ApplicationDelegate.swift
-- [x] T004 Update AppState to handle "leave timer running" persistence logic in Sharp Timer App/Sharp Timer App/App/AppState.swift
-- [x] T005 Update AppState to restore timer state on launch using targetDate calculation in Sharp Timer App/Sharp Timer App/App/AppState.swift
+- [ ] T002 Create QuitConfirmationView with three buttons in Sharp Timer App/Sharp Timer App/Features/Settings/QuitConfirmationView.swift
+- [ ] T003 Add quit confirmation popover to TimerDisplayView matching Settings popover pattern in Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift
+- [ ] T004 Update AppState to handle "leave timer running" persistence logic in Sharp Timer App/Sharp Timer App/App/AppState.swift
+- [ ] T005 Update AppState to restore timer state on launch using targetDate calculation in Sharp Timer App/Sharp Timer App/App/AppState.swift
 
 ## Phase 4: User Story 2 - Settings Persistence (Priority: P2)
 
@@ -52,7 +52,7 @@ No setup tasks required - this feature modifies existing components.
 
 **Independent Test**: Can be tested by changing settings, quitting, relaunching, and verifying displayed values match saved values.
 
-- [x] T006 Fix DurationSettingsView to initialize bindings from persisted UserPreferences on view load in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
+- [ ] T006 Fix DurationSettingsView to initialize bindings from persisted UserPreferences on view load in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
 
 ## Phase 5: User Story 3 - Menu Bar Timer Display (Priority: P2)
 
@@ -60,8 +60,8 @@ No setup tasks required - this feature modifies existing components.
 
 **Independent Test**: Can be tested by starting timer and observing menu bar shows countdown, reverts to icon when stopped.
 
-- [x] T007 Update MenuBarController to display countdown in status item title when timer is active in Sharp Timer App/Sharp Timer App/Features/MenuBar/MenuBarController.swift
-- [x] T008 Update MenuBarController to clear title when timer is stopped or paused in Sharp Timer App/Sharp Timer App/Features/MenuBar/MenuBarController.swift
+- [ ] T007 Update MenuBarController to display countdown in status item title when timer is active in Sharp Timer App/Sharp Timer App/Features/MenuBar/MenuBarController.swift
+- [ ] T008 Update MenuBarController to clear title when timer is stopped or paused in Sharp Timer App/Sharp Timer App/Features/MenuBar/MenuBarController.swift
 
 ## Phase 6: User Story 4 - Clean Main Interface (Priority: P3)
 
@@ -69,13 +69,13 @@ No setup tasks required - this feature modifies existing components.
 
 **Independent Test**: Can be tested by inspecting main view - "Mode" text should not be visible.
 
-- [x] T009 Remove "Mode" text label from TimerDisplayView in Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift
+- [ ] T009 Remove "Mode" text label from TimerDisplayView in Sharp Timer App/Sharp Timer App/Features/MenuBar/TimerDisplayView.swift
 
 ## Final Phase: Polish & Cross-Cutting Concerns
 
-- [x] T010 Test edge case: timer expiry while app is closed (should trigger completion on relaunch)
-- [x] T011 Test edge case: menu bar display with very short durations (single-digit seconds)
-- [x] T012 Test edge case: menu bar display with long durations (hours)
-- [x] T013 Verify all quit scenarios work correctly (idle quit, stop and quit, leave running, cancel)
-- [x] T014 Verify settings persistence across multiple app launches
-- [x] T015 Verify menu bar updates at 1Hz during timer operation
+- [ ] T010 Test edge case: timer expiry while app is closed (should trigger completion on relaunch)
+- [ ] T011 Test edge case: menu bar display with very short durations (single-digit seconds)
+- [ ] T012 Test edge case: menu bar display with long durations (hours)
+- [ ] T013 Verify all quit scenarios work correctly (idle quit, stop and quit, leave running, cancel)
+- [ ] T014 Verify settings persistence across multiple app launches
+- [ ] T015 Verify menu bar updates at 1Hz during timer operation

@@ -132,7 +132,11 @@ class AppState {
     }
 
     var menuBarTitle: String {
-        "\(session.mode.icon) \(formatTime(session.remainingSeconds))"
+        if session.state == .running || session.state == .paused {
+            return formatTime(session.remainingSeconds)
+        } else {
+            return session.mode.icon
+        }
     }
 
     // MARK: - Notification Methods
@@ -256,15 +260,33 @@ class AppState {
     
     private func loadPersistedTimerState() async {
         guard let snapshot = await profileStore.loadTimerState() else { return }
-        
+
         // Restore timer state
         let mode = TimerMode(rawValue: snapshot.modeID) ?? .work
-        engine.start(mode: mode, durationSeconds: snapshot.remainingSeconds)
-        
-        if !snapshot.isRunning {
-            engine.pause()
+
+        if snapshot.isRunning, let targetDate = snapshot.targetDate {
+            // Calculate remaining time based on target date
+            let now = Date()
+            let newRemaining = Int(targetDate.timeIntervalSince(now))
+
+            if newRemaining > 0 {
+                // Timer still has time remaining
+                engine.start(mode: mode, durationSeconds: newRemaining)
+            } else {
+                // Timer has expired while app was closed
+                engine.start(mode: mode, durationSeconds: 1) // Start with 1 second
+                // Trigger completion immediately
+                handleTimerCompletion()
+            }
+        } else {
+            // Legacy behavior: use stored remaining seconds
+            engine.start(mode: mode, durationSeconds: snapshot.remainingSeconds)
+
+            if !snapshot.isRunning {
+                engine.pause()
+            }
         }
-        
+
         // Clear the persisted state after loading
         await profileStore.clearTimerState()
     }
@@ -294,11 +316,13 @@ class AppState {
             await clearTimerState()
             
         case .persistAndQuit:
+            let targetDate = Date().addingTimeInterval(TimeInterval(session.remainingSeconds))
             let snapshot = TimerPersistenceSnapshot(
                 modeID: session.mode.rawValue,
                 remainingSeconds: session.remainingSeconds,
                 isRunning: session.state == .running,
-                resumedAt: session.startedAt
+                resumedAt: session.startedAt,
+                targetDate: targetDate
             )
             await profileStore.saveTimerState(snapshot)
             

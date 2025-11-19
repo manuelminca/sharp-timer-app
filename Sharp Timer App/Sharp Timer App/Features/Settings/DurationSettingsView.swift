@@ -186,21 +186,23 @@ struct NotificationToggleRow: View {
 struct DurationSettingsView: View {
     @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var layoutState = SettingsLayoutState(
         popoverWidth: 300,
         dynamicTypeSize: .medium
     )
-    
+
     @State private var workMinutes: Int
     @State private var restEyesMinutes: Int
     @State private var longRestMinutes: Int
-    
-    
+
+
     init() {
-        _workMinutes = State(initialValue: 25)
-        _restEyesMinutes = State(initialValue: 2)
-        _longRestMinutes = State(initialValue: 15)
+        // Initialize with current profile values to ensure immediate display of saved settings
+        let profile = TimerProfileStore().profile
+        _workMinutes = State(initialValue: profile.workMinutes)
+        _restEyesMinutes = State(initialValue: profile.restEyesMinutes)
+        _longRestMinutes = State(initialValue: profile.longRestMinutes)
     }
     
     var body: some View {

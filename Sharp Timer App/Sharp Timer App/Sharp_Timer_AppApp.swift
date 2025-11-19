@@ -14,13 +14,19 @@ struct Sharp_Timer_AppApp: App {
     @State private var appState = AppState()
 
     var body: some Scene {
-        MenuBarExtra("Sharp Timer", systemImage: "timer") {
+        MenuBarExtra {
             TimerDisplayView()
                 .environment(appState)
                 .onAppear {
                     // Set up the app state in the delegate
                     appDelegate.setAppState(appState)
                 }
+        } label: {
+            if appState.session.state == .running || appState.session.state == .paused {
+                Text(appState.menuBarTitle)
+            } else {
+                Image(systemName: "timer")
+            }
         }
         .menuBarExtraStyle(.window)
     }
