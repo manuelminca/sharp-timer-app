@@ -7,6 +7,29 @@
 
 import Foundation
 
+// MARK: - Timer Persistence Snapshot
+struct TimerPersistenceSnapshot: Codable {
+    let modeID: String
+    let remainingSeconds: Int
+    let isRunning: Bool
+    let resumedAt: Date?
+    let savedAt: Date
+    let schemaVersion: Int
+    
+    init(modeID: String, remainingSeconds: Int, isRunning: Bool, resumedAt: Date? = nil) {
+        self.modeID = modeID
+        self.remainingSeconds = remainingSeconds
+        self.isRunning = isRunning
+        self.resumedAt = resumedAt
+        self.savedAt = Date()
+        self.schemaVersion = 1
+    }
+    
+    var isValid: Bool {
+        return (1...3600).contains(remainingSeconds) && schemaVersion == 1
+    }
+}
+
 struct TimerProfile: Codable {
     var workMinutes: Int
     var restEyesMinutes: Int
@@ -37,6 +60,16 @@ struct TimerProfile: Codable {
 class TimerProfileStore {
     private let userDefaults = UserDefaults.standard
     private let profileKey = "com.sharp-timer.profile"
+    private let timerStateKey = "com.sharp-timer.timer-state"
+    
+    private let fileManager = FileManager.default
+    @ObservationIgnored private lazy var supportDirectory: URL = {
+        let urls = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+        let supportDir = urls.first!.appendingPathComponent("Sharp Timer")
+        try? fileManager.createDirectory(at: supportDir, withIntermediateDirectories: true)
+        return supportDir
+    }()
+    @ObservationIgnored private lazy var timerStateFileURL: URL = supportDirectory.appendingPathComponent("timer-state.json")
 
     private(set) var profile: TimerProfile
 
@@ -70,6 +103,41 @@ class TimerProfileStore {
         save()
     }
 
+    // MARK: - Timer State Persistence
+    func saveTimerState(_ snapshot: TimerPersistenceSnapshot) async {
+        guard snapshot.isValid else { return }
+        
+        do {
+            let data = try JSONEncoder().encode(snapshot)
+            try data.write(to: timerStateFileURL)
+            
+            // Also save a quick flag in UserDefaults for fast checks
+            userDefaults.set(true, forKey: timerStateKey)
+        } catch {
+            print("Failed to save timer state: \(error)")
+        }
+    }
+    
+    func loadTimerState() async -> TimerPersistenceSnapshot? {
+        guard userDefaults.bool(forKey: timerStateKey) else { return nil }
+        
+        do {
+            let data = try Data(contentsOf: timerStateFileURL)
+            let snapshot = try JSONDecoder().decode(TimerPersistenceSnapshot.self, from: data)
+            return snapshot.isValid ? snapshot : nil
+        } catch {
+            print("Failed to load timer state: \(error)")
+            // Clear the flag if file is corrupted
+            userDefaults.removeObject(forKey: timerStateKey)
+            return nil
+        }
+    }
+    
+    func clearTimerState() async {
+        userDefaults.removeObject(forKey: timerStateKey)
+        try? fileManager.removeItem(at: timerStateFileURL)
+    }
+    
     private func save() {
         let validated = profile.validating()
         profile = validated

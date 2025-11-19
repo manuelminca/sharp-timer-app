@@ -62,3 +62,19 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 Sharp Timer App/build.log
+
+# Swift-specific patterns
+DerivedData/
+*.swiftpm/
+Packages/
+
+# Universal patterns
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/
+*.log
+.env*
+Sharp Timer App/build.log

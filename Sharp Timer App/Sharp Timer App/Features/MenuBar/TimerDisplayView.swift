@@ -11,6 +11,12 @@ struct TimerDisplayView: View {
     @Environment(AppState.self) private var appState
     @State private var selectedMode: TimerMode = .work
     @State private var showingSettings = false
+    @State private var settingsPopoverAttachment: NSWindow?
+    
+    // Access to AppDelegate for quit coordination
+    private var appDelegate: AppDelegate? {
+        NSApplication.shared.delegate as? AppDelegate
+    }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -23,18 +29,16 @@ struct TimerDisplayView: View {
             // Control Buttons
             controlButtonsSection
 
-            // Settings Button
-            settingsButton
+            // Action Buttons (Settings and Quit)
+            actionButtonsSection
         }
         .padding()
         .onAppear {
             selectedMode = appState.session.mode
         }
-        .sheet(isPresented: $showingSettings) {
+        .popover(isPresented: $showingSettings, arrowEdge: .bottom) {
             DurationSettingsView()
                 .environment(appState)
-                .frame(minWidth: 300, minHeight: 250)
-                .presentationDetents([.medium])
         }
     }
 
@@ -110,14 +114,26 @@ struct TimerDisplayView: View {
         }
     }
 
-    // MARK: - Settings Button
-    private var settingsButton: some View {
-        Button {
-            showingSettings = true
-        } label: {
-            Label("Settings", systemImage: "gear")
+    // MARK: - Action Buttons Section
+    private var actionButtonsSection: some View {
+        HStack(spacing: 12) {
+            // Settings Button
+            Button {
+                showingSettings = true
+            } label: {
+                Label("Settings", systemImage: "gear")
+            }
+            .buttonStyle(.bordered)
+            
+            // Quit Button
+            Button {
+                quitApplication()
+            } label: {
+                Label("Quit", systemImage: "power")
+            }
+            .buttonStyle(.bordered)
+            .help("Quit Sharp Timer")
         }
-        .buttonStyle(.bordered)
     }
 
     // MARK: - Private Helpers
@@ -129,6 +145,26 @@ struct TimerDisplayView: View {
         let minutes = seconds / 60
         let remainingSeconds = seconds % 60
         return String(format: "%02d:%02d", minutes, remainingSeconds)
+    }
+    
+    private func quitApplication() {
+        // Mark that quit is being initiated from the UI to prevent
+        // duplicate confirmation dialogs in the application delegate
+        appDelegate?.setQuitInitiatedFromUI()
+        
+        // Use the centralized quit confirmation system from AppState
+        // This prevents duplicate dialogs and handles all quit logic properly
+        appState.showQuitConfirmation { shouldQuit in
+            // After the quit confirmation is handled and completed,
+            // terminate the application immediately without triggering
+            // the application delegate's confirmation again
+            if shouldQuit {
+                NSApplication.shared.terminate(nil)
+            } else {
+                // If cancelled, reset the flag so future quits are handled correctly
+                appDelegate?.resetQuitInitiatedFromUI()
+            }
+        }
     }
 }
 
