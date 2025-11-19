@@ -36,9 +36,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Check if timer is running
         if appState.session.state == .running || appState.session.state == .paused {
             // Show quit confirmation dialog
-            appState.showQuitConfirmation {
+            appState.showQuitConfirmation { shouldQuit in
                 // This will be called after the dialog is handled
-                NSApplication.shared.reply(toApplicationShouldTerminate: true)
+                if shouldQuit {
+                    // Mark as initiated from UI to prevent loop when we reply true
+                    if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
+                        appDelegate.setQuitInitiatedFromUI()
+                    }
+                    NSApplication.shared.reply(toApplicationShouldTerminate: true)
+                } else {
+                    NSApplication.shared.reply(toApplicationShouldTerminate: false)
+                }
             }
             return .terminateCancel // Cancel termination until dialog is handled
         } else {
@@ -48,6 +56,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func setQuitInitiatedFromUI() {
         quitInitiatedFromUI = true
+    }
+    
+    func resetQuitInitiatedFromUI() {
+        quitInitiatedFromUI = false
     }
     
     func setAppState(_ appState: AppState) {

@@ -13,7 +13,7 @@ struct QuitConfirmationView: View {
     @Environment(\.dismiss) private var dismiss
     
     let intent: QuitIntent
-    let onCompletion: (() -> Void)?
+    let onCompletion: ((Bool) -> Void)?
     
     var body: some View {
         VStack(spacing: 20) {
@@ -66,11 +66,7 @@ struct QuitConfirmationView: View {
                 Button("Stop timer and Quit") {
                     Task {
                         await appState.processQuitIntent(.stopAndQuit)
-                        dismiss()
-                        // Small delay to ensure UI updates complete before termination
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            onCompletion?()
-                        }
+                        onCompletion?(true)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -79,11 +75,7 @@ struct QuitConfirmationView: View {
                 Button("Quit and leave timer running") {
                     Task {
                         await appState.processQuitIntent(.persistAndQuit)
-                        dismiss()
-                        // Small delay to ensure UI updates complete before termination
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            onCompletion?()
-                        }
+                        onCompletion?(true)
                     }
                 }
                 .keyboardShortcut("s", modifiers: .command)
@@ -92,8 +84,7 @@ struct QuitConfirmationView: View {
                     Task {
                         await appState.processQuitIntent(.cancel)
                     }
-                    dismiss()
-                    // Don't call onCompletion for cancel - just close the dialog
+                    onCompletion?(false)
                 }
                 .keyboardShortcut(.escape)
             }
@@ -114,9 +105,10 @@ struct QuitConfirmationView: View {
 class QuitConfirmationWindowController: NSWindowController {
     private let intent: QuitIntent
     private let appState: AppState
-    private var onCompletion: (() -> Void)?
+    private var onCompletion: ((Bool) -> Void)?
+    private var hasCompleted = false
     
-    init(intent: QuitIntent, appState: AppState, onCompletion: @escaping () -> Void) {
+    init(intent: QuitIntent, appState: AppState, onCompletion: @escaping (Bool) -> Void) {
         self.intent = intent
         self.appState = appState
         self.onCompletion = onCompletion
@@ -134,8 +126,16 @@ class QuitConfirmationWindowController: NSWindowController {
         
         super.init(window: window)
         
+        // Wrap completion to ensure it's called only once and handles window closing
+        let wrappedCompletion: (Bool) -> Void = { [weak self] shouldQuit in
+            guard let self = self, !self.hasCompleted else { return }
+            self.hasCompleted = true
+            self.close()
+            self.onCompletion?(shouldQuit)
+        }
+        
         // Set up the SwiftUI view
-        let contentView = QuitConfirmationView(intent: intent, onCompletion: onCompletion)
+        let contentView = QuitConfirmationView(intent: intent, onCompletion: wrappedCompletion)
             .environment(appState)
         
         window.contentView = NSHostingView(rootView: contentView)
@@ -167,7 +167,10 @@ class QuitConfirmationWindowController: NSWindowController {
     }
     
     override func close() {
-        onCompletion?()
+        if !hasCompleted {
+            hasCompleted = true
+            onCompletion?(false)
+        }
         super.close()
     }
     
@@ -180,7 +183,10 @@ class QuitConfirmationWindowController: NSWindowController {
 // MARK: - Window Delegate
 extension QuitConfirmationWindowController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
-        onCompletion?()
+        if !hasCompleted {
+            hasCompleted = true
+            onCompletion?(false)
+        }
     }
 }
 

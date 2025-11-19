@@ -154,11 +154,16 @@ struct TimerDisplayView: View {
         
         // Use the centralized quit confirmation system from AppState
         // This prevents duplicate dialogs and handles all quit logic properly
-        appState.showQuitConfirmation {
+        appState.showQuitConfirmation { shouldQuit in
             // After the quit confirmation is handled and completed,
             // terminate the application immediately without triggering
             // the application delegate's confirmation again
-            NSApplication.shared.terminate(nil)
+            if shouldQuit {
+                NSApplication.shared.terminate(nil)
+            } else {
+                // If cancelled, reset the flag so future quits are handled correctly
+                appDelegate?.resetQuitInitiatedFromUI()
+            }
         }
     }
 }

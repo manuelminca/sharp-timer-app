@@ -23,6 +23,10 @@ class AppState {
     // MARK: - Intent Properties
     private var modeSwitchIntent: ModeSwitchIntent?
     private var quitIntent: QuitIntent?
+    
+    // MARK: - Window Controllers
+    private var quitWindowController: QuitConfirmationWindowController?
+    private var modeSwitchWindowController: ModeSwitchConfirmationWindowController?
 
     // MARK: - Published Properties
     var session: TimerSession { engine.session }
@@ -314,17 +318,22 @@ class AppState {
             appState: self
         )
         windowController.show()
+        self.modeSwitchWindowController = windowController
     }
     
-    func showQuitConfirmation(completion: @escaping () -> Void) {
+    func showQuitConfirmation(completion: @escaping (Bool) -> Void) {
         let intent = handleQuitRequest()
         
         let windowController = QuitConfirmationWindowController(
             intent: intent,
             appState: self,
-            onCompletion: completion
+            onCompletion: { [weak self] result in
+                completion(result)
+                self?.quitWindowController = nil
+            }
         )
         windowController.show()
+        self.quitWindowController = windowController
     }
     
     // MARK: - Private Helpers
