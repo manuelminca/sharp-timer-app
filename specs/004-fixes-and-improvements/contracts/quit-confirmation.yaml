@@ -1,0 +1,30 @@
+name: Quit Confirmation Interaction
+description: Defines the options and behaviors for the quit confirmation dialog.
+
+options:
+  - id: stop_and_quit
+    label: "Stop timer and quit app"
+    action:
+      - Stop TimerEngine
+      - Clear persisted running state
+      - Terminate Application
+    
+  - id: leave_running
+    label: "Leave timer running and quit app"
+    description: "If I open again, the timer should automatically continue where it should."
+    action:
+      - Calculate targetDate (now + remainingSeconds)
+      - Save TimerState (isRunning=true, targetDate=targetDate)
+      - Terminate Application
+
+  - id: cancel
+    label: "Cancel"
+    action:
+      - Close Confirmation Window
+      - Resume Timer (if paused for dialog)
+      - Continue Application
+
+visual_style:
+  window_type: "Settings-style"
+  presentation: "Modal or Separate Window"
+  layout: "Vertical Stack of Buttons"
