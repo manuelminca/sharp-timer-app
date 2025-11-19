@@ -20,13 +20,6 @@ class AppState {
     // MARK: - Notification Properties
     private var notificationPreference = NotificationPreference()
     
-    // MARK: - Intent Properties
-    private var modeSwitchIntent: ModeSwitchIntent?
-    private var quitIntent: QuitIntent?
-    
-    // MARK: - Window Controllers
-    private var quitWindowController: QuitConfirmationWindowController?
-    private var modeSwitchWindowController: ModeSwitchConfirmationWindowController?
 
     // MARK: - Published Properties
     var session: TimerSession { engine.session }
@@ -42,7 +35,6 @@ class AppState {
         
         Task {
             await refreshNotificationStatus()
-            await loadPersistedTimerState()
         }
     }
 
@@ -66,32 +58,8 @@ class AppState {
     }
     
     func switchToMode(_ mode: TimerMode) {
-        // Check if timer is running and requires confirmation
-        if session.state == .running {
-            modeSwitchIntent = ModeSwitchIntent(
-                requestedMode: mode,
-                initiatedAt: Date(),
-                confirmationState: .pending,
-                originatingView: .popover
-            )
-            
-            // Show confirmation dialog
-            showModeSwitchConfirmation()
-            return
-        }
-        
-        // Direct switch if timer is not running
+        // Direct switch without confirmation
         performModeSwitch(to: mode)
-    }
-    
-    func confirmModeSwitch() {
-        guard let intent = modeSwitchIntent else { return }
-        performModeSwitch(to: intent.requestedMode)
-        modeSwitchIntent = nil
-    }
-    
-    func cancelModeSwitch() {
-        modeSwitchIntent = nil
     }
     
     private func performModeSwitch(to mode: TimerMode) {
@@ -240,125 +208,9 @@ class AppState {
         scheduleCompletionNotification(for: session)
     }
     
-    // MARK: - Timer State Persistence
-    func saveTimerState() async {
-        guard session.state == .running else { return }
-        
-        let snapshot = TimerPersistenceSnapshot(
-            modeID: session.mode.rawValue,
-            remainingSeconds: session.remainingSeconds,
-            isRunning: session.state == .running,
-            resumedAt: session.startedAt
-        )
-        
-        await profileStore.saveTimerState(snapshot)
-    }
     
-    func clearTimerState() async {
-        await profileStore.clearTimerState()
-    }
+
     
-    private func loadPersistedTimerState() async {
-        guard let snapshot = await profileStore.loadTimerState() else { return }
-
-        // Restore timer state
-        let mode = TimerMode(rawValue: snapshot.modeID) ?? .work
-
-        if snapshot.isRunning, let targetDate = snapshot.targetDate {
-            // Calculate remaining time based on target date
-            let now = Date()
-            let newRemaining = Int(targetDate.timeIntervalSince(now))
-
-            if newRemaining > 0 {
-                // Timer still has time remaining
-                engine.start(mode: mode, durationSeconds: newRemaining)
-            } else {
-                // Timer has expired while app was closed
-                engine.start(mode: mode, durationSeconds: 1) // Start with 1 second
-                // Trigger completion immediately
-                handleTimerCompletion()
-            }
-        } else {
-            // Legacy behavior: use stored remaining seconds
-            engine.start(mode: mode, durationSeconds: snapshot.remainingSeconds)
-
-            if !snapshot.isRunning {
-                engine.pause()
-            }
-        }
-
-        // Clear the persisted state after loading
-        await profileStore.clearTimerState()
-    }
-    
-    // MARK: - Quit Handling
-    func handleQuitRequest() -> QuitIntent {
-        if session.state == .running {
-            quitIntent = QuitIntent(
-                action: .cancel,
-                handled: false,
-                snapshot: nil
-            )
-        } else {
-            quitIntent = QuitIntent(
-                action: .stopAndQuit,
-                handled: false,
-                snapshot: nil
-            )
-        }
-        return quitIntent!
-    }
-    
-    func processQuitIntent(_ action: QuitIntent.QuitAction) async {
-        switch action {
-        case .stopAndQuit:
-            engine.reset()
-            await clearTimerState()
-            
-        case .persistAndQuit:
-            let targetDate = Date().addingTimeInterval(TimeInterval(session.remainingSeconds))
-            let snapshot = TimerPersistenceSnapshot(
-                modeID: session.mode.rawValue,
-                remainingSeconds: session.remainingSeconds,
-                isRunning: session.state == .running,
-                resumedAt: session.startedAt,
-                targetDate: targetDate
-            )
-            await profileStore.saveTimerState(snapshot)
-            
-        case .cancel:
-            break
-        }
-        
-        quitIntent?.handled = true
-    }
-
-    // MARK: - UI Presentation
-    func showModeSwitchConfirmation() {
-        guard let intent = modeSwitchIntent else { return }
-        
-        let windowController = ModeSwitchConfirmationWindowController(
-            intent: intent,
-            appState: self
-        )
-        windowController.show()
-        self.modeSwitchWindowController = windowController
-    }
-    
-    func showQuitConfirmation(completion: @escaping (Bool) -> Void) {
-        let intent = handleQuitRequest()
-        
-        let windowController = QuitConfirmationWindowController(
-            intent: intent,
-            appState: self,
-            onCompletion: { [weak self] result in
-                completion(result)
-                self?.quitWindowController = nil
-            }
-        )
-        windowController.show()
-        self.quitWindowController = windowController
-    }
     
     // MARK: - Private Helpers
     private func formatTime(_ seconds: Int) -> String {
@@ -369,32 +221,4 @@ class AppState {
 }
 
 // MARK: - Supporting Types
-struct ModeSwitchIntent {
-    let requestedMode: TimerMode
-    let initiatedAt: Date
-    var confirmationState: ConfirmationState
-    let originatingView: OriginatingView
-    
-    enum ConfirmationState {
-        case pending
-        case confirmed
-        case cancelled
-    }
-    
-    enum OriginatingView {
-        case popover
-        case settings
-    }
-}
 
-struct QuitIntent {
-    var action: QuitAction
-    var handled: Bool
-    var snapshot: TimerPersistenceSnapshot?
-    
-    enum QuitAction {
-        case stopAndQuit
-        case persistAndQuit
-        case cancel
-    }
-}

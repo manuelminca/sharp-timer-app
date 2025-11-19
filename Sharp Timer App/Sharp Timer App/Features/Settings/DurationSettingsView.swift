@@ -198,11 +198,10 @@ struct DurationSettingsView: View {
 
 
     init() {
-        // Initialize with current profile values to ensure immediate display of saved settings
-        let profile = TimerProfileStore().profile
-        _workMinutes = State(initialValue: profile.workMinutes)
-        _restEyesMinutes = State(initialValue: profile.restEyesMinutes)
-        _longRestMinutes = State(initialValue: profile.longRestMinutes)
+        // Initialize with default values - will be updated in onAppear
+        _workMinutes = State(initialValue: 25)
+        _restEyesMinutes = State(initialValue: 2)
+        _longRestMinutes = State(initialValue: 15)
     }
     
     var body: some View {

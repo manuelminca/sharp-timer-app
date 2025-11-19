@@ -11,12 +11,8 @@ struct TimerDisplayView: View {
     @Environment(AppState.self) private var appState
     @State private var selectedMode: TimerMode = .work
     @State private var showingSettings = false
+    @State private var quitButtonText = "Quit"
     @State private var settingsPopoverAttachment: NSWindow?
-    
-    // Access to AppDelegate for quit coordination
-    private var appDelegate: AppDelegate? {
-        NSApplication.shared.delegate as? AppDelegate
-    }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -35,6 +31,7 @@ struct TimerDisplayView: View {
         .padding()
         .onAppear {
             selectedMode = appState.session.mode
+            quitButtonText = "Quit"
         }
         .popover(isPresented: $showingSettings, arrowEdge: .bottom) {
             DurationSettingsView()
@@ -129,7 +126,7 @@ struct TimerDisplayView: View {
             Button {
                 quitApplication()
             } label: {
-                Label("Quit", systemImage: "power")
+                Label(quitButtonText, systemImage: "power")
             }
             .buttonStyle(.bordered)
             .help("Quit Sharp Timer")
@@ -148,22 +145,10 @@ struct TimerDisplayView: View {
     }
     
     private func quitApplication() {
-        // Mark that quit is being initiated from the UI to prevent
-        // duplicate confirmation dialogs in the application delegate
-        appDelegate?.setQuitInitiatedFromUI()
-        
-        // Use the centralized quit confirmation system from AppState
-        // This prevents duplicate dialogs and handles all quit logic properly
-        appState.showQuitConfirmation { shouldQuit in
-            // After the quit confirmation is handled and completed,
-            // terminate the application immediately without triggering
-            // the application delegate's confirmation again
-            if shouldQuit {
-                NSApplication.shared.terminate(nil)
-            } else {
-                // If cancelled, reset the flag so future quits are handled correctly
-                appDelegate?.resetQuitInitiatedFromUI()
-            }
+        if quitButtonText == "Quit" {
+            quitButtonText = "Confirm Quit"
+        } else {
+            NSApplication.shared.terminate(nil)
         }
     }
 }
