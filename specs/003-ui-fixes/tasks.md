@@ -85,6 +85,7 @@
 - [x] T023 [US3] Restore timer state before SwiftUI view creation by loading snapshot in `AppState.swift` initializer.
 - [x] T024 [US3] Update menu bar/menu state restoration logic in `TimerDisplayView.swift` to display resumed timer immediately after launch.
 - [x] T025 [US3] Add UI test covering quit dialog options and relaunch verification in `Sharp Timer App/Sharp Timer AppUITests/MenuBarFlowTests.swift`.
+- [ ] T059 [US3] Fix quit loop bug where "Quit and leave timer running" re-triggers confirmation dialog instead of quitting immediately in `Sharp Timer App/Sharp Timer App/App/ApplicationDelegate.swift`.
 
 ---
 

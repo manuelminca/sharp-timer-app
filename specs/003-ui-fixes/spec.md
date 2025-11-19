@@ -55,6 +55,7 @@ As a user, I want my timer progress to be preserved when I quit the application 
 3. **Given** the confirmation dialog is displayed, **When** user selects "Quit and leave timer running", **Then** the application quits but timer state is preserved for next launch
 4. **Given** the confirmation dialog is displayed, **When** user selects "Cancel", **Then** the dialog closes and the application continues running with the timer active
 5. **Given** the app was quit with timer running, **When** the app is relaunched, **Then** the timer resumes with the correct remaining time and mode
+6. **Given** the confirmation dialog is displayed, **When** user selects "Quit and leave timer running", **Then** the application quits immediately without showing the confirmation dialog again
 
 ---
 
