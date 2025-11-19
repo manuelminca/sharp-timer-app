@@ -7,21 +7,20 @@
 
 ## User Scenarios & Testing *(mandatory)*
 
-### User Story 1 - Safe Quit Logic (Priority: P1)
+### User Story 1 - Simple Quit Confirmation (Priority: P1)
 
-As a user, I want the app to handle quitting intelligently so that I don't accidentally lose my active timer session or get confused by the interface.
+As a user, I want a simple two-step confirmation when quitting the app to prevent accidental closures, without complex dialogs.
 
-**Why this priority**: Prevents data loss (active timer) and improves the core user experience of exiting the app.
+**Why this priority**: Prevents accidental app termination while maintaining a quick exit flow.
 
-**Independent Test**: Can be tested by attempting to quit the app with and without a timer running.
+**Independent Test**: Can be tested by clicking the Quit button and verifying the text change and termination behavior.
 
 **Acceptance Scenarios**:
 
-1.  **Given** the timer is **not** running, **When** I click the "Quit" button on the main page, **Then** the application should terminate immediately without showing any confirmation window.
-2.  **Given** the timer **is** running, **When** I click the "Quit" button, **Then** a confirmation window (styled like the Settings page) should appear with three options.
-3.  **Given** the quit confirmation window is open, **When** I select "Stop timer and quit app", **Then** the timer should stop, and the application should terminate.
-4.  **Given** the quit confirmation window is open, **When** I select "Leave timer running and quit app", **Then** the application should terminate, and upon relaunch, the timer should resume from the correct remaining time (accounting for the time elapsed while closed).
-5.  **Given** the quit confirmation window is open, **When** I select "Cancel", **Then** the confirmation window should close, and the timer should continue running normally.
+1.  **Given** the main timer view is open, **When** I view the bottom buttons, **Then** I should see a button labeled "Quit".
+2.  **Given** the button says "Quit", **When** I click it, **Then** the button text should change to "Confirm Quit" and the app should **not** close.
+3.  **Given** the button says "Confirm Quit", **When** I click it, **Then** the application should terminate immediately, regardless of timer state.
+4.  **Given** the button says "Confirm Quit", **When** I close/minimize the main window and reopen it, **Then** the button should reset to display "Quit".
 
 ---
 
@@ -70,7 +69,6 @@ As a user, I want a cleaner main interface without redundant text so that the ap
 
 ### Edge Cases
 
--   **Timer Expiry while Closed**: What happens if the user selects "Leave timer running", quits, and reopens the app *after* the timer would have naturally expired? The app should handle this gracefully (e.g., show 00:00 or trigger the completion state immediately).
 -   **Very Short Durations**: How does the menu bar display handle single-digit seconds (e.g., "0:05")? It should remain readable.
 -   **Long Durations**: How does the menu bar display handle hours (e.g., "1:00:00")? It should fit within reasonable menu bar constraints.
 
@@ -78,9 +76,9 @@ As a user, I want a cleaner main interface without redundant text so that the ap
 
 ### Functional Requirements
 
--   **FR-001**: The Quit confirmation view MUST use the same presentation method (popover) and visual style as the existing Settings page.
--   **FR-002**: The Quit action MUST check the timer state before deciding whether to show the confirmation view or terminate immediately.
--   **FR-003**: The "Leave timer running" quit option MUST calculate the expected end time and save it to persistence so that the system can restore the correct remaining time on launch.
+-   **FR-001**: The Quit button MUST implement a two-step confirmation state ("Quit" -> "Confirm Quit").
+-   **FR-002**: The Quit button state MUST reset to "Quit" whenever the main view appears (e.g., when the menu bar popover is opened).
+-   **FR-003**: The application MUST terminate immediately upon clicking "Confirm Quit", regardless of whether a timer is running.
 -   **FR-004**: The Settings view MUST initialize its state bindings from the persisted user preferences on load, ensuring it reflects the saved values.
 -   **FR-005**: The Menu Bar controller MUST be able to update the status item's title or view to show the formatted countdown string when the timer is active.
 -   **FR-006**: The Main Timer view MUST NOT render the "Mode" text label.
@@ -94,7 +92,7 @@ As a user, I want a cleaner main interface without redundant text so that the ap
 
 ### Measurable Outcomes
 
--   **SC-001**: Users can quit the app when the timer is idle with a single click (0 additional steps).
--   **SC-002**: Users can restore a "running" timer session after a restart with < 1 second of perceived drift (logic handles the elapsed time).
+-   **SC-001**: Users can quit the app with exactly two clicks on the same button.
+-   **SC-002**: The Quit button always resets to its initial state when the window is reopened.
 -   **SC-003**: The menu bar item updates the displayed time at 1Hz when the timer is running.
 -   **SC-004**: Settings UI matches the actual stored values 100% of the time after an app restart.

@@ -7,7 +7,7 @@
 
 ## Summary
 
-This plan covers bug fixes for the quit logic and settings persistence, along with visual improvements to the menu bar icon and main view. The approach involves implementing a custom quit confirmation window, enhancing the `TimerProfileStore` for reliable settings loading, and updating the `MenuBarController` to display the countdown.
+This plan covers the implementation of a simplified two-step quit button, settings persistence fixes, and visual improvements to the menu bar icon and main view. The approach involves modifying the `TimerDisplayView` to handle the quit button state locally, enhancing the `TimerProfileStore` for reliable settings loading, and updating the `MenuBarController` to display the countdown.
 
 ## Technical Context
 
@@ -27,9 +27,8 @@ This plan covers bug fixes for the quit logic and settings persistence, along wi
 
 - [x] **Principle 1 (Menu Bar Exclusive)**: Changes maintain the menu-bar-only model.
 - [x] **Principle 2 (Resource Footprint)**: Menu bar timer updates will use the existing 1Hz tick to minimize impact.
-- [x] **Principle 3 (Native Integration)**: Quit confirmation uses native window styling.
+- [x] **Principle 3 (Native Integration)**: Quit button behaves predictably within the menu bar popover.
 - [x] **Principle 6 (Clean UI)**: Removing "Mode" text simplifies the interface.
-- [x] **Principle 9 (Persistence)**: "Leave timer running" option explicitly implements the persistence requirement.
 
 ## Project Structure
 
@@ -56,15 +55,14 @@ Sharp Timer App/
 │   ├── Features/
 │   │   ├── MenuBar/
 │   │   │   ├── MenuBarController.swift # Update for icon timer display
-│   │   │   └── TimerDisplayView.swift  # Remove "Mode" text, add quit popover
+│   │   │   └── TimerDisplayView.swift  # Remove "Mode" text, implement 2-step quit button
 │   │   └── Settings/
-│   │       ├── QuitConfirmationView.swift # New view for popover
 │   │       └── DurationSettingsView.swift # Fix persistence binding
 │   └── Persistence/
 │       └── TimerProfileStore.swift # Ensure reliable loading
 ```
 
-**Structure Decision**: Standard SwiftUI app structure, modifying existing components and adding one new view.
+**Structure Decision**: Standard SwiftUI app structure, modifying existing components.
 
 ## Complexity Tracking
 

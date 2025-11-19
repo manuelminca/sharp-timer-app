@@ -2,7 +2,7 @@
 
 ## Entities
 
-### TimerState (Updated)
+### TimerState (Existing)
 
 Represents the snapshot of the timer when the app is closed or state is saved.
 
@@ -11,7 +11,6 @@ Represents the snapshot of the timer when the app is closed or state is saved.
 | `mode` | `TimerMode` | The active mode (Work, Rest Eyes, Long Rest). |
 | `remainingSeconds` | `Int` | Seconds remaining at the time of snapshot. |
 | `isRunning` | `Bool` | Whether the timer was running. |
-| `targetDate` | `Date?` | **(New)** The calculated date/time when the timer would expire if left running. Used to calculate remaining time on restore. |
 
 ### UserPreferences (Existing)
 
@@ -28,9 +27,5 @@ Stores user configuration.
 - **Format**: JSON
 - **Location**: `~/Library/Application Support/Sharp Timer/timer-state.json`
 - **Strategy**:
-    - On "Quit and leave timer running": Save `TimerState` with `isRunning = true` and `targetDate = now + remainingSeconds`.
-    - On Relaunch:
-        - If `isRunning` is true and `targetDate` exists:
-            - `newRemaining = targetDate - now`
-            - If `newRemaining > 0`: Resume timer with `newRemaining`.
-            - If `newRemaining <= 0`: Trigger timer completion immediately.
+    - **Settings**: `UserPreferences` are saved to UserDefaults whenever changed.
+    - **Timer State**: `TimerState` is NOT saved on quit. The app always starts with a fresh state or default state on relaunch.
