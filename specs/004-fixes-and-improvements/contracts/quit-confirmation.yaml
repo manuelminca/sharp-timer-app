@@ -1,0 +1,18 @@
+name: Quit Button Interaction
+description: Defines the behavior of the two-step quit button.
+
+states:
+  - id: initial
+    label: "Quit"
+    action:
+      - Change state to 'confirm'
+      - Update button label to "Confirm Quit"
+
+  - id: confirm
+    label: "Confirm Quit"
+    action:
+      - Terminate Application immediately
+
+reset_trigger:
+  - event: "Window Disappear / Menu Bar Popover Close"
+  - action: "Reset state to 'initial'"

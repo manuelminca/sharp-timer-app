@@ -186,18 +186,19 @@ struct NotificationToggleRow: View {
 struct DurationSettingsView: View {
     @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var layoutState = SettingsLayoutState(
         popoverWidth: 300,
         dynamicTypeSize: .medium
     )
-    
+
     @State private var workMinutes: Int
     @State private var restEyesMinutes: Int
     @State private var longRestMinutes: Int
-    
-    
+
+
     init() {
+        // Initialize with default values - will be updated in onAppear
         _workMinutes = State(initialValue: 25)
         _restEyesMinutes = State(initialValue: 2)
         _longRestMinutes = State(initialValue: 15)
