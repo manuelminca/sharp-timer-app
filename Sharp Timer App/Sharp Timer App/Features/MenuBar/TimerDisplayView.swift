@@ -145,9 +145,15 @@ struct TimerDisplayView: View {
     }
     
     private func quitApplication() {
-        if quitButtonText == "Quit" {
-            quitButtonText = "Confirm Quit"
+        if appState.session.state == .running || appState.session.state == .paused {
+            // Timer is active, show confirmation
+            if quitButtonText == "Quit" {
+                quitButtonText = "Confirm Quit"
+            } else {
+                NSApplication.shared.terminate(nil)
+            }
         } else {
+            // Timer is not active, quit directly
             NSApplication.shared.terminate(nil)
         }
     }

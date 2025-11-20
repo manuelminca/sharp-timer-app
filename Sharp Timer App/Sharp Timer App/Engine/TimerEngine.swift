@@ -131,7 +131,7 @@ struct TimerSession: Codable, Equatable {
 @MainActor
 @Observable
 class TimerEngine {
-    private(set) var session: TimerSession
+    var session: TimerSession
     private var timer: DispatchSourceTimer?
     private let tickInterval: TimeInterval = 1.0
     var onTimerCompletion: (() -> Void)?

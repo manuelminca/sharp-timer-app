@@ -28,6 +28,9 @@ class AppState {
 
     // MARK: - Initialization
     init() {
+        // Initialize the timer session with the persisted profile settings
+        initializeTimerSession()
+        
         // Set up timer completion callback
         engine.onTimerCompletion = { [weak self] in
             self?.handleTimerCompletion()
@@ -36,6 +39,17 @@ class AppState {
         Task {
             await refreshNotificationStatus()
         }
+    }
+    
+    // MARK: - Private Initialization
+    private func initializeTimerSession() {
+        // Get the last selected mode or default to work
+        let lastMode = profileStore.profile.lastSelectedMode
+        let duration = durationForMode(lastMode)
+        
+        // Create a new session with the correct duration
+        let newSession = TimerSession(mode: lastMode, configuredSeconds: duration)
+        engine.session = newSession
     }
 
     // MARK: - Timer Control Actions
