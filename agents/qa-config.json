@@ -1,0 +1,30 @@
+{
+  "qa_agent": {
+    "version": "1.0.0",
+    "project": "Sharp Timer App",
+    "dev_script_path": "../scripts/dev.sh",
+    "log_level": "info",
+    "monitoring": {
+      "interval_seconds": 30,
+      "performance_thresholds": {
+        "cpu_percent": 80,
+        "memory_mb": 100
+      }
+    },
+    "testing": {
+      "timeout_seconds": 300,
+      "retry_attempts": 2
+    },
+    "reporting": {
+      "default_format": "text",
+      "include_performance": true,
+      "include_crashes": true
+    }
+  },
+  "build_agent_integration": {
+    "communication_method": "file_based",
+    "communication_log": "logs/agent-communication.log",
+    "status_updates": true,
+    "error_notifications": true
+  }
+}
