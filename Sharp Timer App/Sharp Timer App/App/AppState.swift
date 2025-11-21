@@ -38,6 +38,7 @@ class AppState {
         
         Task {
             await refreshNotificationStatus()
+            await restorePersistedState()
         }
     }
     
@@ -68,6 +69,10 @@ class AppState {
     }
 
     func resetTimer() {
+        engine.reset()
+    }
+    
+    func stopTimer() {
         engine.reset()
     }
     
@@ -226,6 +231,67 @@ class AppState {
 
     
     
+    // MARK: - State Persistence
+    func persistState() async {
+        guard session.state == .running || session.state == .paused else { return }
+        
+        let snapshot = TimerPersistenceSnapshot(
+            modeID: session.mode.rawValue,
+            configuredSeconds: session.configuredSeconds,
+            remainingSeconds: session.remainingSeconds,
+            state: session.state,
+            startedAt: session.startedAt,
+            pausedAt: session.pausedAt
+        )
+        
+        await profileStore.saveTimerState(snapshot)
+    }
+    
+    func restorePersistedState() async {
+        guard let snapshot = await profileStore.loadTimerState() else { return }
+        
+        // Restore the timer session
+        guard let mode = TimerMode(rawValue: snapshot.modeID) else { return }
+        
+        let now = Date()
+        var adjustedRemainingSeconds = snapshot.remainingSeconds
+        var adjustedState = snapshot.state
+        
+        // Calculate elapsed time since the snapshot was saved
+        let elapsedSeconds = Int(now.timeIntervalSince(snapshot.savedAt))
+        
+        // If the timer was running, calculate the new remaining time
+        if snapshot.state == .running {
+            adjustedRemainingSeconds = max(0, snapshot.remainingSeconds - elapsedSeconds)
+            
+            // If time has run out, set to completed state
+            if adjustedRemainingSeconds == 0 {
+                adjustedState = .completed
+            }
+        }
+        
+        let restoredSession = TimerSession(
+            mode: mode,
+            configuredSeconds: snapshot.configuredSeconds,
+            remainingSeconds: adjustedRemainingSeconds,
+            state: adjustedState,
+            startedAt: snapshot.startedAt,
+            pausedAt: snapshot.pausedAt,
+            notificationId: nil
+        )
+        
+        engine.session = restoredSession
+        
+        // If the timer was running and still has time left, resume it
+        if snapshot.state == .running && adjustedRemainingSeconds > 0 {
+            // Start a new timer session with the adjusted time
+            engine.start(mode: mode, durationSeconds: adjustedRemainingSeconds)
+        }
+        
+        // Clear the persisted state after successful restoration
+        await profileStore.clearTimerState()
+    }
+
     // MARK: - Private Helpers
     private func formatTime(_ seconds: Int) -> String {
         let minutes = seconds / 60

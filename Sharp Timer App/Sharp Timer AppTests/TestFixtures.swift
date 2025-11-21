@@ -14,23 +14,27 @@ class TestFixtures {
     // MARK: - Timer Persistence Snapshot Fixtures
     static let validSnapshot = TimerPersistenceSnapshot(
         modeID: "work",
+        configuredSeconds: 1500,
         remainingSeconds: 1500,
-        isRunning: true,
-        resumedAt: Date()
+        state: .running,
+        startedAt: Date()
     )
     
     static let invalidSnapshot = TimerPersistenceSnapshot(
         modeID: "work",
-        remainingSeconds: 5000, // Invalid: exceeds 3600 seconds
-        isRunning: true,
-        resumedAt: Date()
+        configuredSeconds: 5000, // Invalid: exceeds 3600 seconds
+        remainingSeconds: 5000,
+        state: .running,
+        startedAt: Date()
     )
     
     static let completedSnapshot = TimerPersistenceSnapshot(
         modeID: "rest_eyes",
+        configuredSeconds: 120,
         remainingSeconds: 0,
-        isRunning: false,
-        resumedAt: nil
+        state: .completed,
+        startedAt: Date(),
+        pausedAt: nil
     )
     
     // MARK: - Timer Profile Fixtures
@@ -135,15 +139,19 @@ class TestFixtures {
     // MARK: - Test Data Factory
     static func createSnapshot(
         mode: TimerMode = .work,
+        configuredSeconds: Int = 1500,
         remainingSeconds: Int = 1500,
-        isRunning: Bool = true,
-        resumedAt: Date? = nil
+        state: TimerSessionState = .running,
+        startedAt: Date? = nil,
+        pausedAt: Date? = nil
     ) -> TimerPersistenceSnapshot {
         return TimerPersistenceSnapshot(
             modeID: mode.rawValue,
+            configuredSeconds: configuredSeconds,
             remainingSeconds: remainingSeconds,
-            isRunning: isRunning,
-            resumedAt: resumedAt
+            state: state,
+            startedAt: startedAt ?? Date(),
+            pausedAt: pausedAt
         )
     }
     
@@ -167,8 +175,9 @@ class TestFixtures {
 extension TimerPersistenceSnapshot {
     static func == (lhs: TimerPersistenceSnapshot, rhs: TimerPersistenceSnapshot) -> Bool {
         return lhs.modeID == rhs.modeID &&
+               lhs.configuredSeconds == rhs.configuredSeconds &&
                lhs.remainingSeconds == rhs.remainingSeconds &&
-               lhs.isRunning == rhs.isRunning &&
+               lhs.state == rhs.state &&
                lhs.schemaVersion == rhs.schemaVersion
     }
 }

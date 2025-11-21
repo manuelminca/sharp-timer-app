@@ -7,6 +7,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-17
 - `UserDefaults` for settings + timer metadata, JSON snapshot under `~/Library/Application Support/Sharp Timer/timer-state.json` for crash-safe persistence (003-ui-fixes)
 - Swift 5.9 + SwiftUI, Combine, AppKit, Foundation (004-fixes-and-improvements)
 - UserDefaults (Settings), JSON (Timer State) (004-fixes-and-improvements)
+- Swift 5.9 + SwiftUI, AppKit, Combine (005-improve-quit-functionality)
+- JSON file (`timer-state.json`) for persistence (005-improve-quit-functionality)
 
 - Swift 5.9 (Xcode 15, macOS 13 deployment target) + SwiftUI, Combine, UserNotifications, Foundation (Timer/DispatchSourceTimer), AppKit bridge for `NSStatusItem` behaviors (001-menu-bar-timer)
 
@@ -26,10 +28,10 @@ tests/
 Swift 5.9 (Xcode 15, macOS 13 deployment target): Follow standard conventions
 
 ## Recent Changes
+- 005-improve-quit-functionality: Added Swift 5.9 + SwiftUI, AppKit, Combine
 - 004-fixes-and-improvements: Added Swift 5.9 + SwiftUI, Combine, AppKit, Foundation
 - 003-ui-fixes: Added Swift 5.9 (Xcode 15, macOS 13 deployment target) + SwiftUI, Combine, AppKit bridge (`NSStatusItem`, `NSAlert`, `NSWindow`), UserNotifications, AVFoundation (`AVAudioPlayer`), Foundation (`Timer`, `DispatchSourceTimer`)
 
-- 001-menu-bar-timer: Added Swift 5.9 (Xcode 15, macOS 13 deployment target) + SwiftUI, Combine, UserNotifications, Foundation (Timer/DispatchSourceTimer), AppKit bridge for `NSStatusItem` behaviors
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->

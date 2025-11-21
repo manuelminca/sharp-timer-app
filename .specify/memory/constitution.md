@@ -1,13 +1,10 @@
 <!--
 Sync Impact Report
-Version change: 1.0.1 → 1.1.0
+Version change: 1.1.0 → 1.2.0
 Modified principles:
-- Principle 4: Updated to allow mode switching with confirmation when timer is running
-- Architecture constraints: Added timer state persistence requirements
+- Principle 9: Updated to specify a dedicated window for quit options instead of a generic dialog.
 Added sections:
-- Principle 8 – Responsive UI and Code Quality
-- Principle 9 – Timer State Persistence and Continuity
-- Principle 10 – Enhanced Audio Experience
+- None
 Removed sections:
 - None
 Templates reviewed:
@@ -93,8 +90,11 @@ Deferred items:
 
 ### Principle 9 – Timer State Persistence and Continuity
 
-- When a user attempts to quit the application while a timer is active, the app MUST present a confirmation dialog with three options: "Stop timer and Quit", "Quit and leave timer running", and "Cancel".
-- If the user chooses "Quit and leave timer running", the timer state MUST be preserved and automatically restored when the application is next launched.
+- When a user attempts to quit the application while a timer is active, the app MUST open a dedicated window (styled consistently with the settings window) presenting three options:
+  1. **Stop timer and quit app**: Terminates the app and resets the timer state.
+  2. **Quit app and leave timer running**: Terminates the app but persists the current timer state (remaining time, mode). On next launch, the timer MUST resume from the persisted state (e.g., if 20 mins remained and user returns 10 mins later, timer shows 10 mins remaining).
+  3. **Cancel**: Closes the quit window and keeps the app running with the timer active.
+- If the timer is NOT running, the app MUST quit immediately without showing this window.
 - Timer persistence MUST include remaining time, current mode, and running state.
 - The app MUST validate restored timer state on launch and handle corruption gracefully by falling back to a safe default state.
 - When switching timer modes while a timer is running, the app MUST display a confirmation dialog asking if the user wants to switch modes and lose the current running timer.
@@ -158,4 +158,4 @@ Deferred items:
   - During implementation planning (`plan.md` Constitution Check),
   - Before release of new app versions.
 
-**Version**: 1.1.0 | **Ratified**: 2025-11-17 | **Last Amended**: 2025-11-17
+**Version**: 1.2.0 | **Ratified**: 2025-11-17 | **Last Amended**: 2025-11-20
