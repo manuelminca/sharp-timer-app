@@ -17,6 +17,7 @@ struct Sharp_Timer_AppApp: App {
         MenuBarExtra {
             TimerDisplayView()
                 .environment(appState)
+                .preferredColorScheme(.light)
                 .onAppear {
                     // Set up the app state in the delegate
                     appDelegate.setAppState(appState)

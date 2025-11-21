@@ -32,8 +32,9 @@ struct ResponsiveSettingsGrid: View {
             // Wide layout: 2-column grid
             HStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Timer Durations")
-                        .font(.headline)
+                    Text("Notifications")
+                        .font(BauhausTheme.bodyFont)
+                        .foregroundColor(BauhausTheme.text)
                         .padding(.bottom, 4)
                     
                     DurationStepperRow(label: "Work Session", value: workMinutes, range: 1...240)
@@ -41,8 +42,9 @@ struct ResponsiveSettingsGrid: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Settings")
-                        .font(.headline)
+                    Text("Timer Durations")
+                        .font(BauhausTheme.bodyFont)
+                        .foregroundColor(BauhausTheme.text)
                         .padding(.bottom, 4)
                     
                     DurationStepperRow(label: "Rest Your Eyes", value: restEyesMinutes, range: 1...60)
@@ -56,7 +58,8 @@ struct ResponsiveSettingsGrid: View {
             VStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Timer Durations")
-                        .font(.headline)
+                        .font(BauhausTheme.bodyFont)
+                        .foregroundColor(BauhausTheme.text)
                         .padding(.bottom, 4)
                     
                     DurationStepperRow(label: "Work Session", value: workMinutes, range: 1...240)
@@ -65,8 +68,9 @@ struct ResponsiveSettingsGrid: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Notifications")
-                        .font(.headline)
+                    Text("Settings")
+                        .font(BauhausTheme.bodyFont)
+                        .foregroundColor(BauhausTheme.text)
                         .padding(.bottom, 4)
                     
                     NotificationToggleRow()
@@ -97,7 +101,8 @@ struct DurationStepperRow: View {
     var body: some View {
         HStack {
             Text(label)
-                .font(.body)
+                .font(BauhausTheme.bodyFont)
+                .foregroundColor(BauhausTheme.text)
             Spacer()
             
             // Custom stepper implementation to prevent focus loss
@@ -114,7 +119,8 @@ struct DurationStepperRow: View {
                 .help("Decrease")
                 
                 Text("\(value.wrappedValue)")
-                    .font(.body.monospacedDigit())
+                    .font(BauhausTheme.bodyFont)
+                    .foregroundColor(BauhausTheme.text)
                     .frame(width: 30, alignment: .center)
                 
                 StepperButton(
@@ -131,7 +137,8 @@ struct DurationStepperRow: View {
             .frame(width: 80)
             
             Text("min")
-                .font(.body.monospacedDigit())
+                .font(BauhausTheme.bodyFont)
+                .foregroundColor(BauhausTheme.text)
                 .frame(width: 30, alignment: .leading)
         }
     }
@@ -149,8 +156,8 @@ struct StepperButton: View {
         Image(systemName: systemImage)
             .font(.system(size: 12, weight: .medium))
             .frame(width: 20, height: 20)
-            .background(isPressed ? Color(NSColor.selectedControlColor) : Color(NSColor.controlBackgroundColor))
-            .cornerRadius(4)
+            .background(isPressed ? BauhausTheme.primaryYellow : BauhausTheme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: 0))
             .opacity(isEnabled ? 1.0 : 0.5)
             .contentShape(Rectangle())
             .simultaneousGesture(
@@ -174,7 +181,8 @@ struct NotificationToggleRow: View {
     var body: some View {
         HStack {
             Label("Show notifications", systemImage: "bell")
-                .font(.body)
+                .font(BauhausTheme.bodyFont)
+                .foregroundColor(BauhausTheme.text)
             Spacer()
             Toggle("", isOn: .constant(true))
                 .labelsHidden()
@@ -238,7 +246,7 @@ struct DurationSettingsView: View {
         }
         .frame(minWidth: 280, idealWidth: 320, maxWidth: 400)
         .frame(minHeight: 200, idealHeight: 280, maxHeight: 500)
-        .background(Color(NSColor.windowBackgroundColor))
+        .background(BauhausTheme.background)
         .onAppear {
             loadCurrentSettings()
             updateLayoutState()
