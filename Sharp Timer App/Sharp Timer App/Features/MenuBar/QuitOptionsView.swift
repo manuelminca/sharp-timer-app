@@ -7,9 +7,7 @@ struct QuitOptionsView: View {
     
     // Direct window access for cancel
     private func closeWindow() {
-        print("🔹 closeWindow called")
         onClose()
-        print("🔹 onClose callback completed")
     }
     
     var body: some View {
@@ -76,7 +74,7 @@ struct QuitOptionsView: View {
             
             Spacer(minLength: 24)
         }
-        .frame(width: 380, height: 260)
+        .frame(width: 400, height: 280)
         .background(Color.clear)
         .onKeyPress(.escape) {
             closeWindow()

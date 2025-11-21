@@ -18,7 +18,7 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
         self.cancelAction = cancelAction
         
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 380, height: 260),
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 280),
             styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
@@ -55,11 +55,8 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
     private func setupContentView(in window: NSWindow) {
         // Create the SwiftUI view with the cancel callback and AppState
         let contentView = QuitOptionsView(onClose: { [weak self] in
-            print("🔹 QuitWindowController onClose callback triggered")
             guard let self = self else { return }
-            print("🔹 About to close window")
             self.window?.performClose(nil)
-            print("🔹 performClose called")
         })
         .environment(appState)
         
@@ -108,10 +105,8 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
     }
     
     func hide() {
-        print("🔹 QuitWindowController.hide() starting")
         // Force close immediately on main thread
         DispatchQueue.main.async { [weak self] in
-            print("🔹 Closing window immediately")
             self?.window?.close()
         }
     }
