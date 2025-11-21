@@ -13,13 +13,13 @@ struct QuitOptionsView: View {
     var body: some View {
         VStack(spacing: 24) {
             Text("Quit Sharp Timer?")
-                .font(.title2)
-                .fontWeight(.semibold)
+                .font(BauhausTheme.headerFont)
+                .foregroundColor(BauhausTheme.text)
                 .padding(.top, 24)
-            
+
             Text("Your timer is still running. What would you like to do?")
-                .font(.body)
-                .foregroundColor(.secondary)
+                .font(BauhausTheme.bodyFont)
+                .foregroundColor(BauhausTheme.text.opacity(0.7))
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 24)
@@ -32,13 +32,13 @@ struct QuitOptionsView: View {
                         Image(systemName: "stop.circle.fill")
                             .font(.system(size: 16, weight: .medium))
                         Text("Stop timer and quit app")
-                            .font(.system(size: 14, weight: .medium))
+                            .font(BauhausTheme.buttonFont)
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
-                    .background(Color.red)
+                    .background(BauhausTheme.primaryRed)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .clipShape(RoundedRectangle(cornerRadius: 0))
                 }
                 .buttonStyle(PlainButtonStyle())
                 
@@ -49,13 +49,13 @@ struct QuitOptionsView: View {
                         Image(systemName: "clock.arrow.circlepath")
                             .font(.system(size: 16, weight: .medium))
                         Text("Quit app and leave timer running")
-                            .font(.system(size: 14, weight: .medium))
+                            .font(BauhausTheme.buttonFont)
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
-                    .background(Color.blue)
+                    .background(BauhausTheme.primaryBlue)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .clipShape(RoundedRectangle(cornerRadius: 0))
                 }
                 .buttonStyle(PlainButtonStyle())
                 
@@ -65,10 +65,10 @@ struct QuitOptionsView: View {
                 .buttonStyle(PlainButtonStyle())
                 .frame(maxWidth: .infinity)
                 .frame(height: 44)
-                .background(Color.gray.opacity(0.15))
-                .foregroundColor(.primary)
-                .cornerRadius(10)
-                .font(.system(size: 14, weight: .medium))
+                .background(BauhausTheme.surface)
+                .foregroundColor(BauhausTheme.text)
+                .clipShape(RoundedRectangle(cornerRadius: 0))
+                .font(BauhausTheme.buttonFont)
             }
             .padding(.horizontal, 24)
             

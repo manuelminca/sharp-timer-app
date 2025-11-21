@@ -16,7 +16,7 @@ struct TimerDisplayView: View {
     @State private var quitWindowController: QuitWindowController?
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 20) {
             // Mode Picker
             modePickerSection
 
@@ -29,7 +29,8 @@ struct TimerDisplayView: View {
             // Action Buttons (Settings and Quit)
             actionButtonsSection
         }
-        .padding()
+        .padding(24)
+        .background(BauhausTheme.background)
         .onAppear {
             selectedMode = appState.session.mode
             quitButtonText = "Quit"
@@ -49,6 +50,8 @@ struct TimerDisplayView: View {
             }
         }
         .pickerStyle(.segmented)
+        .background(BauhausTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 0))
         .onChange(of: selectedMode) { _, newMode in
             switchToMode(newMode)
         }
@@ -61,7 +64,7 @@ struct TimerDisplayView: View {
                 .font(.system(size: 48))
 
             Text(formatTime(appState.session.remainingSeconds))
-                .font(.system(size: 32, weight: .bold, design: .monospaced))
+                .font(BauhausTheme.headerFont)
                 .contentTransition(.numericText())
         }
     }
@@ -74,40 +77,40 @@ struct TimerDisplayView: View {
                 Button("Start") {
                     appState.startTimer(for: appState.session.mode)
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(BauhausButtonStyle(shape: .circle))
 
             case .running:
                 Button("Pause") {
                     appState.pauseTimer()
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(BauhausButtonStyle(shape: .circle))
 
                 Button("Reset") {
                     appState.resetTimer()
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(BauhausButtonStyle(shape: .circle))
 
             case .paused:
                 Button("Resume") {
                     appState.resumeTimer()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(BauhausButtonStyle(shape: .circle))
 
                 Button("Reset") {
                     appState.resetTimer()
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(BauhausButtonStyle(shape: .circle))
 
             case .completed:
                 Button("Restart") {
                     appState.startTimer(for: appState.session.mode)
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(BauhausButtonStyle(shape: .circle))
 
                 Button("Reset") {
                     appState.resetTimer()
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(BauhausButtonStyle(shape: .circle))
             }
         }
     }

@@ -68,6 +68,9 @@ DerivedData/
 *.swiftpm/
 Packages/
 
+# Xcode build artifacts
+Sharp Timer App/build/
+
 # Universal patterns
 .DS_Store
 Thumbs.db

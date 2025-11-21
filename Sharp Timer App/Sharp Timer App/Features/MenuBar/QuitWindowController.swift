@@ -29,7 +29,7 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
         window.titleVisibility = .hidden
         window.isMovableByWindowBackground = true
         window.level = .floating
-        window.backgroundColor = NSColor.windowBackgroundColor
+        window.backgroundColor = NSColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         window.hasShadow = true
         
         super.init(window: window)
@@ -65,7 +65,7 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
         visualEffectView.material = .windowBackground
         visualEffectView.state = .active
         visualEffectView.wantsLayer = true
-        visualEffectView.layer?.cornerRadius = 16
+        visualEffectView.layer?.cornerRadius = 0
         visualEffectView.layer?.masksToBounds = true
         
         let hostingView = NSHostingView(rootView: contentView)
