@@ -34,6 +34,11 @@ Successfully implemented the improved quit functionality for the Sharp Timer App
 - Implemented smart time calculation that accounts for elapsed time while app was closed
 - Added automatic timer resumption when app is reopened
 
+#### 5. **Window Management**
+- Fixed cancel button to properly close the quit window
+- Added proper callback mechanism for window closure
+- Improved window focus and keyboard handling
+
 ### Files Modified/Created
 
 #### New Files:

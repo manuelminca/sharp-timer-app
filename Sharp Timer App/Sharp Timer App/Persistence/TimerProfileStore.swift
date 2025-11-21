@@ -10,19 +10,21 @@ import Foundation
 // MARK: - Timer Persistence Snapshot
 struct TimerPersistenceSnapshot: Codable {
     let modeID: String
+    let configuredSeconds: Int
     let remainingSeconds: Int
-    let isRunning: Bool
-    let resumedAt: Date?
-    let targetDate: Date?
+    let state: TimerSessionState
+    let startedAt: Date?
+    let pausedAt: Date?
     let savedAt: Date
     let schemaVersion: Int
     
-    init(modeID: String, remainingSeconds: Int, isRunning: Bool, resumedAt: Date? = nil, targetDate: Date? = nil) {
+    init(modeID: String, configuredSeconds: Int, remainingSeconds: Int, state: TimerSessionState, startedAt: Date? = nil, pausedAt: Date? = nil) {
         self.modeID = modeID
+        self.configuredSeconds = configuredSeconds
         self.remainingSeconds = remainingSeconds
-        self.isRunning = isRunning
-        self.resumedAt = resumedAt
-        self.targetDate = targetDate
+        self.state = state
+        self.startedAt = startedAt
+        self.pausedAt = pausedAt
         self.savedAt = Date()
         self.schemaVersion = 2
     }

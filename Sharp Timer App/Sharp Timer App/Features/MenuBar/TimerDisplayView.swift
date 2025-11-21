@@ -13,6 +13,7 @@ struct TimerDisplayView: View {
     @State private var showingSettings = false
     @State private var quitButtonText = "Quit"
     @State private var settingsPopoverAttachment: NSWindow?
+    @State private var quitWindowController: QuitWindowController?
 
     var body: some View {
         VStack(spacing: 16) {
@@ -146,16 +147,19 @@ struct TimerDisplayView: View {
     
     private func quitApplication() {
         if appState.session.state == .running || appState.session.state == .paused {
-            // Timer is active, show confirmation
-            if quitButtonText == "Quit" {
-                quitButtonText = "Confirm Quit"
-            } else {
-                NSApplication.shared.terminate(nil)
-            }
+            // Timer is active, show quit options window
+            showQuitOptionsWindow()
         } else {
             // Timer is not active, quit directly
             NSApplication.shared.terminate(nil)
         }
+    }
+    
+    private func showQuitOptionsWindow() {
+        quitWindowController = QuitWindowController(appState: appState) {
+            // Cancel action - the window controller handles hiding itself
+        }
+        quitWindowController?.show()
     }
 }
 

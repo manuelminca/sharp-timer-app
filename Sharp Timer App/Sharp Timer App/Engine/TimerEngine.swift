@@ -34,8 +34,8 @@ struct TimerSession: Codable, Equatable {
         self.notificationId = nil
     }
 
-    // For state transitions
-    private init(
+    // For state transitions and restoration
+    init(
         mode: TimerMode,
         configuredSeconds: Int,
         remainingSeconds: Int,

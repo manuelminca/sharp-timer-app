@@ -1,0 +1,25 @@
+Sharp Timer App QA Report
+=========================
+Generated: Thu Nov 20 17:09:33 -03 2025
+
+Build Status:
+  ✓ Build successful
+
+Test Results:
+  Unit Tests: 4 passed, 6 failed
+  UI Tests: 0
+0 passed, 0
+0 failed
+
+Crash Reports:
+  Found       15 crash report(s)
+
+Performance:
+  Latest: 2025-11-20 16:56:37,0.0,2336,410593904
+
+Recent Issues:
+  [2025-11-20 17:05:29] [ERROR] Unit tests failed or timed out
+  [2025-11-20 17:05:32] [ERROR] UI tests failed or timed out
+  [2025-11-20 17:05:32] [ERROR] Some tests failed
+  [2025-11-20 17:05:37] [ERROR] Unit tests failed or timed out
+  [2025-11-20 17:06:35] [ERROR] Unit tests failed or timed out
