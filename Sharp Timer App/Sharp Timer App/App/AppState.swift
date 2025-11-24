@@ -80,16 +80,36 @@ class AppState {
         // Direct switch without confirmation
         performModeSwitch(to: mode)
     }
-    
+
     private func performModeSwitch(to mode: TimerMode) {
-        // Reset current timer if running
-        if session.state != .idle {
-            engine.reset()
-        }
-        
-        // Create new session with the selected mode and its default duration
         let duration = durationForMode(mode)
-        engine.start(mode: mode, durationSeconds: duration)
+
+        if session.state == .running {
+            // If running, reset to new mode with full duration
+            if profile.autoStartOnModeChange ?? false {
+                // Auto-start enabled: continue running
+                engine.changeMode(to: mode, durationSeconds: duration)
+            } else {
+                // Auto-start disabled: reset and pause
+                engine.reset()
+                let newSession = TimerSession(mode: mode, configuredSeconds: duration)
+                engine.session = newSession
+            }
+        } else {
+            // If idle or paused
+            if session.state != .idle {
+                engine.reset() // Reset to idle
+            }
+            // Create new session
+            let newSession = TimerSession(mode: mode, configuredSeconds: duration)
+            engine.session = newSession
+
+            // Auto-start if enabled and was paused (now idle)
+            if profile.autoStartOnModeChange ?? false {
+                engine.start(mode: mode, durationSeconds: duration)
+            }
+        }
+
         profileStore.updateLastSelectedMode(mode)
     }
 
@@ -104,6 +124,10 @@ class AppState {
 
     func updateLongRestMinutes(_ minutes: Int) {
         profileStore.updateLongRestMinutes(minutes)
+    }
+
+    func updateAutoStartOnModeChange(_ enabled: Bool) {
+        profileStore.updateAutoStartOnModeChange(enabled)
     }
 
     // MARK: - Computed Properties

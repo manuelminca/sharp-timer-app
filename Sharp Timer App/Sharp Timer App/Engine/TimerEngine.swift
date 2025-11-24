@@ -171,6 +171,18 @@ class TimerEngine {
         session = session.resetting()
     }
 
+    func changeMode(to mode: TimerMode, durationSeconds: Int) {
+        session = TimerSession(
+            mode: mode,
+            configuredSeconds: durationSeconds,
+            remainingSeconds: durationSeconds,
+            state: session.state,
+            startedAt: session.startedAt,
+            pausedAt: session.pausedAt,
+            notificationId: session.notificationId
+        )
+    }
+
     // MARK: - Private Implementation
 
     private func scheduleTimer() {

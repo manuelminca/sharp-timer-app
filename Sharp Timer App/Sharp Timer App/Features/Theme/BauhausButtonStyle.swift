@@ -9,7 +9,7 @@ public struct BauhausButtonStyle: ButtonStyle {
         case square
     }
 
-    func makeBody(configuration: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(BauhausTheme.buttonFont)
             .foregroundColor(BauhausTheme.text)

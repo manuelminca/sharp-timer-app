@@ -52,3 +52,10 @@ cd "Sharp Timer App" && xcodebuild test -project "Sharp Timer App.xcodeproj" -sc
 - Write unit tests for business logic in TimerEngine
 - Test state transitions and edge cases
 - Use @testable import for accessing internal types
+
+## Active Technologies
+- Swift 5.9 + SwiftUI, Combine, UserNotifications (001-mode-auto-start-setting)
+- UserDefaults for profile settings, JSON file for timer state persistence (001-mode-auto-start-setting)
+
+## Recent Changes
+- 001-mode-auto-start-setting: Added Swift 5.9 + SwiftUI, Combine, UserNotifications
