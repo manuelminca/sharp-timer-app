@@ -20,91 +20,36 @@ struct SettingsLayoutState {
     }
 }
 
-// MARK: - Responsive Settings Components
-struct ResponsiveSettingsGrid: View {
-    let layoutState: SettingsLayoutState
-    let workMinutes: Binding<Int>
-    let restEyesMinutes: Binding<Int>
-    let longRestMinutes: Binding<Int>
-    
+// MARK: - Auto Start Toggle
+struct AutoStartToggleRow: View {
+    @Binding var isOn: Bool
+
     var body: some View {
-        ViewThatFits(in: .horizontal) {
-            // Wide layout: 2-column grid
-            HStack(spacing: 16) {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Notifications")
-                        .font(BauhausTheme.bodyFont)
-                        .foregroundColor(BauhausTheme.text)
-                        .padding(.bottom, 4)
-                    
-                    DurationStepperRow(label: "Work Session", value: workMinutes, range: 1...240)
-                    DurationStepperRow(label: "Long Rest", value: longRestMinutes, range: 1...240)
-                }
-                
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Timer Durations")
-                        .font(BauhausTheme.bodyFont)
-                        .foregroundColor(BauhausTheme.text)
-                        .padding(.bottom, 4)
-                    
-                    DurationStepperRow(label: "Rest Your Eyes", value: restEyesMinutes, range: 1...60)
-                    
-                    NotificationToggleRow()
-                }
-            }
-            .padding(.horizontal)
-            
-            // Medium layout: Single column with better spacing
-            VStack(spacing: 16) {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Timer Durations")
-                        .font(BauhausTheme.bodyFont)
-                        .foregroundColor(BauhausTheme.text)
-                        .padding(.bottom, 4)
-                    
-                    DurationStepperRow(label: "Work Session", value: workMinutes, range: 1...240)
-                    DurationStepperRow(label: "Rest Your Eyes", value: restEyesMinutes, range: 1...60)
-                    DurationStepperRow(label: "Long Rest", value: longRestMinutes, range: 1...240)
-                }
-                
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Settings")
-                        .font(BauhausTheme.bodyFont)
-                        .foregroundColor(BauhausTheme.text)
-                        .padding(.bottom, 4)
-                    
-                    NotificationToggleRow()
-                }
-            }
-            .padding(.horizontal)
-            
-            // Compact layout: Stacked with minimal spacing
-            VStack(spacing: 12) {
-                DurationStepperRow(label: "Work Session", value: workMinutes, range: 1...240)
-                DurationStepperRow(label: "Rest Your Eyes", value: restEyesMinutes, range: 1...60)
-                DurationStepperRow(label: "Long Rest", value: longRestMinutes, range: 1...240)
-                
-                Divider()
-                
-                NotificationToggleRow()
-            }
-            .padding(.horizontal)
+        HStack {
+            Label("Auto-start timer on mode change", systemImage: "play.circle")
+                .font(BauhausTheme.bodyFont)
+                .foregroundColor(BauhausTheme.text)
+            Spacer()
+            Toggle("", isOn: $isOn)
+                .labelsHidden()
+                .help("Toggle auto-start on mode change")
         }
     }
 }
 
+// MARK: - Settings Components
 struct DurationStepperRow: View {
     let label: String
     let value: Binding<Int>
     let range: ClosedRange<Int>
-    
+
     var body: some View {
         HStack {
             Text(label)
                 .font(BauhausTheme.bodyFont)
                 .foregroundColor(BauhausTheme.text)
             Spacer()
-            
+
             // Custom stepper implementation to prevent focus loss
             HStack(spacing: 4) {
                 StepperButton(
@@ -117,12 +62,12 @@ struct DurationStepperRow: View {
                     }
                 )
                 .help("Decrease")
-                
+
                 Text("\(value.wrappedValue)")
                     .font(BauhausTheme.bodyFont)
                     .foregroundColor(BauhausTheme.text)
                     .frame(width: 30, alignment: .center)
-                
+
                 StepperButton(
                     systemImage: "plus",
                     isEnabled: value.wrappedValue < range.upperBound,
@@ -135,7 +80,7 @@ struct DurationStepperRow: View {
                 .help("Increase")
             }
             .frame(width: 80)
-            
+
             Text("min")
                 .font(BauhausTheme.bodyFont)
                 .foregroundColor(BauhausTheme.text)
@@ -149,9 +94,9 @@ struct StepperButton: View {
     let systemImage: String
     let isEnabled: Bool
     let action: () -> Void
-    
+
     @State private var isPressed = false
-    
+
     var body: some View {
         Image(systemName: systemImage)
             .font(.system(size: 12, weight: .medium))
@@ -177,16 +122,76 @@ struct StepperButton: View {
     }
 }
 
-struct NotificationToggleRow: View {
+// MARK: - Responsive Settings Components
+struct ResponsiveSettingsGrid: View {
+    let layoutState: SettingsLayoutState
+    let workMinutes: Binding<Int>
+    let restEyesMinutes: Binding<Int>
+    let longRestMinutes: Binding<Int>
+    let autoStartOnModeChange: Binding<Bool>
+
     var body: some View {
-        HStack {
-            Label("Show notifications", systemImage: "bell")
-                .font(BauhausTheme.bodyFont)
-                .foregroundColor(BauhausTheme.text)
-            Spacer()
-            Toggle("", isOn: .constant(true))
-                .labelsHidden()
-                .help("Toggle notifications")
+        ViewThatFits(in: .horizontal) {
+            // Wide layout: 2-column grid
+            HStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Timer Settings")
+                        .font(BauhausTheme.bodyFont)
+                        .foregroundColor(BauhausTheme.text)
+                        .padding(.bottom, 4)
+
+                    DurationStepperRow(label: "Work Session", value: workMinutes, range: 1...240)
+                    DurationStepperRow(label: "Long Rest", value: longRestMinutes, range: 1...240)
+                }
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Timer Durations")
+                        .font(BauhausTheme.bodyFont)
+                        .foregroundColor(BauhausTheme.text)
+                        .padding(.bottom, 4)
+
+                    DurationStepperRow(label: "Rest Your Eyes", value: restEyesMinutes, range: 1...60)
+
+                    AutoStartToggleRow(isOn: autoStartOnModeChange)
+                }
+            }
+            .padding(.horizontal)
+
+            // Medium layout: Single column with better spacing
+            VStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Timer Durations")
+                        .font(BauhausTheme.bodyFont)
+                        .foregroundColor(BauhausTheme.text)
+                        .padding(.bottom, 4)
+
+                    DurationStepperRow(label: "Work Session", value: workMinutes, range: 1...240)
+                    DurationStepperRow(label: "Rest Your Eyes", value: restEyesMinutes, range: 1...60)
+                    DurationStepperRow(label: "Long Rest", value: longRestMinutes, range: 1...240)
+                }
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Timer Settings")
+                        .font(BauhausTheme.bodyFont)
+                        .foregroundColor(BauhausTheme.text)
+                        .padding(.bottom, 4)
+
+                    AutoStartToggleRow(isOn: autoStartOnModeChange)
+                }
+            }
+            .padding(.horizontal)
+
+            // Compact layout: Stacked with minimal spacing
+            VStack(spacing: 12) {
+                DurationStepperRow(label: "Work Session", value: workMinutes, range: 1...240)
+                DurationStepperRow(label: "Rest Your Eyes", value: restEyesMinutes, range: 1...60)
+                DurationStepperRow(label: "Long Rest", value: longRestMinutes, range: 1...240)
+
+                Divider()
+
+                AutoStartToggleRow(isOn: autoStartOnModeChange)
+            }
+            .padding(.horizontal)
         }
     }
 }
@@ -203,6 +208,7 @@ struct DurationSettingsView: View {
     @State private var workMinutes: Int
     @State private var restEyesMinutes: Int
     @State private var longRestMinutes: Int
+    @State private var autoStartOnModeChange: Bool
 
 
     init() {
@@ -210,6 +216,7 @@ struct DurationSettingsView: View {
         _workMinutes = State(initialValue: 25)
         _restEyesMinutes = State(initialValue: 2)
         _longRestMinutes = State(initialValue: 15)
+        _autoStartOnModeChange = State(initialValue: false)
     }
     
     var body: some View {
@@ -220,7 +227,8 @@ struct DurationSettingsView: View {
                     layoutState: layoutState,
                     workMinutes: $workMinutes,
                     restEyesMinutes: $restEyesMinutes,
-                    longRestMinutes: $longRestMinutes
+                    longRestMinutes: $longRestMinutes,
+                    autoStartOnModeChange: $autoStartOnModeChange
                 )
                 .padding(.vertical, 16)
             }
@@ -262,12 +270,14 @@ struct DurationSettingsView: View {
         workMinutes = appState.profile.workMinutes
         restEyesMinutes = appState.profile.restEyesMinutes
         longRestMinutes = appState.profile.longRestMinutes
+        autoStartOnModeChange = appState.profile.autoStartOnModeChange ?? false
     }
     
     private func saveSettings() {
         appState.updateWorkMinutes(workMinutes)
         appState.updateRestEyesMinutes(restEyesMinutes)
         appState.updateLongRestMinutes(longRestMinutes)
+        appState.updateAutoStartOnModeChange(autoStartOnModeChange)
     }
     
     private func updateLayoutState() {

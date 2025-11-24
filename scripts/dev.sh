@@ -5,10 +5,14 @@
 
 set -e
 
-PROJECT_DIR="Sharp Timer App"
+# Get absolute path to repo root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+PROJECT_DIR="$PROJECT_ROOT/Sharp Timer App"
 PROJECT_NAME="Sharp Timer App"
 SCHEME="Sharp Timer App"
-BUILD_DIR="/Users/valutico/Library/Developer/Xcode/DerivedData/Sharp_Timer_App-dqcdjekvnfcrboekjfmhmgmmhdlj/Build/Products/Debug"
+BUILD_DIR="$PROJECT_DIR/build/Debug"
 
 # Colors for output
 RED='\033[0;31m'
@@ -33,16 +37,29 @@ print_usage() {
 build_app() {
     echo -e "${BLUE}Building Sharp Timer App...${NC}"
     cd "$PROJECT_DIR"
-    xcodebuild -project "$PROJECT_NAME.xcodeproj" -scheme "$SCHEME" -configuration Debug build | tee build.log
+    # Use -target instead of -scheme because schemes might not be shared
+    xcodebuild -project "$PROJECT_NAME.xcodeproj" -target "$PROJECT_NAME" -configuration Debug build | tee build.log
     echo -e "${GREEN}Build completed!${NC}"
 }
 
 run_app() {
     echo -e "${BLUE}Building and running Sharp Timer App...${NC}"
     build_app
-    echo -e "${YELLOW}Launching app...${NC}"
-    open "$BUILD_DIR/$PROJECT_NAME.app"
-    echo -e "${GREEN}App launched! Check your menu bar.${NC}"
+    
+    APP_PATH="$BUILD_DIR/$PROJECT_NAME.app"
+    echo -e "${YELLOW}Launching app from: $APP_PATH${NC}"
+    
+    if [ -d "$APP_PATH" ]; then
+        # Kill existing instances first
+        pkill -f "$PROJECT_NAME" || true
+        
+        # Open the app
+        open "$APP_PATH"
+        echo -e "${GREEN}App launched! Check your menu bar.${NC}"
+    else
+        echo -e "${RED}Error: App not found at $APP_PATH${NC}"
+        exit 1
+    fi
 }
 
 show_logs() {
@@ -68,7 +85,7 @@ show_crash_reports() {
 clean_build() {
     echo -e "${BLUE}Cleaning build artifacts...${NC}"
     cd "$PROJECT_DIR"
-    xcodebuild clean -project "$PROJECT_NAME.xcodeproj" -scheme "$SCHEME"
+    xcodebuild clean -project "$PROJECT_NAME.xcodeproj" -target "$PROJECT_NAME" -configuration Debug
     echo -e "${GREEN}Clean completed!${NC}"
 }
 

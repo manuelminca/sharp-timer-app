@@ -39,6 +39,7 @@ struct TimerProfile: Codable {
     var restEyesMinutes: Int
     var longRestMinutes: Int
     var lastSelectedMode: TimerMode
+    var autoStartOnModeChange: Bool?
     var updatedAt: Date
 
     init() {
@@ -46,6 +47,7 @@ struct TimerProfile: Codable {
         self.restEyesMinutes = 2
         self.longRestMinutes = 15
         self.lastSelectedMode = .work
+        self.autoStartOnModeChange = false
         self.updatedAt = Date()
     }
 
@@ -54,6 +56,7 @@ struct TimerProfile: Codable {
         validated.workMinutes = max(1, min(240, workMinutes))
         validated.restEyesMinutes = max(1, min(240, restEyesMinutes))
         validated.longRestMinutes = max(1, min(240, longRestMinutes))
+
         validated.updatedAt = Date()
         return validated
     }
@@ -104,6 +107,11 @@ class TimerProfileStore {
 
     func updateLastSelectedMode(_ mode: TimerMode) {
         profile.lastSelectedMode = mode
+        save()
+    }
+
+    func updateAutoStartOnModeChange(_ enabled: Bool) {
+        profile.autoStartOnModeChange = enabled
         save()
     }
 

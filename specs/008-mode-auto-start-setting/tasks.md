@@ -23,7 +23,7 @@
 
 **Purpose**: Project initialization - existing Swift project, no setup needed.
 
-- [ ] T001 Verify Swift 5.9 and Xcode environment ready
+- [x] T001 Verify Swift 5.9 and Xcode environment ready
 
 ---
 
@@ -33,10 +33,10 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T002 Add autoStartOnModeChange field to TimerProfile struct in Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift
-- [ ] T003 Update TimerProfile.init() to set autoStartOnModeChange default false in Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift
-- [ ] T004 Update TimerProfile.validating() to preserve autoStartOnModeChange in Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift
-- [ ] T005 Add updateAutoStartOnModeChange method to TimerProfileStore in Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift
+- [x] T002 Add autoStartOnModeChange field to TimerProfile struct in Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift
+- [x] T003 Update TimerProfile.init() to set autoStartOnModeChange default false in Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift
+- [x] T004 Update TimerProfile.validating() to preserve autoStartOnModeChange in Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift
+- [x] T005 Add updateAutoStartOnModeChange method to TimerProfileStore in Sharp Timer App/Sharp Timer App/Persistence/TimerProfileStore.swift
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -50,10 +50,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] Add autoStartOnModeChange state variable to DurationSettingsView in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
-- [ ] T007 [US1] Load autoStartOnModeChange from appState.profile in DurationSettingsView.onAppear in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
-- [ ] T008 [US1] Add Toggle for "Auto-start timer on mode change" in ResponsiveSettingsGrid in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
-- [ ] T009 [US1] Save autoStartOnModeChange to appState in DurationSettingsView.saveSettings in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
+- [x] T006 [US1] Add autoStartOnModeChange state variable to DurationSettingsView in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
+- [x] T007 [US1] Load autoStartOnModeChange from appState.profile in DurationSettingsView.onAppear in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
+- [x] T008 [US1] Add Toggle for "Auto-start timer on mode change" in ResponsiveSettingsGrid in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
+- [x] T009 [US1] Save autoStartOnModeChange to appState in DurationSettingsView.saveSettings in Sharp Timer App/Sharp Timer App/Features/Settings/DurationSettingsView.swift
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - toggle visible, persists, but no behavior yet
 
@@ -67,10 +67,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T010 [US2] Add changeMode method to TimerEngine in Sharp Timer App/Sharp Timer App/Engine/TimerEngine.swift
-- [ ] T011 [US2] Modify AppState.switchToMode to check autoStartOnModeChange setting in Sharp Timer App/Sharp Timer App/App/AppState.swift
-- [ ] T012 [US2] Implement auto-start logic: if idle/paused and setting enabled, start timer after mode change in Sharp Timer App/Sharp Timer App/App/AppState.swift
-- [ ] T013 [US2] Implement paused logic: if idle/paused and setting disabled, leave timer paused after mode change in Sharp Timer App/Sharp Timer App/App/AppState.swift
+- [x] T010 [US2] Add changeMode method to TimerEngine in Sharp Timer App/Sharp Timer App/Engine/TimerEngine.swift
+- [x] T011 [US2] Modify AppState.switchToMode to check autoStartOnModeChange setting in Sharp Timer App/Sharp Timer App/App/AppState.swift
+- [x] T012 [US2] Implement auto-start logic: if idle/paused and setting enabled, start timer after mode change in Sharp Timer App/Sharp Timer App/App/AppState.swift
+- [x] T013 [US2] Implement paused logic: if idle/paused and setting disabled, leave timer paused after mode change in Sharp Timer App/Sharp Timer App/App/AppState.swift
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should work - auto-start behavior functional
 
@@ -84,7 +84,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Verify paused behavior implemented in AppState.switchToMode (covered by T013)
+- [x] T014 [US3] Verify paused behavior implemented in AppState.switchToMode (covered by T013)
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -94,8 +94,8 @@
 
 **Purpose**: Final improvements and validation
 
-- [ ] T015 Run quickstart.md validation - test feature end-to-end
-- [ ] T016 Code cleanup and ensure no console errors
+- [x] T015 Run quickstart.md validation - test feature end-to-end
+- [x] T016 Code cleanup and ensure no console errors
 
 ---
 

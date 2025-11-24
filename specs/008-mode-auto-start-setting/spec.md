@@ -2,7 +2,7 @@
 
 **Feature Branch**: `008-mode-auto-start-setting`  
 **Created**: 2025-11-21  
-**Status**: Draft  
+**Status**: Completed  
 **Input**: User description: "I want to add a tickbox element in the setting that specifies if changing the mode should automatically start the timer or change it but leave it paused."
 
 ## User Scenarios & Testing *(mandatory)*
@@ -32,8 +32,8 @@ As a user with auto-start enabled, I want the timer to start automatically when 
 
 **Acceptance Scenarios**:
 
-1. **Given** auto-start is enabled and timer is paused, **When** user changes timer mode, **Then** the timer starts automatically
-2. **Given** auto-start is enabled and timer is running, **When** user changes timer mode, **Then** the timer continues running in the new mode
+1. **Given** auto-start is enabled and timer is paused, **When** user changes timer mode, **Then** the timer resets to full duration of new mode and starts automatically
+2. **Given** auto-start is enabled and timer is running, **When** user changes timer mode, **Then** the timer resets to full duration of new mode and continues running
 
 ---
 
@@ -47,23 +47,25 @@ As a user with auto-start disabled, I want the timer to remain paused when I cha
 
 **Acceptance Scenarios**:
 
-1. **Given** auto-start is disabled, **When** user changes timer mode, **Then** the timer remains paused in the new mode
+1. **Given** auto-start is disabled and timer is paused, **When** user changes timer mode, **Then** the timer resets to full duration of new mode and remains paused
+2. **Given** auto-start is disabled and timer is running, **When** user changes timer mode, **Then** the timer resets to full duration of new mode and becomes paused
 
 ---
 
 ### Edge Cases
 
-- What happens when timer is already running and mode is changed? The timer continues running in the new mode, regardless of the setting.
-- How does system handle rapid mode changes? Each mode change applies the current setting state.
+- What happens when timer is already running and mode is changed? The timer resets to the new mode's full duration, then either continues running (if auto-start enabled) or becomes paused (if auto-start disabled).
+- How does system handle rapid mode changes? Each mode change applies the current setting state and resets the timer to the new mode's full duration.
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
 - **FR-001**: Settings view MUST include a tickbox labeled "Auto-start timer on mode change"
-- **FR-002**: When tickbox is checked, changing timer mode MUST automatically start the timer if it was paused
-- **FR-003**: When tickbox is unchecked, changing timer mode MUST leave the timer paused
-- **FR-004**: The auto-start setting MUST be persisted across app sessions using user preferences
+- **FR-002**: When tickbox is checked, changing timer mode MUST reset timer to new mode's full duration and start it if it was paused
+- **FR-003**: When tickbox is checked, changing timer mode MUST reset timer to new mode's full duration and continue running if it was already running
+- **FR-004**: When tickbox is unchecked, changing timer mode MUST reset timer to new mode's full duration and leave it paused regardless of previous state
+- **FR-005**: The auto-start setting MUST be persisted across app sessions using user preferences
 
 ### Key Entities *(include if feature involves data)*
 
