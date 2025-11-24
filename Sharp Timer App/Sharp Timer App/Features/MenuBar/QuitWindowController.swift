@@ -18,8 +18,8 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
         self.cancelAction = cancelAction
         
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 400, height: 280),
-            styleMask: [.titled, .closable],
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 400),
+            styleMask: [.borderless],
             backing: .buffered,
             defer: false
         )
@@ -29,7 +29,8 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
         window.titleVisibility = .hidden
         window.isMovableByWindowBackground = true
         window.level = .floating
-        window.backgroundColor = NSColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        window.backgroundColor = .clear
+        window.isOpaque = false
         window.hasShadow = true
         
         super.init(window: window)
@@ -60,43 +61,27 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
         })
         .environment(appState)
         
-        // Set up the hosting view with visual effect view for background
-        let visualEffectView = NSVisualEffectView()
-        visualEffectView.material = .windowBackground
-        visualEffectView.state = .active
-        visualEffectView.wantsLayer = true
-        visualEffectView.layer?.cornerRadius = 0
-        visualEffectView.layer?.masksToBounds = true
-        
         let hostingView = NSHostingView(rootView: contentView)
         hostingView.translatesAutoresizingMaskIntoConstraints = false
         
-        visualEffectView.addSubview(hostingView)
-        NSLayoutConstraint.activate([
-            hostingView.topAnchor.constraint(equalTo: visualEffectView.topAnchor, constant: 0),
-            hostingView.leadingAnchor.constraint(equalTo: visualEffectView.leadingAnchor, constant: 0),
-            hostingView.trailingAnchor.constraint(equalTo: visualEffectView.trailingAnchor, constant: 0),
-            hostingView.bottomAnchor.constraint(equalTo: visualEffectView.bottomAnchor, constant: 0)
-        ])
-        
-        // Create a container view to hold the visual effect view with proper clipping
+        // Create a container view
         let containerView = NSView()
         containerView.wantsLayer = true
-        containerView.layer?.masksToBounds = true
-        containerView.addSubview(visualEffectView)
+        containerView.layer?.backgroundColor = NSColor.clear.cgColor
+        containerView.addSubview(hostingView)
         
-        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            visualEffectView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            visualEffectView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            visualEffectView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            visualEffectView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            hostingView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            hostingView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            hostingView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            hostingView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
         
         window.contentView = containerView
     }
     
     func show() {
+        // Ensure the window is visible and focused
         window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
         
@@ -113,8 +98,10 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
     
     // MARK: - NSWindowDelegate
     func windowWillClose(_ notification: Notification) {
-        // Clean up when window closes
-        QuitWindowController.shared = nil
+        // Clean up when window closes - but only if this is the shared instance
+        if QuitWindowController.shared === self {
+            QuitWindowController.shared = nil
+        }
     }
     
     @available(*, unavailable)

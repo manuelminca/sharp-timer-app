@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum TimerMode: String, CaseIterable, Identifiable, Codable {
     case work
@@ -28,11 +29,22 @@ enum TimerMode: String, CaseIterable, Identifiable, Codable {
     var icon: String {
         switch self {
         case .work:
-            return "💼"
+            return "briefcase.fill"
         case .restEyes:
-            return "👁️"
+            return "eye.fill"
         case .longRest:
-            return "🌟"
+            return "cup.and.saucer.fill"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .work:
+            return Color(red: 227/255, green: 28/255, blue: 35/255)
+        case .restEyes:
+            return Color(red: 31/255, green: 70/255, blue: 144/255)
+        case .longRest:
+            return Color(red: 1.0, green: 211/255, blue: 0.0)
         }
     }
 
