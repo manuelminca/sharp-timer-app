@@ -43,7 +43,7 @@ struct QuitOptionsView: View {
             )
             .padding(12)
         }
-        .frame(width: 400, height: 400)
+        .frame(minWidth: 400, idealWidth: 450, maxWidth: 500, minHeight: 400, idealHeight: 450, maxHeight: 500)
         .onKeyPress(.escape) {
             closeWindow()
             return .handled

@@ -57,7 +57,7 @@ class QuitWindowController: NSWindowController, NSWindowDelegate {
         // Create the SwiftUI view with the cancel callback and AppState
         let contentView = QuitOptionsView(onClose: { [weak self] in
             guard let self = self else { return }
-            self.window?.performClose(nil)
+            self.hide()
         })
         .environment(appState)
         
