@@ -1,6 +1,6 @@
 # Research: Bauhaus UI Redesign
 
-**Feature**: 008-ui-redesign
+**Feature**: 009-ui-redesign
 
 ## Technical Context & Decisions
 

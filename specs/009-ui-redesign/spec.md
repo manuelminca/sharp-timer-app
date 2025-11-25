@@ -1,6 +1,6 @@
 # Feature Specification: Bauhaus UI Redesign
 
-**Feature Branch**: `008-ui-redesign`  
+**Feature Branch**: `009-ui-redesign`  
 **Created**: 2025-11-24  
 **Status**: Draft  
 **Input**: User description: "We are going to develop a new UI redesign. I have created the UI design in Figma. You can find all files in "Bauhaus Style App Redesign" folder. "

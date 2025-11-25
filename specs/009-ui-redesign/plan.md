@@ -1,7 +1,7 @@
 # Implementation Plan: Bauhaus UI Redesign
 
-**Branch**: `008-ui-redesign` | **Date**: 2025-11-24 | **Spec**: [spec.md](spec.md)
-**Input**: Feature specification from `/specs/008-ui-redesign/spec.md`
+**Branch**: `009-ui-redesign` | **Date**: 2025-11-24 | **Spec**: [spec.md](spec.md)
+**Input**: Feature specification from `/specs/009-ui-redesign/spec.md`
 
 ## Summary
 
@@ -36,7 +36,7 @@ Implement a comprehensive Bauhaus-inspired UI redesign for the Sharp Timer App, 
 ### Documentation (this feature)
 
 ```text
-specs/008-ui-redesign/
+specs/009-ui-redesign/
 ├── plan.md              # This file
 ├── research.md          # Design translation and decisions
 ├── data-model.md        # Visual theme configuration models

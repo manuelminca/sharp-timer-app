@@ -4,7 +4,7 @@ description: "Task list for Bauhaus UI Redesign implementation"
 
 # Tasks: Bauhaus UI Redesign
 
-**Input**: Design documents from `/specs/008-ui-redesign/`
+**Input**: Design documents from `/specs/009-ui-redesign/`
 **Prerequisites**: plan.md, spec.md, data-model.md, research.md
 **Checks**: Constitution compliance (Menu Bar Exclusive, Minimal Resource Footprint)
 
