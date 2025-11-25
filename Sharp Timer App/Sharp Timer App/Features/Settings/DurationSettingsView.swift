@@ -200,16 +200,10 @@ struct DurationSettingsView: View {
     @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
 
-    @State private var layoutState = SettingsLayoutState(
-        popoverWidth: 300,
-        dynamicTypeSize: .medium
-    )
-
     @State private var workMinutes: Int
     @State private var restEyesMinutes: Int
     @State private var longRestMinutes: Int
     @State private var autoStartOnModeChange: Bool
-
 
     init() {
         // Initialize with default values - will be updated in onAppear
@@ -220,47 +214,188 @@ struct DurationSettingsView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Main content with responsive layout
-            ScrollView {
-                ResponsiveSettingsGrid(
-                    layoutState: layoutState,
-                    workMinutes: $workMinutes,
-                    restEyesMinutes: $restEyesMinutes,
-                    longRestMinutes: $longRestMinutes,
-                    autoStartOnModeChange: $autoStartOnModeChange
-                )
-                .padding(.vertical, 16)
-            }
+        ZStack {
+            // Background with decorative Bauhaus elements
+            BauhausTheme.background
+                .ignoresSafeArea()
             
-            // Action buttons at bottom
-            Divider()
-            HStack {
-                Spacer()
-                Button("Cancel", role: .cancel) {
-                    dismiss()
-                }
-                .keyboardShortcut(.escape)
+            // Decorative geometric elements
+            decorativeBackgroundElements
+            
+            // Main content card
+            VStack(spacing: 0) {
+                // Header
+                headerSection
                 
-                Button("Save") {
-                    saveSettings()
-                    dismiss()
-                }
-                .buttonStyle(.borderedProminent)
-                .keyboardShortcut(.return)
+                // Duration controls
+                durationControlsSection
+                
+                // Auto-start toggle
+                autoStartToggleSection
+                
+                // Action buttons
+                actionButtonsSection
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(BauhausTheme.surface)
+                    .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+            )
+            .padding(12)
         }
-        .frame(minWidth: 280, idealWidth: 320, maxWidth: 400)
-        .frame(minHeight: 200, idealHeight: 280, maxHeight: 500)
-        .background(BauhausTheme.background)
+        .frame(width: 320, height: 400) // Increased width for better label spacing
         .onAppear {
             loadCurrentSettings()
-            updateLayoutState()
         }
-        .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResizeNotification)) { _ in
-            updateLayoutState()
+    }
+    
+    // MARK: - Decorative Background Elements
+    private var decorativeBackgroundElements: some View {
+        ZStack {
+            // Top left circle
+            Circle()
+                .fill(BauhausTheme.primaryBlue.opacity(0.2))
+                .frame(width: 64, height: 64)
+                .position(x: 40, y: 40)
+            
+            // Bottom right square
+            Rectangle()
+                .fill(BauhausTheme.primaryRed.opacity(0.2))
+                .frame(width: 80, height: 80)
+                .rotationEffect(.degrees(45))
+                .position(x: -40, y: -40)
+        }
+    }
+    
+    // MARK: - Header Section
+    private var headerSection: some View {
+        HStack(spacing: 12) {
+            Rectangle()
+                .fill(BauhausTheme.primaryBlue)
+                .frame(width: 8, height: 32)
+            
+            Image(systemName: "gear")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.white)
+                .frame(width: 32, height: 32)
+                .background(BauhausTheme.primaryBlue)
+                .clipShape(RoundedRectangle(cornerRadius: 0))
+            
+            Text("Settings")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(BauhausTheme.text)
+                .textCase(.uppercase)
+                .tracking(2)
+            
+            Spacer()
+        }
+        .padding(.bottom, 16)
+    }
+    
+    // MARK: - Duration Controls Section
+    private var durationControlsSection: some View {
+        VStack(spacing: 0) {
+            BauhausDurationControl(
+                label: "Work",
+                value: $workMinutes,
+                color: BauhausTheme.primaryRed
+            )
+            
+            BauhausDurationControl(
+                label: "Rest",
+                value: $restEyesMinutes,
+                color: BauhausTheme.primaryBlue
+            )
+            
+            BauhausDurationControl(
+                label: "Long Rest",
+                value: $longRestMinutes,
+                color: BauhausTheme.primaryYellow
+            )
+        }
+        .padding(.bottom, 16)
+    }
+    
+    // MARK: - Auto-Start Toggle Section
+    private var autoStartToggleSection: some View {
+        VStack(spacing: 0) {
+            Rectangle()
+                .fill(BauhausTheme.text.opacity(0.1))
+                .frame(height: 1)
+                .padding(.horizontal, 16)
+            
+            Button(action: {
+                autoStartOnModeChange.toggle()
+            }) {
+                HStack(spacing: 12) {
+                    HStack(spacing: 12) {
+                        Rectangle()
+                            .fill(autoStartOnModeChange ? BauhausTheme.primaryRed : BauhausTheme.background)
+                            .frame(width: 32, height: 32)
+                            .overlay(
+                                Rectangle()
+                                    .fill(.white)
+                                    .frame(width: 16, height: 16)
+                                    .clipShape(PentagonShape())
+                                    .scaleEffect(autoStartOnModeChange ? 1.0 : 0.0)
+                                    .animation(.easeInOut(duration: 0.3), value: autoStartOnModeChange)
+                            )
+                        
+                        Text("Auto-start")
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundColor(BauhausTheme.text)
+                            .textCase(.uppercase)
+                            .tracking(1)
+                    }
+                    
+                    Spacer()
+                    
+                    // Custom toggle
+                    Rectangle()
+                        .fill(autoStartOnModeChange ? BauhausTheme.primaryRed : BauhausTheme.text)
+                        .frame(width: 40, height: 20)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 16, height: 16)
+                                .offset(x: autoStartOnModeChange ? 10 : -10)
+                                .animation(.easeInOut(duration: 0.3), value: autoStartOnModeChange)
+                        )
+                }
+                .padding(.vertical, 16)
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Rectangle()
+                .fill(BauhausTheme.text.opacity(0.1))
+                .frame(height: 1)
+                .padding(.horizontal, 16)
+        }
+        .padding(.bottom, 16)
+    }
+    
+    // MARK: - Action Buttons Section
+    private var actionButtonsSection: some View {
+        HStack(spacing: 12) {
+            Button("Cancel") {
+                dismiss()
+            }
+            .buttonStyle(BauhausActionButtonStyle(
+                backgroundColor: .clear,
+                hoverColor: BauhausTheme.background,
+                borderColor: BauhausTheme.text
+            ))
+            
+            Button("Save") {
+                saveSettings()
+                dismiss()
+            }
+            .buttonStyle(BauhausActionButtonStyle(
+                backgroundColor: BauhausTheme.primaryBlue,
+                hoverColor: BauhausTheme.primaryRed
+            ))
         }
     }
     
@@ -280,16 +415,85 @@ struct DurationSettingsView: View {
         appState.updateAutoStartOnModeChange(autoStartOnModeChange)
     }
     
-    private func updateLayoutState() {
-        // Get the current window width if available
-        if let window = NSApp.keyWindow {
-            layoutState.popoverWidth = window.frame.width
-        } else {
-            layoutState.popoverWidth = 320 // Default fallback
+    
+}
+
+// MARK: - Bauhaus Duration Control
+struct BauhausDurationControl: View {
+    let label: String
+    @Binding var value: Int
+    let color: Color
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            Rectangle()
+                .fill(color)
+                .frame(width: 6, height: 24)
+            
+            Text(label)
+                .font(.system(size: 11, weight: .bold))
+                .foregroundColor(BauhausTheme.text)
+                .textCase(.uppercase)
+                .tracking(0)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 130, alignment: .leading)
+            
+            Spacer()
+            
+            HStack(spacing: 8) {
+                Button(action: {
+                    if value > 1 {
+                        value -= 1
+                    }
+                }) {
+                    Rectangle()
+                        .fill(BauhausTheme.text)
+                        .frame(width: 24, height: 24)
+                        .overlay(
+                            Image(systemName: "minus")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(.white)
+                        )
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Text("\(value)")
+                    .font(.system(size: 18, weight: .bold, design: .monospaced))
+                    .foregroundColor(BauhausTheme.text)
+                    .frame(width: 28, height: 24)
+                
+                Button(action: {
+                    if value < 240 {
+                        value += 1
+                    }
+                }) {
+                    Rectangle()
+                        .fill(BauhausTheme.text)
+                        .frame(width: 24, height: 24)
+                        .overlay(
+                            Image(systemName: "plus")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(.white)
+                        )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            
+            Text("min")
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(BauhausTheme.text.opacity(0.6))
+                .textCase(.uppercase)
+                .tracking(1)
         }
-        
-        // Use a reasonable default for dynamic type size
-        layoutState.dynamicTypeSize = .medium
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .background(
+            Rectangle()
+                .fill(BauhausTheme.text.opacity(0.05))
+                .frame(height: 1)
+                .frame(maxHeight: .infinity, alignment: .bottom)
+        )
     }
 }
 

@@ -116,18 +116,43 @@ class AppState {
     // MARK: - Settings Actions
     func updateWorkMinutes(_ minutes: Int) {
         profileStore.updateWorkMinutes(minutes)
+        updateCurrentSessionDurationIfNeeded()
     }
 
     func updateRestEyesMinutes(_ minutes: Int) {
         profileStore.updateRestEyesMinutes(minutes)
+        updateCurrentSessionDurationIfNeeded()
     }
 
     func updateLongRestMinutes(_ minutes: Int) {
         profileStore.updateLongRestMinutes(minutes)
+        updateCurrentSessionDurationIfNeeded()
     }
 
     func updateAutoStartOnModeChange(_ enabled: Bool) {
         profileStore.updateAutoStartOnModeChange(enabled)
+    }
+    
+    // MARK: - Private Helper Methods
+    private func updateCurrentSessionDurationIfNeeded() {
+        // Only update the current session if it's not running
+        guard session.state != .running else { return }
+        
+        let newDuration = durationForMode(session.mode)
+        
+        // If the timer is paused or idle, update the configured and remaining seconds
+        if session.state == .paused || session.state == .idle {
+            let newSession = TimerSession(
+                mode: session.mode,
+                configuredSeconds: newDuration,
+                remainingSeconds: newDuration,
+                state: session.state,
+                startedAt: session.startedAt,
+                pausedAt: session.pausedAt,
+                notificationId: session.notificationId
+            )
+            engine.session = newSession
+        }
     }
 
     // MARK: - Computed Properties

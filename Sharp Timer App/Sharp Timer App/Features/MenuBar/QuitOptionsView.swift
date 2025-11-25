@@ -11,74 +11,235 @@ struct QuitOptionsView: View {
     }
     
     var body: some View {
-        VStack(spacing: 24) {
-            Text("Quit Sharp Timer?")
-                .font(BauhausTheme.headerFont)
-                .foregroundColor(BauhausTheme.text)
-                .padding(.top, 24)
-
-            Text("Your timer is still running. What would you like to do?")
-                .font(BauhausTheme.bodyFont)
-                .foregroundColor(BauhausTheme.text.opacity(0.7))
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.horizontal, 24)
+        ZStack {
+            // Background with decorative Bauhaus elements
+            BauhausTheme.background
+                .ignoresSafeArea()
             
-            VStack(spacing: 16) {
-                Button(action: {
-                    stopTimerAndQuit()
-                }) {
-                    HStack(spacing: 12) {
-                        Image(systemName: "stop.circle.fill")
-                            .font(.system(size: 16, weight: .medium))
-                        Text("Stop timer and quit app")
-                            .font(BauhausTheme.buttonFont)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 44)
-                    .background(BauhausTheme.primaryRed)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 0))
-                }
-                .buttonStyle(PlainButtonStyle())
+            // Decorative geometric elements
+            decorativeBackgroundElements
+            
+            // Main content card
+            VStack(spacing: 0) {
+                // Header
+                headerSection
                 
-                Button(action: {
-                    persistAndQuit()
-                }) {
-                    HStack(spacing: 12) {
-                        Image(systemName: "clock.arrow.circlepath")
-                            .font(.system(size: 16, weight: .medium))
-                        Text("Quit app and leave timer running")
-                            .font(BauhausTheme.buttonFont)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 44)
-                    .background(BauhausTheme.primaryBlue)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 0))
+                // Warning message (if timer is running)
+                if appState.session.state == .running || appState.session.state == .paused {
+                    warningSection
                 }
-                .buttonStyle(PlainButtonStyle())
                 
-                Button("Cancel") {
-                    cancel()
-                }
-                .buttonStyle(PlainButtonStyle())
-                .frame(maxWidth: .infinity)
-                .frame(height: 44)
-                .background(BauhausTheme.surface)
-                .foregroundColor(BauhausTheme.text)
-                .clipShape(RoundedRectangle(cornerRadius: 0))
-                .font(BauhausTheme.buttonFont)
+                // Options
+                optionsSection
+                
+                // Decorative elements
+                decorativeElements
             }
-            .padding(.horizontal, 24)
-            
-            Spacer(minLength: 24)
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(BauhausTheme.surface)
+                    .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+            )
+            .padding(12)
         }
-        .frame(width: 400, height: 280)
-        .background(Color.clear)
+        .frame(minWidth: 400, idealWidth: 450, maxWidth: 500, minHeight: 400, idealHeight: 450, maxHeight: 500)
         .onKeyPress(.escape) {
             closeWindow()
             return .handled
+        }
+    }
+    
+    // MARK: - Decorative Background Elements
+    private var decorativeBackgroundElements: some View {
+        ZStack {
+            // Top left circle
+            Circle()
+                .fill(BauhausTheme.primaryRed.opacity(0.2))
+                .frame(width: 64, height: 64)
+                .position(x: 40, y: 40)
+            
+            // Bottom right square
+            Rectangle()
+                .fill(BauhausTheme.primaryYellow.opacity(0.2))
+                .frame(width: 80, height: 80)
+                .rotationEffect(.degrees(45))
+                .position(x: -40, y: -40)
+        }
+    }
+    
+    // MARK: - Header Section
+    private var headerSection: some View {
+        HStack(spacing: 12) {
+            Circle()
+                .fill(BauhausTheme.primaryRed)
+                .frame(width: 32, height: 32)
+                .overlay(
+                    Image(systemName: "power")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.white)
+                )
+            
+            Text("Quit Application")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(BauhausTheme.text)
+                .textCase(.uppercase)
+                .tracking(1)
+            
+            Spacer()
+        }
+        .padding(.bottom, 16)
+    }
+    
+    // MARK: - Warning Section
+    private var warningSection: some View {
+        HStack(spacing: 12) {
+            Rectangle()
+                .fill(BauhausTheme.text)
+                .frame(width: 4, height: 32)
+            
+            Text("Timer is currently running")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundColor(BauhausTheme.text)
+                .textCase(.uppercase)
+                .tracking(0.5)
+            
+            Spacer()
+        }
+        .padding(16)
+        .background(BauhausTheme.primaryYellow)
+        .padding(.bottom, 16)
+    }
+    
+    // MARK: - Options Section
+    private var optionsSection: some View {
+        VStack(spacing: 12) {
+            // Stop and Quit
+            Button(action: {
+                stopTimerAndQuit()
+            }) {
+                HStack(spacing: 16) {
+                    Circle()
+                        .stroke(.white, lineWidth: 1.5)
+                        .frame(width: 32, height: 32)
+                        .overlay(
+                            Image(systemName: "power")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(.white)
+                        )
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Stop Timer and Quit App")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(.white)
+                            .textCase(.uppercase)
+                            .tracking(0.5)
+                        
+                        Text("Timer will be stopped and reset")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(.white.opacity(0.9))
+                    }
+                    
+                    Spacer()
+                }
+                .padding(16)
+                .background(BauhausTheme.primaryRed)
+            }
+            .buttonStyle(PlainButtonStyle())
+            .contentShape(Rectangle())
+            
+            // Quit with timer running
+            if appState.session.state == .running || appState.session.state == .paused {
+                Button(action: {
+                    persistAndQuit()
+                }) {
+                    HStack(spacing: 16) {
+                        Circle()
+                            .stroke(.white, lineWidth: 1.5)
+                            .frame(width: 32, height: 32)
+                            .overlay(
+                                Image(systemName: "play.fill")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundColor(.white)
+                            )
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Quit App and Leave Timer Running")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(.white)
+                                .textCase(.uppercase)
+                                .tracking(0.5)
+                            
+                            Text("Timer continues in background")
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundColor(.white.opacity(0.9))
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(16)
+                    .background(BauhausTheme.primaryBlue)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .contentShape(Rectangle())
+            }
+            
+            // Cancel
+            Button(action: {
+                cancel()
+            }) {
+                HStack(spacing: 16) {
+                    Circle()
+                        .stroke(BauhausTheme.text, lineWidth: 1.5)
+                        .frame(width: 32, height: 32)
+                        .overlay(
+                            Image(systemName: "xmark")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(BauhausTheme.text)
+                        )
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Cancel")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(BauhausTheme.text)
+                            .textCase(.uppercase)
+                            .tracking(0.5)
+                        
+                        Text("Return to timer")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(BauhausTheme.text.opacity(0.7))
+                    }
+                    
+                    Spacer()
+                }
+                .padding(16)
+                .background(Color.white)
+                .overlay(
+                    Rectangle()
+                        .stroke(BauhausTheme.text, lineWidth: 1.5)
+                )
+            }
+            .buttonStyle(PlainButtonStyle())
+            .contentShape(Rectangle())
+        }
+        .padding(.bottom, 16)
+    }
+    
+    // MARK: - Decorative Elements
+    private var decorativeElements: some View {
+        HStack(spacing: 8) {
+            Rectangle()
+                .fill(BauhausTheme.primaryRed)
+                .frame(width: 16, height: 16)
+            
+            Circle()
+                .fill(BauhausTheme.primaryBlue)
+                .frame(width: 16, height: 16)
+            
+            Rectangle()
+                .fill(BauhausTheme.primaryYellow)
+                .frame(width: 16, height: 16)
+                .rotationEffect(.degrees(45))
         }
     }
     

@@ -1,0 +1,27 @@
+model: ThemeProtocol
+description: Interface definition for the visual theme system
+fields:
+  colors:
+    type: Object
+    description: Semantic color mapping
+    properties:
+      background: String (Hex)
+      textPrimary: String (Hex)
+      modeWork: String (Hex)
+      modeRest: String (Hex) 
+      modeLongRest: String (Hex)
+  
+  typography:
+    type: Object
+    description: Font specifications
+    properties:
+      headerFont: String (FontName)
+      bodyFont: String (FontName)
+
+  assets:
+    type: Object
+    description: Icon mapping
+    properties:
+      workIcon: String (SF Symbol)
+      restIcon: String (SF Symbol) 
+      longRestIcon: String (SF Symbol)

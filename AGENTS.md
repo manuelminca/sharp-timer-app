@@ -56,6 +56,7 @@ cd "Sharp Timer App" && xcodebuild test -project "Sharp Timer App.xcodeproj" -sc
 ## Active Technologies
 - Swift 5.9 + SwiftUI, Combine, UserNotifications (001-mode-auto-start-setting)
 - UserDefaults for profile settings, JSON file for timer state persistence (001-mode-auto-start-setting)
+- UserDefaults (App Preferences), JSON (Timer State Persistence) (009-ui-redesign)
 
 ## Recent Changes
 - 001-mode-auto-start-setting: Added Swift 5.9 + SwiftUI, Combine, UserNotifications
